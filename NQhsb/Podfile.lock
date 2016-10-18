@@ -1,0 +1,71 @@
+PODS:
+  - AFNetworking (3.1.0):
+    - AFNetworking/NSURLSession (= 3.1.0)
+    - AFNetworking/Reachability (= 3.1.0)
+    - AFNetworking/Security (= 3.1.0)
+    - AFNetworking/Serialization (= 3.1.0)
+    - AFNetworking/UIKit (= 3.1.0)
+  - AFNetworking/NSURLSession (3.1.0):
+    - AFNetworking/Reachability
+    - AFNetworking/Security
+    - AFNetworking/Serialization
+  - AFNetworking/Reachability (3.1.0)
+  - AFNetworking/Security (3.1.0)
+  - AFNetworking/Serialization (3.1.0)
+  - AFNetworking/UIKit (3.1.0):
+    - AFNetworking/NSURLSession
+  - CocoaAsyncSocket (7.4.3):
+    - CocoaAsyncSocket/All (= 7.4.3)
+  - CocoaAsyncSocket/All (7.4.3):
+    - CocoaAsyncSocket/GCD
+    - CocoaAsyncSocket/RunLoop
+  - CocoaAsyncSocket/GCD (7.4.3)
+  - CocoaAsyncSocket/RunLoop (7.4.3)
+  - GJCFUitils (1.0)
+  - IQKeyboardManager (4.0.3)
+  - JPush-iOS-SDK (2.1.7)
+  - Masonry (1.0.1)
+  - MBProgressHUD (0.9.2)
+  - MJExtension (3.0.10)
+  - MJRefresh (3.1.0)
+  - SDCycleScrollView (1.65):
+    - SDWebImage (~> 3.7)
+  - SDWebImage (3.7.6):
+    - SDWebImage/Core (= 3.7.6)
+  - SDWebImage/Core (3.7.6)
+  - TZImagePickerController (1.5.0)
+  - UMengSocialCOM (5.2.1)
+
+DEPENDENCIES:
+  - AFNetworking (~> 3.1.0)
+  - CocoaAsyncSocket (~> 7.4.3)
+  - GJCFUitils
+  - IQKeyboardManager
+  - JPush-iOS-SDK (~> 2.1.7)
+  - Masonry (~> 1.0.1)
+  - MBProgressHUD (~> 0.9.2)
+  - MJExtension (~> 3.0.10)
+  - MJRefresh (~> 3.1.0)
+  - SDCycleScrollView (~> 1.64)
+  - SDWebImage (~> 3.7.5)
+  - TZImagePickerController
+  - UMengSocialCOM (~> 5.2.1)
+
+SPEC CHECKSUMS:
+  AFNetworking: 5e0e199f73d8626b11e79750991f5d173d1f8b67
+  CocoaAsyncSocket: a18c75dca4b08723628a0bacca6e94803d90be91
+  GJCFUitils: ad4f8373eb10edb94299594d348d1ee6f21dbe5e
+  IQKeyboardManager: be9695ffc5a52077deb4847608f338771022d6d1
+  JPush-iOS-SDK: 9aa75a93ed65c052dae801d98fcfa79873021aa3
+  Masonry: a1a931a0d08870ed8ae415a2ea5ea68ebcac77df
+  MBProgressHUD: 1569cf7ace17a8bac47aabfbb8580a49690386d1
+  MJExtension: d86aacb740c87519d20e3cca55b6fa4be6cc7548
+  MJRefresh: 743e6404967d1c2c688472ea3ecfde247d872db4
+  SDCycleScrollView: f72904c77698a7f93a41bcbbc2d78b073bf7326c
+  SDWebImage: c325cf02c30337336b95beff20a13df489ec0ec9
+  TZImagePickerController: d09eef6042852a9dd19224ae4e874f7430852a51
+  UMengSocialCOM: 074c135ce349aa4c8848d3fb8458757bcb6ffb67
+
+PODFILE CHECKSUM: e731db0d2186dacb102e23a8c51f71c007b57c16
+
+COCOAPODS: 1.0.1

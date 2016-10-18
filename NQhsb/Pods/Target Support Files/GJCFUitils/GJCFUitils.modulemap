@@ -1,0 +1,6 @@
+framework module GJCFUitils {
+  umbrella header "GJCFUitils-umbrella.h"
+
+  export *
+  module * { export * }
+}

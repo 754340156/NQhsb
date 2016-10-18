@@ -1,0 +1,28 @@
+//
+//  BABar.h
+//  BarAssistant
+//
+//  Created by 叶星龙 on 15/7/15.
+//  Copyright (c) 2015年 北京局外者科技有限公司. All rights reserved.
+//
+
+#import <Foundation/Foundation.h>
+#import "BABarAccount.h"
+#import "BABarAccessTokenResult.h"
+@interface BABar : NSObject
+/**
+ *  实例化
+ */
++ (BABar *)shared;
+/**
+ *  保存
+ */
++ (void)saveAccount:(BABarAccount *)account;
+/**
+ *  取出数据
+ *
+ *  @return account
+ */
++ (BABarAccount *)account;
+
+@end

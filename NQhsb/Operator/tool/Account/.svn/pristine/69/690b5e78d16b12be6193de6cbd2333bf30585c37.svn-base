@@ -1,0 +1,13 @@
+//
+//  BABarAccessTokenResult.m
+//  BarAssistant
+//
+//  Created by 叶星龙 on 15/7/15.
+//  Copyright (c) 2015年 北京局外者科技有限公司. All rights reserved.
+//
+
+#import "BABarAccessTokenResult.h"
+
+@implementation BABarAccessTokenResult
+
+@end

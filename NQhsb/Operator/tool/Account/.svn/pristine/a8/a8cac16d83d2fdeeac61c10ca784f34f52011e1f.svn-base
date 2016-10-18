@@ -1,0 +1,50 @@
+//
+//  BABarAccount.h
+//  BarAssistant
+//
+//  Created by 叶星龙 on 15/7/15.
+//  Copyright (c) 2015年 北京局外者科技有限公司. All rights reserved.
+//
+
+#import <Foundation/Foundation.h>
+
+@interface BABarAccount : NSObject
+/**
+ *  年龄
+ */
+@property (nonatomic ,copy) NSString *age;
+/**
+ *  性别
+ */
+@property (nonatomic ,copy) NSString *sex;
+/**
+ *  手机号
+ */
+@property (nonatomic ,copy) NSString *phoneNumber;
+/**
+ *  说说
+ */
+@property (nonatomic ,copy) NSString *maxim;
+/**
+ *  名字
+ */
+@property (nonatomic ,copy) NSString *username;
+/**
+ *  头像
+ */
+@property (nonatomic ,copy) NSString *headUrl;
+/**
+ *  用户ID
+ */
+@property (nonatomic ,copy) NSString *ID;
+
+@property (nonatomic,copy)  NSString *nickName; //昵称
+
+
+
+@property (nonatomic ,copy) NSString *typee;//客户经理type
+
+
++ (instancetype)accountWithDict:(NSDictionary *)dict;
+- (instancetype)initWithDict:(NSDictionary *)dict;
+@end

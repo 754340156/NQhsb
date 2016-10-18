@@ -1,0 +1,88 @@
+//
+//  BABarAccount.m
+//  BarAssistant
+//
+//  Created by 叶星龙 on 15/7/15.
+//  Copyright (c) 2015年 北京局外者科技有限公司. All rights reserved.
+//
+
+#import "BABarAccount.h"
+
+@implementation BABarAccount
++(NSDictionary *)replacedKeyFromPropertyName
+{
+    return @{@"ID" : @"id"};
+}
+
++ (instancetype)accountWithDict:(NSDictionary *)dict
+{
+    return [[self alloc] initWithDict:dict];
+}
+
+- (instancetype)initWithDict:(NSDictionary *)dict
+{
+    if (self = [super init]) {
+        [self setValuesForKeysWithDictionary:dict];
+    }
+    return self;
+}
+-(void)setValue:(id)value forUndefinedKey:(NSString *)key
+{
+    
+}
+
+
+/**
+ *  从文件中解析对象的时候调
+ */
+- (id)initWithCoder:(NSCoder *)decoder
+{
+    if (self = [super init]) {
+        self.ID = [decoder decodeObjectForKey:@"ID"];
+        self.age = [decoder decodeObjectForKey:@"age"];
+        self.headUrl = [decoder decodeObjectForKey:@"headUrl"];
+        self.phoneNumber = [decoder decodeObjectForKey:@"phoneNumber"];
+        self.maxim = [decoder decodeObjectForKey:@"maxim"];
+        self.sex = [decoder decodeObjectForKey:@"sex"];
+        self.username = [decoder decodeObjectForKey:@"username"];
+        self.nickName=[decoder decodeObjectForKey:@"nickName"];
+        self.typee=[decoder decodeObjectForKey:@"typee"];
+    }
+    return self;
+}
+
+/**
+ *  将对象写入文件的时候调用
+ */
+- (void)encodeWithCoder:(NSCoder *)encoder
+{
+    if (self.ID) {
+        [encoder encodeObject:self.ID forKey:@"ID"];
+    }
+    if (self.username) {
+        [encoder encodeObject:self.username forKey:@"username"];
+    }
+    if (self.sex) {
+        [encoder encodeObject:self.sex forKey:@"sex"];
+    }
+    if (self.age) {
+        [encoder encodeObject:self.age forKey:@"age"];
+    }
+    if (self.headUrl) {
+        [encoder encodeObject:self.headUrl forKey:@"headUrl"];
+    }
+    if (self.phoneNumber) {
+        [encoder encodeObject:self.phoneNumber forKey:@"phoneNumber"];
+    }
+    if (self.maxim) {
+        [encoder encodeObject:self.maxim forKey:@"maxim"];
+    }
+    if (self.nickName) {
+        [encoder encodeObject:self.nickName forKey:@"nickName"];
+    }
+    if (self.typee) {
+        [encoder encodeObject:self.typee forKey:@"typee"];
+    }
+    
+}
+@end

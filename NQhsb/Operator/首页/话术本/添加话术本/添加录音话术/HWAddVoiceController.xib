@@ -1,0 +1,114 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="11201" systemVersion="15G31" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" colorMatched="YES">
+    <dependencies>
+        <deployment identifier="iOS"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="11161"/>
+        <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
+    </dependencies>
+    <objects>
+        <placeholder placeholderIdentifier="IBFilesOwner" id="-1" userLabel="File's Owner" customClass="HWAddVoiceController">
+            <connections>
+                <outlet property="tableView" destination="ukG-8p-KsE" id="PAh-su-vhV"/>
+                <outlet property="timeLabel" destination="WlA-rM-trN" id="Htk-qI-zdQ"/>
+                <outlet property="view" destination="i5M-Pr-FkT" id="sfx-zR-JGt"/>
+            </connections>
+        </placeholder>
+        <placeholder placeholderIdentifier="IBFirstResponder" id="-2" customClass="UIResponder"/>
+        <view clearsContextBeforeDrawing="NO" contentMode="scaleToFill" id="i5M-Pr-FkT">
+            <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
+            <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+            <subviews>
+                <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="B2C-Xb-bvg">
+                    <subviews>
+                        <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="00:00:00" textAlignment="center" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="WlA-rM-trN">
+                            <constraints>
+                                <constraint firstAttribute="height" constant="30" id="R27-YX-aa1"/>
+                            </constraints>
+                            <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                            <color key="textColor" red="0.97254908080000002" green="0.98431378599999997" blue="0.99215692280000001" alpha="1" colorSpace="deviceRGB"/>
+                        </label>
+                        <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="iKG-1o-lyi">
+                            <constraints>
+                                <constraint firstAttribute="height" constant="40" id="I0h-2h-id6"/>
+                                <constraint firstAttribute="width" constant="40" id="uXX-ye-aBt"/>
+                            </constraints>
+                            <state key="normal" backgroundImage="ICON_play"/>
+                            <connections>
+                                <action selector="playAction:" destination="-1" eventType="touchUpInside" id="ImH-YF-3Ex"/>
+                            </connections>
+                        </button>
+                        <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="cWl-yg-9wZ">
+                            <constraints>
+                                <constraint firstAttribute="height" constant="50" id="Wre-eU-7jh"/>
+                                <constraint firstAttribute="width" constant="50" id="gmQ-kF-Pas"/>
+                            </constraints>
+                            <state key="normal" backgroundImage="icon_Stopit"/>
+                            <connections>
+                                <action selector="stopAction:" destination="-1" eventType="touchUpInside" id="tWo-w7-5kD"/>
+                            </connections>
+                        </button>
+                        <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="Igz-e7-Yiv">
+                            <constraints>
+                                <constraint firstAttribute="height" constant="40" id="PKk-LL-aPf"/>
+                                <constraint firstAttribute="width" constant="40" id="gaR-U6-zhV"/>
+                            </constraints>
+                            <state key="normal" backgroundImage="icon_suspend"/>
+                            <connections>
+                                <action selector="pauseAction:" destination="-1" eventType="touchUpInside" id="bEr-lc-DiV"/>
+                            </connections>
+                        </button>
+                        <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="t87-dc-uYb">
+                            <constraints>
+                                <constraint firstAttribute="width" constant="50" id="He9-hE-lnJ"/>
+                                <constraint firstAttribute="height" constant="25" id="bpC-8k-5CN"/>
+                            </constraints>
+                            <state key="normal" title="完成">
+                                <color key="titleColor" red="1" green="0.14357277239999999" blue="0.1981537877" alpha="1" colorSpace="calibratedRGB"/>
+                            </state>
+                            <connections>
+                                <action selector="finishAction:" destination="-1" eventType="touchUpInside" id="m1i-fS-X4s"/>
+                            </connections>
+                        </button>
+                    </subviews>
+                    <color key="backgroundColor" white="0.0" alpha="1" colorSpace="calibratedWhite"/>
+                    <constraints>
+                        <constraint firstAttribute="height" constant="175" id="8VD-sN-YIc"/>
+                        <constraint firstItem="t87-dc-uYb" firstAttribute="bottom" secondItem="Igz-e7-Yiv" secondAttribute="bottom" id="AWy-Hl-YzF"/>
+                        <constraint firstItem="WlA-rM-trN" firstAttribute="top" secondItem="B2C-Xb-bvg" secondAttribute="top" constant="20" id="Eef-FJ-bKM"/>
+                        <constraint firstItem="iKG-1o-lyi" firstAttribute="bottom" secondItem="cWl-yg-9wZ" secondAttribute="bottom" id="MK8-rS-XCN"/>
+                        <constraint firstItem="WlA-rM-trN" firstAttribute="centerX" secondItem="B2C-Xb-bvg" secondAttribute="centerX" id="Mwq-ep-tYK"/>
+                        <constraint firstItem="Igz-e7-Yiv" firstAttribute="bottom" secondItem="cWl-yg-9wZ" secondAttribute="bottom" id="RRQ-pA-Cky"/>
+                        <constraint firstAttribute="bottom" secondItem="cWl-yg-9wZ" secondAttribute="bottom" constant="15" id="WTf-LY-dYG"/>
+                        <constraint firstItem="cWl-yg-9wZ" firstAttribute="leading" secondItem="iKG-1o-lyi" secondAttribute="trailing" constant="37.5" id="WvG-aN-KjW"/>
+                        <constraint firstItem="Igz-e7-Yiv" firstAttribute="leading" secondItem="cWl-yg-9wZ" secondAttribute="trailing" constant="37.5" id="XEk-4Y-erS"/>
+                        <constraint firstAttribute="trailing" secondItem="t87-dc-uYb" secondAttribute="trailing" constant="10" id="kC4-co-qCc"/>
+                        <constraint firstItem="cWl-yg-9wZ" firstAttribute="centerX" secondItem="B2C-Xb-bvg" secondAttribute="centerX" id="rcw-dP-3Ea"/>
+                    </constraints>
+                </view>
+                <tableView clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" style="plain" separatorStyle="none" rowHeight="44" sectionHeaderHeight="28" sectionFooterHeight="28" translatesAutoresizingMaskIntoConstraints="NO" id="ukG-8p-KsE">
+                    <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                    <connections>
+                        <outlet property="dataSource" destination="-1" id="sDf-Ur-Z5s"/>
+                        <outlet property="delegate" destination="-1" id="qCS-fC-XlB"/>
+                    </connections>
+                </tableView>
+            </subviews>
+            <color key="backgroundColor" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+            <constraints>
+                <constraint firstAttribute="trailing" secondItem="ukG-8p-KsE" secondAttribute="trailing" id="AHX-hX-9XM"/>
+                <constraint firstItem="B2C-Xb-bvg" firstAttribute="leading" secondItem="i5M-Pr-FkT" secondAttribute="leading" id="BuK-PM-RAT"/>
+                <constraint firstItem="ukG-8p-KsE" firstAttribute="top" secondItem="B2C-Xb-bvg" secondAttribute="bottom" id="DID-jW-9Pu"/>
+                <constraint firstAttribute="bottom" secondItem="ukG-8p-KsE" secondAttribute="bottom" id="Doe-Kz-Mmr"/>
+                <constraint firstItem="B2C-Xb-bvg" firstAttribute="top" secondItem="i5M-Pr-FkT" secondAttribute="top" constant="64" id="LWP-6P-Pzn"/>
+                <constraint firstItem="ukG-8p-KsE" firstAttribute="leading" secondItem="i5M-Pr-FkT" secondAttribute="leading" id="XSt-zD-L6m"/>
+                <constraint firstAttribute="trailing" secondItem="B2C-Xb-bvg" secondAttribute="trailing" id="d80-Ef-ogz"/>
+            </constraints>
+            <point key="canvasLocation" x="-271" y="58"/>
+        </view>
+    </objects>
+    <resources>
+        <image name="ICON_play" width="39" height="39"/>
+        <image name="icon_Stopit" width="50" height="50"/>
+        <image name="icon_suspend" width="39" height="39"/>
+    </resources>
+</document>

@@ -1,0 +1,85 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="11201" systemVersion="15G31" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" colorMatched="YES">
+    <dependencies>
+        <deployment identifier="iOS"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="11161"/>
+        <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
+    </dependencies>
+    <objects>
+        <placeholder placeholderIdentifier="IBFilesOwner" id="-1" userLabel="File's Owner"/>
+        <placeholder placeholderIdentifier="IBFirstResponder" id="-2" customClass="UIResponder"/>
+        <collectionViewCell opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" reuseIdentifier="HWRechargeCollectionViewCell" id="gTV-IL-0wX" customClass="HWRechargeCollectionViewCell">
+            <rect key="frame" x="0.0" y="0.0" width="239" height="139"/>
+            <autoresizingMask key="autoresizingMask"/>
+            <view key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center">
+                <rect key="frame" x="0.0" y="0.0" width="239" height="139"/>
+                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                <subviews>
+                    <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="paP-aU-0U8"/>
+                    <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="6O0-20-Zqc">
+                        <constraints>
+                            <constraint firstAttribute="width" constant="65" id="S6S-mv-bL5"/>
+                            <constraint firstAttribute="height" constant="30" id="SSx-TC-HbQ"/>
+                        </constraints>
+                        <state key="normal" title="立即开通" backgroundImage="login_background.png">
+                            <color key="titleColor" red="0.87058823529999996" green="0.0" blue="0.090196078430000007" alpha="1" colorSpace="calibratedRGB"/>
+                        </state>
+                    </button>
+                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="充值60元可使用一个月" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Rt4-r0-Rtu">
+                        <constraints>
+                            <constraint firstAttribute="height" constant="21" id="oh5-EP-EjP"/>
+                        </constraints>
+                        <fontDescription key="fontDescription" type="system" pointSize="14"/>
+                        <color key="textColor" red="1" green="1" blue="1" alpha="1" colorSpace="calibratedRGB"/>
+                        <nil key="highlightedColor"/>
+                    </label>
+                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="30天套餐" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="18R-MF-jYZ">
+                        <constraints>
+                            <constraint firstAttribute="height" constant="21" id="KqD-B7-2Vp"/>
+                        </constraints>
+                        <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                        <color key="textColor" red="1" green="1" blue="1" alpha="1" colorSpace="calibratedRGB"/>
+                        <nil key="highlightedColor"/>
+                    </label>
+                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="￥60" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="7Lm-RQ-ADk">
+                        <constraints>
+                            <constraint firstAttribute="height" constant="21" id="rI6-Yz-Znh"/>
+                        </constraints>
+                        <fontDescription key="fontDescription" type="system" pointSize="15"/>
+                        <color key="textColor" red="1" green="1" blue="1" alpha="1" colorSpace="calibratedRGB"/>
+                        <nil key="highlightedColor"/>
+                    </label>
+                </subviews>
+            </view>
+            <constraints>
+                <constraint firstItem="6O0-20-Zqc" firstAttribute="centerX" secondItem="gTV-IL-0wX" secondAttribute="centerX" id="1Gn-lI-bcm"/>
+                <constraint firstAttribute="trailing" secondItem="paP-aU-0U8" secondAttribute="trailing" id="2ec-Pu-KPA"/>
+                <constraint firstItem="7Lm-RQ-ADk" firstAttribute="top" secondItem="18R-MF-jYZ" secondAttribute="bottom" constant="10" id="37Q-ZM-2A9"/>
+                <constraint firstItem="Rt4-r0-Rtu" firstAttribute="top" secondItem="gTV-IL-0wX" secondAttribute="top" id="9kg-3l-mwU"/>
+                <constraint firstItem="18R-MF-jYZ" firstAttribute="top" secondItem="Rt4-r0-Rtu" secondAttribute="bottom" constant="10" id="BaF-zW-sFB"/>
+                <constraint firstItem="Rt4-r0-Rtu" firstAttribute="leading" secondItem="gTV-IL-0wX" secondAttribute="leading" id="IVw-AP-Z1U"/>
+                <constraint firstAttribute="trailing" secondItem="7Lm-RQ-ADk" secondAttribute="trailing" id="M6M-PY-m7q"/>
+                <constraint firstAttribute="trailing" secondItem="Rt4-r0-Rtu" secondAttribute="trailing" id="Ook-nT-hUm"/>
+                <constraint firstAttribute="trailing" secondItem="18R-MF-jYZ" secondAttribute="trailing" id="Sa6-Op-f9f"/>
+                <constraint firstItem="paP-aU-0U8" firstAttribute="leading" secondItem="gTV-IL-0wX" secondAttribute="leading" id="U0L-pV-cRF"/>
+                <constraint firstItem="paP-aU-0U8" firstAttribute="top" secondItem="gTV-IL-0wX" secondAttribute="top" id="XJF-MM-82V"/>
+                <constraint firstItem="7Lm-RQ-ADk" firstAttribute="leading" secondItem="gTV-IL-0wX" secondAttribute="leading" id="ZSe-Tw-iwT"/>
+                <constraint firstItem="6O0-20-Zqc" firstAttribute="top" secondItem="paP-aU-0U8" secondAttribute="bottom" constant="5" id="m8K-3N-YCe"/>
+                <constraint firstItem="18R-MF-jYZ" firstAttribute="leading" secondItem="gTV-IL-0wX" secondAttribute="leading" id="mDA-JT-IsD"/>
+                <constraint firstAttribute="bottom" secondItem="6O0-20-Zqc" secondAttribute="bottom" id="zVY-Xd-Ltp"/>
+            </constraints>
+            <size key="customSize" width="239" height="139"/>
+            <connections>
+                <outlet property="_openButton" destination="6O0-20-Zqc" id="b4t-FW-yGp"/>
+                <outlet property="_priceText" destination="7Lm-RQ-ADk" id="DTl-TO-nG0"/>
+                <outlet property="_titleText" destination="Rt4-r0-Rtu" id="ZpD-95-aMW"/>
+                <outlet property="backImage" destination="paP-aU-0U8" id="pO8-Gr-z3x"/>
+                <outlet property="dateTextLable" destination="18R-MF-jYZ" id="h11-iI-fwV"/>
+            </connections>
+            <point key="canvasLocation" x="-192" y="-356"/>
+        </collectionViewCell>
+    </objects>
+    <resources>
+        <image name="login_background.png" width="320" height="99"/>
+    </resources>
+</document>

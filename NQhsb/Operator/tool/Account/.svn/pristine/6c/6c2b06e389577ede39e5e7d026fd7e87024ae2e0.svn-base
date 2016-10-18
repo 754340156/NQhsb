@@ -1,0 +1,45 @@
+//
+//  BABar.m
+//  BarAssistant
+//
+//  Created by 叶星龙 on 15/7/15.
+//  Copyright (c) 2015年 北京局外者科技有限公司. All rights reserved.
+//
+
+#import "BABar.h"
+#define BABarAccountFile [[NSSearchPathForDirectoriesInDomains(NSDocumentDirectory, NSUserDomainMask, YES) lastObject] stringByAppendingPathComponent:@"BABaraccount.data"]
+
+@implementation BABar
+
+
++ (BABar *)shared {
+    static dispatch_once_t once;
+    static id instance;
+    dispatch_once(&once, ^{
+        instance = [self new];
+        
+        
+    });
+    return instance;
+}
+
+
++ (void)saveAccount:(BABarAccount *)account
+{
+
+    
+    [NSKeyedArchiver archiveRootObject:account toFile:BABarAccountFile];
+}
+
++ (BABarAccount *)account
+{
+#warning  保存登录后返回的信息
+    // 取出账号
+    BABarAccount *account = [NSKeyedUnarchiver unarchiveObjectWithFile:BABarAccountFile];
+    
+ 
+    return account;
+
+}
+
+@end
