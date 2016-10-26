@@ -27,12 +27,11 @@
         _kBxtWebView = [[UIWebView alloc] initWithFrame:CGRectMake(0, 64, WIDTH, HEIGHT-64)];
         _kBxtWebView.backgroundColor = [UIColor whiteColor];
         _kBxtWebView.delegate = self;
-        _kBxtWebView.scalesPageToFit = YES;//自动对页面进行缩放以适应屏幕
-        [_kBxtWebView loadRequest:[NSURLRequest requestWithURL:[NSURL URLWithString:_kBxtH5Url]]];//加载
+        _kBxtWebView.scalesPageToFit = YES;
+        [_kBxtWebView loadRequest:[NSURLRequest requestWithURL:[NSURL URLWithString:_kBxtH5Url]]];
         __weak UIWebView *webView = self.kBxtWebView;
         webView.delegate = self;
         __weak UIScrollView *scrollView = self.kBxtWebView.scrollView;
-        // 添加下拉刷新控件
         scrollView.mj_header= [MJRefreshNormalHeader headerWithRefreshingBlock:^{
             [webView reload];
         }];

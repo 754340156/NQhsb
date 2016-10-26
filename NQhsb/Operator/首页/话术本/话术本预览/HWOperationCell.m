@@ -25,8 +25,7 @@
 - (void)setModel:(HWOperationModel *)model
 {
     _model = model;
-#warning 站位图
-    [self.iconImageV sd_setImageWithURL:[NSURL URLWithString:model.cover] placeholderImage:nil];
+    [self.iconImageV sd_setImageWithURL:[NSURL URLWithString:model.cover] placeholderImage:[UIImage imageNamed:@"ICON_T"]];
     self.titleLabel.text = model.title;
     self.nikeNameL.text = model.nickname;
     self.clickNumL.text = [NSString stringWithFormat:@"%ld人浏览",(long)model.clickNum];

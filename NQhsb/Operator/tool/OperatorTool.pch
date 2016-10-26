@@ -14,12 +14,6 @@
 //  Copyright © 2016年 jock. All rights reserved.
 //
 
-// 日志打印
-#ifdef DEBUG
-#define IALog(...) NSLog(__VA_ARGS__)
-#else
-#define IALog(...)
-#endif
 /******************************************************/
 
 /****  debug log **/ //NSLog输出信息
@@ -33,23 +27,6 @@
 #define DLog( s, ... )
 
 #endif
-
-
-/***  DEBUG RELEASE  */
-
-#if DEBUG
-
-#define MCRelease(x)
-
-#else
-
-#define MCRelease(x)
-
-#endif
-
-//日志输出
-#define XCODE_COLORS_ESCAPE @"\033["
-#define XCODE_COLORS_RESET     XCODE_COLORS_ESCAPE @";"
 
 
 //使用前请先安装 XCODE_COLORS插件
@@ -197,7 +174,7 @@
 #define KNOTIFICATION_LOGINCHANGE @"loginStateChange"
 
 
-#define MJWeakSelf __weak __typeof(self) weakSelf = self
+#define BXTWeakSelf __weak __typeof(self) weakSelf = self
 
 #define kBxtPropertyStrong    @property (nonatomic,strong)
 
@@ -208,10 +185,6 @@
 #define kBxtPropertyNonatomic @property (nonatomic)
 
 #define kBxtPropertyWeak @property (weak, nonatomic)
-//解决无法自动提示
-#define kBxtNetWorkApi NetWorkHelp
-
-#define kUserInfo [UserInfo account]
 
 //IM
 #define IS_IPHONE_5 ( fabs( ( double )[ [ UIScreen mainScreen ] bounds ].size.height - ( double )568 ) < DBL_EPSILON )

@@ -21,6 +21,19 @@
  */
 + (void)AdduserWordsWithType:(NSString *)type content:(NSString *)content title:(NSString *)title remark:(NSString*)remark success:(void (^)(id result))success failBlock:(void(^)(NSError*error))failBlock;
 
+/**
+ 获取录音模板分析数据
+ 已选择模板列表生成问题分析
+ */
++ (void)getquestionListWithIds:(NSString *)ids success:(void (^)(id result))success failBlock:(void(^)(NSError*error))failBlock;
+
+/**
+ 根据模板id获取题库
+ */
++ (void)getquestiondataId:(NSString *)dataid success:(void (^)(id result))success failBlock:(void(^)(NSError*error))failBlock;
+
+
+
 
 
 @end

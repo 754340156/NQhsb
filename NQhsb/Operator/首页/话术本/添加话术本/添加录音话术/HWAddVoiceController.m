@@ -8,15 +8,13 @@
 
 #import "HWAddVoiceController.h"
 #import "EMCDDeviceManager.h"
-#import "NQRecordTool.h" //录音
+#import "AudioPlayViewController.h"
 @interface HWAddVoiceController ()<UITableViewDelegate,UITableViewDataSource>
 {
     NSTimer  *_timer;
-    NQRecordTool *_recordTool;
     
 }
-/**  录音时长 */
-@property (weak, nonatomic) IBOutlet UILabel *timeLabel;
+
 @property (weak, nonatomic) IBOutlet UITableView *tableView;
 
 /**  录音数组 */
@@ -28,17 +26,16 @@
 
 - (void)viewDidLoad {
     [super viewDidLoad];
-    self.titleLabel.text = self.title;
-    
-    [self makeBasic];
+    self.titleLabel.text = @"添加录音话术";
+    self.titleLabel.textColor = [UIColor whiteColor];
+    self.navigationBarBackground.backgroundColor = [UIColor blackColor];
+    self.leftBackImage.frame = CGRectMake(0, 0, 15, 22);
+    [self.leftBackImage setImage:[UIImage imageNamed:@"返回0"]];
+    NSNotificationCenter *notiCenter = [NSNotificationCenter defaultCenter];    
+    // 注册一个监听事件。第三个参数的事件名， 系统用这个参数来区别不同事件。
+    [notiCenter addObserver:self selector:@selector(receiveNotification:) name:@"uploadAudio" object:@"audio"];
 }
--(void)makeBasic
-{
-    _timer=[NSTimer scheduledTimerWithTimeInterval:1.0f target:self selector:@selector(timerAction:) userInfo:nil repeats:YES];
-    
-    _recordTool=[NQRecordTool sharedRecordTool];
 
-}
 #pragma mark - UITableViewDelegate
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section
 {
@@ -53,37 +50,28 @@
     }
     return cell;
 }
--(void)timerAction:(NSTimer *)timer
-{
-    _timeLabel.text=[NSString stringWithFormat:@"%@",timer.fireDate  ];
-    
-}
-#pragma mark - target
-- (IBAction)playAction:(id)sender
-{
-    [_recordTool destructionRecordingFile];//销毁上一次录制的文件
-    [_recordTool startRecording];//开始录音
-    
-}
-- (IBAction)stopAction:(id)sender
-{
-     [_recordTool  stopRecording];
-}
-#pragma mark --暂停
-- (IBAction)pauseAction:(id)sender
-{
-   
-    [_recordTool  stopRecording];
-    [_recordTool  playRecordingFile];
 
-}
-#pragma mark --完成录音
-- (IBAction)finishAction:(id)sender
+#pragma mark - target
+- (void)receiveNotification:(NSNotification *)noti
 {
-    
-  [_recordTool  stopRecording];
-    [self  postDataToOSS];
-    
+    [self showHudInView:self.view hint:nil];
+    NSDictionary *dic = noti.userInfo;
+    if ([dic[@"errorMessage"] intValue] == 0) {
+        [self showHint:@"上传成功"];
+        AudioPlayViewController *play = [[AudioPlayViewController alloc] init];
+        play.audioUrl = dic[@"audioUrl"];
+        play.audioPath = dic[@"audioPath"];
+        [self.navigationController pushViewController:play animated:YES];
+        [self hideHud];
+    }else{
+        [self showHint:@"上传失败，请重新上传"];
+        [self hideHud];
+    }
+}
+- (void)dealloc
+{
+    // 移除当前对象监听的事件
+    [[NSNotificationCenter defaultCenter] removeObserver:self];
     
 }
 
@@ -98,10 +86,7 @@
 #pragma mark --先往阿里云获取存储的数据
 -(void)postDataToOSS
 {
-    //上传数据
-    [ALiYunTool asyncUploadVideoPath:[[NSSearchPathForDirectoriesInDomains(NSDocumentDirectory, NSUserDomainMask, YES) lastObject] stringByAppendingPathComponent:@"lvRecord.caf"] complete:^(UploadImageState state) {
-        
-    }];
+    
 }
 #pragma mark --音频的content应该是音频的链接
 -(void)addWordswithContent:(NSString *)content

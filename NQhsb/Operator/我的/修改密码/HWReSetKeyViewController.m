@@ -60,7 +60,7 @@
 }
 -(void)postDataToNet
 {
-  NSDictionary  *parameters=@{@"oldPassword":oldPwdTextField.text,@"password":newPwdTextField.text,@"password2":secondTextFiedl.text,@"account":[UserInfo account].account};
+  NSDictionary  *parameters=@{@"oldPassword":oldPwdTextField.text,@"password":newPwdTextField.text,@"password2":secondTextFiedl.text,@"account":[UserInfo account].account,@"token":[UserInfo account].token};
    [self showHudInView:self.view hint:nil];
     [NetWorkHelp  netWorkWithURLString:userupdatePassword parameters:parameters SuccessBlock:^(NSDictionary *dic)
     {

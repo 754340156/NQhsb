@@ -22,7 +22,6 @@ kBxtPropertyStrong NSMutableArray *kBxtTitleArr;
 
 - (void)viewDidLoad {
     [super viewDidLoad];
-    // Do any additional setup after loading the view from its nib.
     self.titleLabel.text = @"设置";
     [self kBxtTitleArr];
     [self.view addSubview:self.myTableview];
@@ -63,6 +62,7 @@ kBxtPropertyStrong NSMutableArray *kBxtTitleArr;
     }
     return _myTableview;
 }
+#pragma mark - UITableViewDelegate
 -(NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section
 {
     return 2;
@@ -70,54 +70,65 @@ kBxtPropertyStrong NSMutableArray *kBxtTitleArr;
 -(UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath
 {
     UITableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:kBxtCell];
-    
     if (!cell) {
         cell = [[UITableViewCell alloc] initWithStyle:UITableViewCellStyleValue1 reuseIdentifier:kBxtCell];
     }
     cell.selectionStyle=UITableViewCellSelectionStyleNone;
     cell.textLabel.text = _kBxtTitleArr[indexPath.row];
+    if (indexPath.row == 1) {
+        UIButton *pushBtn = [UIButton buttonWithType:UIButtonTypeCustom];
+#warning 默认推送开着
+        [pushBtn setImage:[UIImage imageNamed:@"ICON_YK"] forState:UIControlStateNormal];
+        [pushBtn setImage:[UIImage imageNamed:@"ICON_WEIKAI"] forState:UIControlStateSelected];
+        [pushBtn addTarget:self action:@selector(pushAction:) forControlEvents:UIControlEventTouchUpInside];
+        [cell.contentView addSubview:pushBtn];
+        [pushBtn mas_makeConstraints:^(MASConstraintMaker *make) {
+            make.size.mas_offset(CGSizeMake(54, 27));
+            make.centerY.equalTo(cell.mas_centerY);
+            make.right.offset(-20);
+        }];
+    }
     return cell;
 }
 
 -(void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
 {
     if (indexPath.row == 0) {
-        UIAlertView *alert = [[UIAlertView alloc] initWithTitle:nil
-                                                        message:NSLocalizedString(@"清除缓存", @"clear cache")
-                                                       delegate:self
-                                              cancelButtonTitle:NSLocalizedString(@"取消", @"Cancel")
-                                              otherButtonTitles:NSLocalizedString(@"确定", @"OK"), nil];
+        UIAlertView *alert = [[UIAlertView alloc] initWithTitle:nil message:NSLocalizedString(@"清除缓存", @"clear cache") delegate:self cancelButtonTitle:NSLocalizedString(@"取消", @"Cancel")otherButtonTitles:NSLocalizedString(@"确定", @"OK"), nil];
         [alert setTag:100];
         [alert setAlertViewStyle:UIAlertViewStyleDefault];
         [alert show];
-    }else{
-        
     }
 }
+#pragma mark - UIAlertViewDelegate
 - (void)alertView:(UIAlertView *)alertView clickedButtonAtIndex:(NSInteger)buttonIndex
 {
-    [[SDImageCache sharedImageCache] clearMemory];
-    
-    DLog(@"clear disk");
-    
-    float tmpSize = [[SDImageCache sharedImageCache] getSize];
-    
-    NSString *clearCacheName = tmpSize >= 1 ?
-    
-    [NSString stringWithFormat:@"清理缓存(%.2fM)",tmpSize / 100000] :
-    
-    [NSString stringWithFormat:@"清理缓存(%.2fK)",tmpSize * 1024];
-    
-    [self showHint:[NSString stringWithFormat:@"%@成功",clearCacheName]];
-    
-    [[SDImageCache sharedImageCache] clearDisk];
-    
-    NSIndexPath *indexPath=[NSIndexPath indexPathForRow:0 inSection:0];
-    
-    [_myTableview reloadRowsAtIndexPaths:[NSArray arrayWithObjects:indexPath,nil] withRowAnimation:UITableViewRowAnimationNone];
-
+    if (buttonIndex == 1) {
+        [[SDImageCache sharedImageCache] clearMemory];
+        DLog(@"clear disk");
+        float tmpSize = [[SDImageCache sharedImageCache] getSize];
+        NSString *clearCacheName = tmpSize >= 1 ?
+        [NSString stringWithFormat:@"清理缓存(%.2fM)",tmpSize / 100000] :
+        
+        [NSString stringWithFormat:@"清理缓存(%.2fK)",tmpSize * 1024];
+        [self showHint:[NSString stringWithFormat:@"%@成功",clearCacheName]];
+        [[SDImageCache sharedImageCache] clearDisk];
+        NSIndexPath *indexPath=[NSIndexPath indexPathForRow:0 inSection:0];
+        [_myTableview reloadRowsAtIndexPaths:[NSArray arrayWithObjects:indexPath,nil] withRowAnimation:UITableViewRowAnimationNone];
+    }
 }
-#pragma mark --用户退出登录
+#pragma mark - target
+- (void)pushAction:(UIButton *)sender
+{
+    sender.selected = !sender.selected;
+    if (!sender.selected) {
+        DLog(@"去打开推送");
+    }else
+    {
+        DLog(@"去关闭推送");
+    }
+}
+#pragma mark - 用户退出登录
 -(void)uerLayout
 {
    
@@ -135,30 +146,12 @@ kBxtPropertyStrong NSMutableArray *kBxtTitleArr;
          }else
          {
              [self showHint:dic[@"errorMessage"]];
-             
          }
      } failBlock:^(NSError *error)
      {
          [self hideHud];
          [self showHint:@"网络连接失败"];
      }];
-
-    
-    
 }
-- (void)didReceiveMemoryWarning {
-    [super didReceiveMemoryWarning];
-    // Dispose of any resources that can be recreated.
-}
-
-/*
-#pragma mark - Navigation
-
-// In a storyboard-based application, you will often want to do a little preparation before navigation
-- (void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender {
-    // Get the new view controller using [segue destinationViewController].
-    // Pass the selected object to the new view controller.
-}
-*/
 
 @end

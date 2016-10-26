@@ -11,3 +11,22 @@
 @implementation HWMusicAnalysicModel
 
 @end
+
+
+
+@implementation HWMusicAnalysicListModel
+
+@end
+
+
+@implementation HWMusicquestionListModel
+
+
+@end
+
+
+@implementation HWMusicquestionBankModel
+
+
+@end
+

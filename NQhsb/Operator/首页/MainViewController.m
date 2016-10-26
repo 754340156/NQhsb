@@ -10,9 +10,11 @@
 #import "MainCell.h"
 #import "MainTwoCell.h"
 #import "MainSearchViewController.h"
-#import "BigForumViewController.h"
-#import "HWOperationViewController.h"
+#import "BigForumViewController.h"  //大讲堂
+#import "HWOperationViewController.h" //话术本
 #import "AudioBookViewController.h"   //录音本
+#import "HWJobLogController.h"   //工作日志
+#import "HWStudyPlanController.h"   //学习计划
 #import "HWMusicAnalysisController.h" //录音分析
 #import "UserInfo.h"
 #import "HWHomeIndexModel.h"
@@ -20,7 +22,7 @@ static NSString *kBxtMainCell = @"MainCell";
 
 static NSString *kBxtMainTwoCell = @"MainTwoCell";
 
-@interface MainViewController ()<UITableViewDelegate,UITableViewDataSource,UITextFieldDelegate>
+@interface MainViewController ()<UITableViewDelegate,UITableViewDataSource,UITextFieldDelegate,SDCycleScrollViewDelegate>
 
 kBxtPropertyStrong UITableView *myTableview;
 
@@ -46,8 +48,11 @@ kBxtPropertyStrong UITextField *searchTF;
 }
 -(void)netWorkHelp
 {
-    NSDictionary  *parameters=@{@"account":[UserInfo account].account};
-    [NetWorkHelp  netWorkWithURLString:homePageIndex parameters:parameters SuccessBlock:^(NSDictionary *dic)
+    NSDictionary  *parameters=@{@"account":[UserInfo account].account,
+                                @"token":[UserInfo account].token};
+    [NetWorkHelp  netWorkWithURLString:homePageIndex
+                            parameters:parameters
+                          SuccessBlock:^(NSDictionary *dic)
      {
          if ([dic[@"code"]integerValue]==0)
          {
@@ -109,11 +114,9 @@ kBxtPropertyStrong UITextField *searchTF;
     [header addSubview:_searchTF];
     header.width = WIDTH;
     
-    _scrollView = [[SDCycleScrollView alloc] init];
-    _scrollView.frame = CGRectMake(0, _searchTF.bottom+10, WIDTH, 200);
+    _scrollView = [SDCycleScrollView  cycleScrollViewWithFrame:CGRectMake(0, _searchTF.bottom+10, WIDTH, 200) delegate:self placeholderImage:[UIImage imageNamed:@"BJ_BANNER"]];
     _scrollView.imageURLStringsGroup = _kBxtImageBannerArr;
     [header addSubview:_scrollView];
-    
     _myTableview.tableHeaderView = header;
 }
 -(void)setTextFieldLeftPadding:(UITextField *)textField forWidth:(CGFloat)leftWidth
@@ -121,11 +124,21 @@ kBxtPropertyStrong UITextField *searchTF;
     CGRect frame = textField.frame;
     frame.size.width = leftWidth;
     UIView *leftview = [[UIView alloc] initWithFrame:frame];
-    UIImageView *leftImage = [[UIImageView alloc] initWithFrame:CGRectMake(0, 0, leftWidth, leftWidth)];
-    leftImage.image = [UIImage imageNamed:@"UMS_alipay_off"];
+    UIImageView *leftImage = [[UIImageView alloc] initWithFrame:CGRectMake(leftWidth/ 2, leftWidth/5, leftWidth /2.5, leftWidth /2.5)];
+    leftImage.image = [UIImage imageNamed:@"Button_search"];
     [leftview addSubview:leftImage];
     textField.leftViewMode = UITextFieldViewModeAlways;
     textField.leftView = leftview;
+}
+#pragma makr - SDCycleScrollViewDelegate
+- (void)cycleScrollView:(SDCycleScrollView *)cycleScrollView didSelectItemAtIndex:(NSInteger)index
+{
+#warning 点击图片回调
+}
+#pragma mark - UITableViewDelegate
+-(CGFloat)tableView:(UITableView *)tableView heightForFooterInSection:(NSInteger)section
+{
+    return 0.1;
 }
 -(NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section
 {
@@ -149,7 +162,7 @@ kBxtPropertyStrong UITextField *searchTF;
         [cell.kBxtOperation addTarget:self      action:@selector(kBxtOperationClick) forControlEvents:UIControlEventTouchUpInside];
         [cell.kBxtRecording addTarget:self      action:@selector(kBxtRecordingClick) forControlEvents:UIControlEventTouchUpInside];
         [cell.kBxtJobLog addTarget:self         action:@selector(kBxtJobLogClick) forControlEvents:UIControlEventTouchUpInside];
-        [cell.kBxtLearningPlan addTarget:self   action:@selector(kBxtLearningPlanClick) forControlEvents:UIControlEventTouchUpInside];
+        [cell.kBxtLearningPlan addTarget:self   action:@selector(kBxtStudyPlanClick) forControlEvents:UIControlEventTouchUpInside];
         [cell.kBxtMusicAnalysis addTarget:self  action:@selector(kBxtMusicAnalysisClick) forControlEvents:UIControlEventTouchUpInside];
         return cell;
     }else{
@@ -160,7 +173,7 @@ kBxtPropertyStrong UITextField *searchTF;
             {
                 HWHomeIndexModel *Model=_dataArr[indexm];
                 UIImageView *imageView=cellTwo.ImageArray[indexm];
-                [imageView sd_setImageWithURL:[NSURL URLWithString:Model.cover] placeholderImage:[UIImage imageNamed:@"home_recommend"]];
+                [imageView sd_setImageWithURL:[NSURL URLWithString:Model.cover] placeholderImage:[UIImage imageNamed:@"BJ_BANNER"]];
             }
  
         }
@@ -169,6 +182,7 @@ kBxtPropertyStrong UITextField *searchTF;
     }
     
 }
+#pragma mark - target
 -(void)kBxtBigForumClick
 {
     BigForumViewController *bigforum  = [[BigForumViewController alloc] init];
@@ -189,19 +203,23 @@ kBxtPropertyStrong UITextField *searchTF;
 }
 -(void)kBxtJobLogClick
 {
-    
+    HWJobLogController *jobLogVC = [[HWJobLogController alloc] init];
+    jobLogVC.hidesBottomBarWhenPushed = YES;
+    [self.navigationController pushViewController:jobLogVC animated:YES];
 }
--(void)kBxtLearningPlanClick
+-(void)kBxtStudyPlanClick
 {
-    
+    HWStudyPlanController *studyPlanVC = [[HWStudyPlanController alloc] init];
+    studyPlanVC.hidesBottomBarWhenPushed = YES;
+    [self.navigationController pushViewController:studyPlanVC animated:YES];
 }
-#pragma mark --跳转到录音分析
 -(void)kBxtMusicAnalysisClick
 {
     HWMusicAnalysisController *MusicVC = [[HWMusicAnalysisController alloc] init];
     MusicVC.hidesBottomBarWhenPushed = YES;
     [self.navigationController pushViewController:MusicVC animated:YES];
 }
+#pragma mark - UITextFieldDelegate
 -(void)textFieldDidBeginEditing:(UITextField *)textField
 {
     MainSearchViewController *search = [[MainSearchViewController alloc] init];
@@ -209,19 +227,5 @@ kBxtPropertyStrong UITextField *searchTF;
     [self.navigationController pushViewController:search animated:YES];
     [textField endEditing:YES];
 }
-- (void)didReceiveMemoryWarning {
-    [super didReceiveMemoryWarning];
-    // Dispose of any resources that can be recreated.
-}
-
-/*
-#pragma mark - Navigation
-
-// In a storyboard-based application, you will often want to do a little preparation before navigation
-- (void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender {
-    // Get the new view controller using [segue destinationViewController].
-    // Pass the selected object to the new view controller.
-}
-*/
 
 @end

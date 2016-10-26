@@ -18,6 +18,7 @@
 @property (nonatomic,strong) NSArray * dataArray;
 /**  搜索框 */
 @property (nonatomic,strong) UITextField * searchTF;
+
 @end
 
 @implementation HWOperationViewController
@@ -38,6 +39,10 @@
 }
 
 #pragma mark - UITableViewDelegate
+-(CGFloat)tableView:(UITableView *)tableView heightForFooterInSection:(NSInteger)section
+{
+    return 0.1;
+}
 - (NSInteger)numberOfSectionsInTableView:(UITableView *)tableView
 {
     return self.dataArray.count;
@@ -120,6 +125,7 @@
 -(void)textFieldDidBeginEditing:(UITextField *)textField
 {
     HWSearchOperationController *searchVC = [[HWSearchOperationController alloc] init];
+    searchVC.type = @"3";
     searchVC.hidesBottomBarWhenPushed = YES;
     [self.navigationController pushViewController:searchVC animated:YES];
     [textField endEditing:YES];
@@ -130,8 +136,8 @@
     CGRect frame = textField.frame;
     frame.size.width = leftWidth;
     UIView *leftview = [[UIView alloc] initWithFrame:frame];
-    UIImageView *leftImage = [[UIImageView alloc] initWithFrame:CGRectMake(0, 0, leftWidth, leftWidth)];
-    leftImage.image = [UIImage imageNamed:@"UMS_alipay_off"];
+    UIImageView *leftImage = [[UIImageView alloc] initWithFrame:CGRectMake(leftWidth /3, leftWidth / 3, leftWidth /2, leftWidth/ 2)];
+    leftImage.image = [UIImage imageNamed:@"Button_search"];
     [leftview addSubview:leftImage];
     textField.leftViewMode = UITextFieldViewModeAlways;
     textField.leftView = leftview;

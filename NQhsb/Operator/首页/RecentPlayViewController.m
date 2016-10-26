@@ -36,12 +36,20 @@ kBxtPropertyStrong BigForumResponse *bigResponse;
 }
 -(void)netWorkHelp
 {
-    NSDictionary *dic = @{@"account":[UserInfo account].account,
+    NSString *wordsType;
+    if ([_api isEqualToString:@"/recording/listOfMe.do"]) {
+        wordsType = @"5";
+    }else{
+        wordsType = @"3";
+    }
+    NSDictionary *parameters = @{@"account":[UserInfo account].account,
+                          @"token":[UserInfo account].token,
                           @"type":_selectType,
+                          @"wordsType":wordsType,
                           @"pageIndex":GJCFStringFromInt(_pageIndex),
                           @"pageSize":GJCFStringFromInt(_pageSize)};
     [NetWorkHelp netWorkWithURLString:_api
-                           parameters:dic
+                           parameters:parameters
                          SuccessBlock:^(NSDictionary *dic) {
                              if ([dic[@"code"] intValue] == 0) {
                                  _bigResponse = [BigForumResponse mj_objectWithKeyValues:dic[@"response"]];

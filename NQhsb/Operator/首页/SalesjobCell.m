@@ -26,8 +26,7 @@
 -(void)setList:(BigForumList *)list
 {
     _list = list;
-#warning 站位图没写
-    [self.kBxtTitleImage sd_setImageWithURL:[NSURL URLWithString:list.cover] placeholderImage:nil];
+    [self.kBxtTitleImage sd_setImageWithURL:[NSURL URLWithString:list.cover] placeholderImage:[UIImage imageNamed:@"ICON_T"]];
     self.kBxtTitle .text = list.title;
     self.kBxtContentLabel.text = list.nickname;
     self.kBxtUserCatCount.text = [NSString stringWithFormat:@"%ld人浏览",(long)list.clickNum];

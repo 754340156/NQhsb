@@ -60,9 +60,9 @@
 
 -(void)pushAuthCode
 {
-    NSDictionary *dic = @{@"phone":self.kBxtPhoneTF.text};
+    NSDictionary *parameters = @{@"phone":self.kBxtPhoneTF.text};
     [NetWorkHelp netWorkWithURLString:pushCode
-                           parameters:dic
+                           parameters:parameters
                          SuccessBlock:^(NSDictionary *dic) {
                              if ([dic[@"code"] intValue] == 0) {
                                  LogApi(@"发送验证码成功 －－ %@",dic);
@@ -77,13 +77,13 @@
 {
     
     __block NSString *str;
-    NSDictionary *dic = @{@"phone":phone,
+    NSDictionary *parameters = @{@"phone":phone,
                           @"pushType":@"1",
                           @"verCode":verCode,
                           @"pushtoken":@"1",
                           @"password":password};
     [NetWorkHelp netWorkWithURLString:Register
-                           parameters:dic
+                           parameters:parameters
                          SuccessBlock:^(NSDictionary *dic) {
                              if ([dic[@"code"] intValue] == 0) {
                                  str = @"注册成功";

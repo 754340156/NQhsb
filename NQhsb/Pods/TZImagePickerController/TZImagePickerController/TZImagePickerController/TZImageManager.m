@@ -32,8 +32,8 @@ static CGFloat TZScreenScale;
         TZScreenWidth = [UIScreen mainScreen].bounds.size.width;
         // 测试发现，如果scale在plus真机上取到3.0，内存会增大特别多。故这里写死成2.0
         TZScreenScale = 2.0;
-        if (TZScreenWidth > 700) {
-            TZScreenScale = 1.5;
+        if (TZScreenWidth > 600) {
+            TZScreenScale = 1.0;
         }
         CGFloat margin = 4;
         CGFloat itemWH = (TZScreenWidth - 2 * margin - 4) / 4 - margin;
@@ -67,12 +67,11 @@ static CGFloat TZScreenScale;
         if (!allowPickingVideo) option.predicate = [NSPredicate predicateWithFormat:@"mediaType == %ld", PHAssetMediaTypeImage];
         if (!allowPickingImage) option.predicate = [NSPredicate predicateWithFormat:@"mediaType == %ld",
                                                     PHAssetMediaTypeVideo];
-        // option.sortDescriptors = @[[NSSortDescriptor sortDescriptorWithKey:@"creationDate" ascending:self.sortAscendingByModificationDate]];
-        option.sortDescriptors = @[[NSSortDescriptor sortDescriptorWithKey:@"modificationDate" ascending:self.sortAscendingByModificationDate]];
+        option.sortDescriptors = @[[NSSortDescriptor sortDescriptorWithKey:@"creationDate" ascending:YES]];
         
         PHFetchResult *smartAlbums = [PHAssetCollection fetchAssetCollectionsWithType:PHAssetCollectionTypeSmartAlbum subtype:PHAssetCollectionSubtypeSmartAlbumUserLibrary options:nil];
         for (PHAssetCollection *collection in smartAlbums) {
-            if ([collection.localizedTitle isEqualToString:@"Camera Roll"] || [collection.localizedTitle isEqualToString:@"相机胶卷"] ||  [collection.localizedTitle isEqualToString:@"所有照片"] || [collection.localizedTitle isEqualToString:@"All Photos"]) {
+            if ([collection.localizedTitle isEqualToString:@"Camera Roll"] || [collection.localizedTitle isEqualToString:@"相机胶卷"] ||  [collection.localizedTitle isEqualToString:@"所有照片"]) {
                 PHFetchResult *fetchResult = [PHAsset fetchAssetsInAssetCollection:collection options:option];
                 model = [self modelWithResult:fetchResult name:collection.localizedTitle];
                 if (completion) completion(model);
@@ -83,7 +82,7 @@ static CGFloat TZScreenScale;
         [self.assetLibrary enumerateGroupsWithTypes:ALAssetsGroupAll usingBlock:^(ALAssetsGroup *group, BOOL *stop) {
             if ([group numberOfAssets] < 1) return;
             NSString *name = [group valueForProperty:ALAssetsGroupPropertyName];
-            if ([name isEqualToString:@"Camera Roll"] || [name isEqualToString:@"相机胶卷"] || [name isEqualToString:@"所有照片"] || [name isEqualToString:@"All Photos"]) {
+            if ([name isEqualToString:@"Camera Roll"] || [name isEqualToString:@"相机胶卷"] || [name isEqualToString:@"所有照片"]) {
                 model = [self modelWithResult:group name:name];
                 if (completion) completion(model);
                 *stop = YES;
@@ -99,9 +98,7 @@ static CGFloat TZScreenScale;
         if (!allowPickingVideo) option.predicate = [NSPredicate predicateWithFormat:@"mediaType == %ld", PHAssetMediaTypeImage];
         if (!allowPickingImage) option.predicate = [NSPredicate predicateWithFormat:@"mediaType == %ld",
                                                     PHAssetMediaTypeVideo];
-        
-        // option.sortDescriptors = @[[NSSortDescriptor sortDescriptorWithKey:@"creationDate" ascending:self.sortAscendingByModificationDate]];
-        option.sortDescriptors = @[[NSSortDescriptor sortDescriptorWithKey:@"modificationDate" ascending:self.sortAscendingByModificationDate]];
+        option.sortDescriptors = @[[NSSortDescriptor sortDescriptorWithKey:@"creationDate" ascending:YES]];
         
         PHAssetCollectionSubtype smartAlbumSubtype = PHAssetCollectionSubtypeSmartAlbumUserLibrary | PHAssetCollectionSubtypeSmartAlbumRecentlyAdded | PHAssetCollectionSubtypeSmartAlbumVideos;
         // For iOS 9, We need to show ScreenShots Album && SelfPortraits Album
@@ -183,7 +180,7 @@ static CGFloat TZScreenScale;
         } else if (allowPickingImage) {
             [group setAssetsFilter:[ALAssetsFilter allPhotos]];
         }
-        ALAssetsGroupEnumerationResultsBlock resultBlock = ^(ALAsset *result, NSUInteger index, BOOL *stop)  {
+        [group enumerateAssetsUsingBlock:^(ALAsset *result, NSUInteger index, BOOL *stop) {
             if (result == nil) {
                 if (completion) completion(photoArr);
             }
@@ -202,16 +199,7 @@ static CGFloat TZScreenScale;
             } else {
                 [photoArr addObject:[TZAssetModel modelWithAsset:result type:type]];
             }
-        };
-        if (self.sortAscendingByModificationDate) {
-            [group enumerateAssetsUsingBlock:^(ALAsset *result, NSUInteger index, BOOL *stop) {
-                if (resultBlock) { resultBlock(result,index,stop); }
-            }];
-        } else {
-            [group enumerateAssetsWithOptions:NSEnumerationReverse usingBlock:^(ALAsset *result, NSUInteger index, BOOL *stop) {
-                if (resultBlock) { resultBlock(result,index,stop); }
-            }];
-        }
+        }];
     }
 }
 
@@ -345,11 +333,7 @@ static CGFloat TZScreenScale;
             CGFloat pixelHeight = photoWidth / aspectRatio;
             imageSize = CGSizeMake(pixelWidth, pixelHeight);
         }
-        // 修复获取图片时出现的瞬间内存过高问题
-        // 下面两行代码，来自hsjcom，他的github是：https://github.com/hsjcom 表示感谢
-        PHImageRequestOptions *option = [[PHImageRequestOptions alloc] init];
-        option.resizeMode = PHImageRequestOptionsResizeModeFast;
-        PHImageRequestID imageRequestID = [[PHImageManager defaultManager] requestImageForAsset:asset targetSize:imageSize contentMode:PHImageContentModeAspectFill options:option resultHandler:^(UIImage * _Nullable result, NSDictionary * _Nullable info) {
+       PHImageRequestID imageRequestID = [[PHImageManager defaultManager] requestImageForAsset:asset targetSize:imageSize contentMode:PHImageContentModeAspectFill options:nil resultHandler:^(UIImage * _Nullable result, NSDictionary * _Nullable info) {
             BOOL downloadFinined = (![[info objectForKey:PHImageCancelledKey] boolValue] && ![info objectForKey:PHImageErrorKey]);
             if (downloadFinined && result) {
                 result = [self fixOrientation:result];
@@ -359,7 +343,6 @@ static CGFloat TZScreenScale;
             if ([info objectForKey:PHImageResultIsInCloudKey] && !result) {
                 PHImageRequestOptions *option = [[PHImageRequestOptions alloc]init];
                 option.networkAccessAllowed = YES;
-                option.resizeMode = PHImageRequestOptionsResizeModeFast;
                 [[PHImageManager defaultManager] requestImageDataForAsset:asset options:option resultHandler:^(NSData * _Nullable imageData, NSString * _Nullable dataUTI, UIImageOrientation orientation, NSDictionary * _Nullable info) {
                     UIImage *resultImage = [UIImage imageWithData:imageData scale:0.1];
                     resultImage = [self scaleImage:resultImage toSize:imageSize];
@@ -396,14 +379,9 @@ static CGFloat TZScreenScale;
     return 0;
 }
 
-/// Get postImage / 获取封面图
 - (void)getPostImageWithAlbumModel:(TZAlbumModel *)model completion:(void (^)(UIImage *))completion {
     if (iOS8Later) {
-        id asset = [model.result lastObject];
-        if (!self.sortAscendingByModificationDate) {
-            asset = [model.result firstObject];
-        }
-        [[TZImageManager manager] getPhotoWithAsset:asset photoWidth:80 completion:^(UIImage *photo, NSDictionary *info, BOOL isDegraded) {
+        [[TZImageManager manager] getPhotoWithAsset:[model.result lastObject] photoWidth:80 completion:^(UIImage *photo, NSDictionary *info, BOOL isDegraded) {
             if (completion) completion(photo);
         }];
     } else {
@@ -473,7 +451,6 @@ static CGFloat TZScreenScale;
 
 #pragma mark - Get Video
 
-/// Get Video / 获取视频
 - (void)getVideoWithAsset:(id)asset completion:(void (^)(AVPlayerItem * _Nullable, NSDictionary * _Nullable))completion {
     if ([asset isKindOfClass:[PHAsset class]]) {
         [[PHImageManager defaultManager] requestPlayerItemForVideo:asset options:nil resultHandler:^(AVPlayerItem * _Nullable playerItem, NSDictionary * _Nullable info) {
@@ -491,7 +468,6 @@ static CGFloat TZScreenScale;
 
 #pragma mark - Export video
 
-/// Export Video / 导出视频，暂仅仅支持iOS8.0+
 - (void)getVideoOutputPathWithAsset:(id)asset completion:(void (^)(NSString *outputPath))completion {
     if ([asset isKindOfClass:[PHAsset class]]) {
         PHVideoRequestOptions* options = [[PHVideoRequestOptions alloc] init];

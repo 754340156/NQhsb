@@ -8,6 +8,8 @@
 
 #import "AudioBookViewController.h"
 #import "RecentPlayViewController.h"
+#import "AddAudioViewController.h"
+#import "HWSearchOperationController.h"
 static NSString *kBxtCell = @"cell";
 
 @interface AudioBookViewController ()<UITableViewDelegate,UITableViewDataSource,UITextFieldDelegate>
@@ -46,10 +48,21 @@ kBxtPropertyStrong UITextField *searchTF;
 {
     CGRect frame = textField.frame;
     frame.size.width = leftWidth;
-    UIImageView *leftImage = [[UIImageView alloc] initWithFrame:CGRectMake(0, 0, leftWidth, leftWidth)];
-    leftImage.image = [UIImage imageNamed:@"UMS_alipay_off"];
+    UIView *leftview = [[UIView alloc] initWithFrame:frame];
+    UIImageView *leftImage = [[UIImageView alloc] initWithFrame:CGRectMake(leftWidth /3, leftWidth / 3, leftWidth /2, leftWidth/ 2)];
+    leftImage.image = [UIImage imageNamed:@"Button_search"];
+    [leftview addSubview:leftImage];
     textField.leftViewMode = UITextFieldViewModeAlways;
-    textField.leftView = leftImage;
+    textField.leftView = leftview;
+}
+#pragma mark - UITextFieldDelegate
+-(void)textFieldDidBeginEditing:(UITextField *)textField
+{
+    HWSearchOperationController *searchVC = [[HWSearchOperationController alloc] init];
+    searchVC.type = @"5";
+    searchVC.hidesBottomBarWhenPushed = YES;
+    [self.navigationController pushViewController:searchVC animated:YES];
+    [textField endEditing:YES];
 }
 -(NSArray *)dataTitleArr
 {
@@ -102,13 +115,15 @@ kBxtPropertyStrong UITextField *searchTF;
             if (indexPath.row == 0) {
                 [self pushVc:@"5" api:checklist];
             }
-            
         }
             break;
         case 1:
         {
-            if (indexPath.row == 1) {
+            if (indexPath.row == 0) {
                  [self pushVc:@"5" api:listOfMe];
+            }else{
+                AddAudioViewController *audio = [[AddAudioViewController alloc] init];
+                [self.navigationController pushViewController:audio animated:YES];
             }
         }
             break;
@@ -121,6 +136,7 @@ kBxtPropertyStrong UITextField *searchTF;
 {
     RecentPlayViewController *recent = [[RecentPlayViewController alloc] init];
     recent.selectType = type;
+    recent.api        = api;
     [self.navigationController pushViewController:recent animated:YES];
 }
 - (void)didReceiveMemoryWarning {

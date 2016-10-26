@@ -60,9 +60,26 @@
  */
 #define  MusicDelete   @"/question/delete.do"
 
+/**
+ *学习计划模板列表
+ */
+#define  Musicmoodulelist   @"/question/moodulelist.do"
 
 
+/**
+ *已选择的模板列表--->生成问题分析模板
+ */
+#define  MusicquestionChooselist  @"/question/chooselist.do"
 
+/**
+ *根据模板id获取题库
+ */
+#define  MusicquestionBankList  @"/question/banklist.do"
+
+/**
+ *根据题库做题
+ */
+#define  MusicquestionAddproblem  @"/question/addproblem.do"
 
 
 #endif /* YWOperatorHeader_h */

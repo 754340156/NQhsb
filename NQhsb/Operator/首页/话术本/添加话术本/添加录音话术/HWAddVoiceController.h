@@ -7,8 +7,7 @@
 //
 
 #import "NavViewController.h"
-//添加录音
+
 @interface HWAddVoiceController : NavViewController
-/**  title */
-@property (nonatomic,copy) NSString * titleText;
+
 @end

@@ -102,10 +102,10 @@
          }
         if (_selectedIndex.row==indexPath.row)
         {
-             [cell.selectionImage  setImage: [ UIImage  imageNamed:@"pay_check_yes"]];
+             [cell.selectionImage  setImage: [ UIImage  imageNamed:@"ICON_XZQD"]];
         }else
         {
-           [cell.selectionImage  setImage: [ UIImage  imageNamed:@"pay_check_no"]];
+           [cell.selectionImage  setImage: [ UIImage  imageNamed:@"ICON_WXZ"]];
         }
         
         return cell;
@@ -174,7 +174,7 @@
     [self showHint:@"正在完善"];
     //payType 支付方式1  支付宝2微信
     [self showHudInView:self.view hint:@""];
-    NSDictionary *parameters=@{@"account":[UserInfo account].account,@"goodsId":_purModel.dataId,@"payType":@(_selectedIndex.row)};//支付
+    NSDictionary *parameters=@{@"account":[UserInfo account].account,@"token":[UserInfo account].token,@"goodsId":_purModel.dataId,@"payType":@(_selectedIndex.row)};//支付
     [NetWorkHelp  netWorkWithURLString:Userorder parameters:parameters SuccessBlock:^(NSDictionary *dic)
      {
          [self hideHud];

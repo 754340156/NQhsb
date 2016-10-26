@@ -85,11 +85,9 @@
         self.allowPickingOriginalPhoto = YES;
         self.allowPickingVideo = YES;
         self.allowPickingImage = YES;
-        self.allowTakePicture = YES;
         self.timeout = 15;
         self.photoWidth = 828.0;
-        self.photoPreviewMaxWidth = 600;
-        self.sortAscendingByModificationDate = YES;
+        self.photoPreviewMaxWidth = 540;
         
         if (![[TZImageManager manager] authorizationStatusAuthorized]) {
             _tipLable = [[UILabel alloc] init];
@@ -117,11 +115,11 @@
     self = [super initWithRootViewController:previewVc];
     if (self) {
         self.selectedAssets = [NSMutableArray arrayWithArray:selectedAssets];
-        self.allowPickingOriginalPhoto = self.allowPickingOriginalPhoto;
+        self.allowPickingOriginalPhoto = YES;
         self.timeout = 15;
         self.photoWidth = 828.0;
         self.maxImagesCount = selectedAssets.count;
-        self.photoPreviewMaxWidth = 600;
+        self.photoPreviewMaxWidth = 540;
         
         previewVc.photos = [NSMutableArray arrayWithArray:selectedPhotos];
         previewVc.currentIndex = index;
@@ -149,7 +147,6 @@
     _pushToPhotoPickerVc = YES;
     if (_pushToPhotoPickerVc) {
         TZPhotoPickerController *photoPickerVc = [[TZPhotoPickerController alloc] init];
-        photoPickerVc.isFirstAppear = YES;
         [[TZImageManager manager] getCameraRollAlbum:self.allowPickingVideo allowPickingImage:self.allowPickingImage completion:^(TZAlbumModel *model) {
             photoPickerVc.model = model;
             [self pushViewController:photoPickerVc animated:YES];
@@ -251,11 +248,6 @@
     NSString *allowPickingVideoStr = _allowPickingVideo ? @"1" : @"0";
     [[NSUserDefaults standardUserDefaults] setObject:allowPickingVideoStr forKey:@"tz_allowPickingVideo"];
     [[NSUserDefaults standardUserDefaults] synchronize];
-}
-
-- (void)setSortAscendingByModificationDate:(BOOL)sortAscendingByModificationDate {
-    _sortAscendingByModificationDate = sortAscendingByModificationDate;
-    [TZImageManager manager].sortAscendingByModificationDate = sortAscendingByModificationDate;
 }
 
 - (void)pushViewController:(UIViewController *)viewController animated:(BOOL)animated {

@@ -7,6 +7,9 @@
 //
 
 #import "MainSearchViewController.h"
+#import "MainSearchModels.h"
+#import "MainSearchFinishModels.h"
+#import "MainSearchFinishViewController.h"
 
 static NSString *kBxtSearchCell = @"searchCell";
 
@@ -18,6 +21,15 @@ kBxtPropertyStrong UITableView *myTableview;
 
 kBxtPropertyStrong NSMutableArray *dataArr;
 
+kBxtPropertyAssign NSInteger pageIndex;
+
+kBxtPropertyAssign NSInteger pageSize;
+
+kBxtPropertyStrong MainSearchModels *searchModel;
+
+kBxtPropertyStrong MainSearchResponse *searchResponse;
+
+kBxtPropertyStrong MainSearchFinishModels *finishModels;
 @end
 
 @implementation MainSearchViewController
@@ -25,6 +37,8 @@ kBxtPropertyStrong NSMutableArray *dataArr;
 - (void)viewDidLoad {
     [super viewDidLoad];
     // Do any additional setup after loading the view.
+    _pageIndex = 1;
+    _pageSize  = 9;
     [self dataArr];
     [self searchTF];
     [self myTableview];
@@ -46,6 +60,7 @@ kBxtPropertyStrong NSMutableArray *dataArr;
         _searchTF.layer.masksToBounds = YES;
         _searchTF.layer.cornerRadius  = 8;
         _searchTF.clearButtonMode = UITextFieldViewModeWhileEditing;
+        _searchTF.returnKeyType = UIReturnKeySearch;
         _searchTF.delegate = self;
         [self setTextFieldLeftPadding:_searchTF forWidth:40];
         
@@ -64,8 +79,8 @@ kBxtPropertyStrong NSMutableArray *dataArr;
     CGRect frame = textField.frame;
     frame.size.width = leftWidth;
     UIView *leftview = [[UIView alloc] initWithFrame:frame];
-    UIImageView *leftImage = [[UIImageView alloc] initWithFrame:CGRectMake(0, 0, leftWidth, leftWidth)];
-    leftImage.image = [UIImage imageNamed:@"UMS_alipay_off"];
+    UIImageView *leftImage = [[UIImageView alloc] initWithFrame:CGRectMake(leftWidth /2, leftWidth / 5, leftWidth /2.5, leftWidth/ 2.5)];
+    leftImage.image = [UIImage imageNamed:@"Button_search"];
     [leftview addSubview:leftImage];
     textField.leftViewMode = UITextFieldViewModeAlways;
     textField.leftView = leftview;
@@ -76,6 +91,9 @@ kBxtPropertyStrong NSMutableArray *dataArr;
         _myTableview = [[UITableView alloc] initWithFrame:CGRectMake(0, 64, WIDTH, HEIGHT-64) style:UITableViewStylePlain];
         _myTableview.delegate = self;
         _myTableview.dataSource = self;
+        _myTableview.mj_header = [MJRefreshHeader headerWithRefreshingBlock:^{
+           [self netWorkSearch];
+        }];
         
         UIView *foot = [[UIView alloc] initWithFrame:CGRectMake(0, 0, WIDTH, 40)];
         foot.backgroundColor = [UIColor colorWithRed:0.7261 green:0.7223 blue:0.73 alpha:1.0];
@@ -96,17 +114,17 @@ kBxtPropertyStrong NSMutableArray *dataArr;
 {
     [self.navigationController popViewControllerAnimated:YES];
 }
-//清楚搜索纪录
+//清除全部搜索纪录
 -(void)cleanSearch
 {
-    NSDictionary *dic = @{@"account":[UserInfo account].account,
+    NSDictionary *parameters = @{@"account":[UserInfo account].account,
                           @"token":[UserInfo account].token};
-    [NetWorkHelp netWorkWithURLString:@""
-                           parameters:dic
+    [NetWorkHelp netWorkWithURLString:delAllRecentlySearch
+                           parameters:parameters
                          SuccessBlock:^(NSDictionary *dic) {
                              if ([dic[@"code"] intValue] == 0) {
-                                 //缺少model
-                                 [_myTableview reloadData];
+                                 [self showHint:@"清除成功"];
+                                 [self netWorkSearch];
                              }else{
                                  [self showHint:dic[@"errorMessage"]];
                              }
@@ -116,14 +134,16 @@ kBxtPropertyStrong NSMutableArray *dataArr;
 }
 -(void)netWorkSearch
 {
-    NSDictionary *dic = @{@"account":[UserInfo account].account,
-                          @"token":[UserInfo account].token};
-    [NetWorkHelp netWorkWithURLString:@""
-                           parameters:dic
+    NSDictionary *parameters = @{@"account":[UserInfo account].account,
+                          @"token":[UserInfo account].token,
+                          @"pageIndex":@(_pageIndex),
+                          @"pageSize":@(_pageSize)};
+    [NetWorkHelp netWorkWithURLString:recentlySearch
+                           parameters:parameters
                          SuccessBlock:^(NSDictionary *dic) {
                              if ([dic[@"code"] intValue] == 0) {
-                                 //缺少model
-                                 if (!_dataArr.count) {
+                                 _searchModel = [MainSearchModels mj_objectWithKeyValues:dic];
+                                 if (!_searchModel.response.count) {
                                      _myTableview.tableFooterView.hidden = YES;
                                  }
                                  [_myTableview reloadData];
@@ -135,13 +155,53 @@ kBxtPropertyStrong NSMutableArray *dataArr;
                          }];
     
 }
+-(void)beginSearch:(NSString *)searchText
+{
+    NSDictionary *dic = @{@"account":[UserInfo account].account,
+                          @"token":[UserInfo account].token,
+                          @"keyword":searchText,
+                          @"pageIndex":@(_pageIndex),
+                          @"pageSize":@(_pageSize)};
+    [NetWorkHelp netWorkWithURLString:recentlySearch
+                           parameters:dic
+                         SuccessBlock:^(NSDictionary *dic) {
+                             if ([dic[@"code"] intValue] == 0) {
+                                 _finishModels = [MainSearchFinishModels mj_objectWithKeyValues:dic];
+                                 MainSearchFinishViewController *main = [[MainSearchFinishViewController alloc] init];
+                                 main.response = _finishModels.response;
+                                 [self.navigationController pushViewController:main animated:YES];
+                                 
+                             }else{
+                                 [self showHint:dic[@"errorMessage"]];
+                             }
+                         } failBlock:^(NSError *error) {
+                             [self showHint:@"网络连接失败"];
+                         }];
+}
+-(CGFloat)tableView:(UITableView *)tableView heightForFooterInSection:(NSInteger)section
+{
+    return 0.1;
+}
 -(CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath
 {
     return 40;
 }
 -(NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section
 {
-    return _dataArr.count;
+    return _searchModel.response.count;
+}
+- (UITableViewCellEditingStyle)tableView:(UITableView *)tableView editingStyleForRowAtIndexPath:(NSIndexPath *)indexPath
+{
+    return UITableViewCellEditingStyleDelete;
+}
+- (void)tableView:(UITableView *)tableView commitEditingStyle:(UITableViewCellEditingStyle)editingStyle forRowAtIndexPath:(NSIndexPath *)indexPath {
+    
+    [self  delegateBtnClick:indexPath];//删除
+    
+}
+- (BOOL)tableView:(UITableView *)tableView canEditRowAtIndexPath:(NSIndexPath *)indexPath
+{
+    return YES;
 }
 -(UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath
 {
@@ -151,28 +211,36 @@ kBxtPropertyStrong NSMutableArray *dataArr;
     if (!cell) {
         cell = [[UITableViewCell alloc] initWithStyle:UITableViewCellStyleValue1 reuseIdentifier:kBxtSearchCell];
     }
-    cell.textLabel.text = _dataArr[indexPath.row];
-    UIButton *delegateBtn = [[UIButton alloc] initWithFrame:CGRectMake(cell.width-40, 0, 40, 40)];
-    [delegateBtn setBackgroundImage:[UIImage imageNamed:@"alert_error_icon"] forState:UIControlStateNormal];
-    delegateBtn.layer.masksToBounds = YES;
-    delegateBtn.layer.cornerRadius = delegateBtn.width/2;
-    delegateBtn.tag = 100 + indexPath.row;
-    [delegateBtn addTarget:self action:@selector(delegateBtnClick:) forControlEvents:UIControlEventTouchUpInside];
-    [cell.contentView addSubview:delegateBtn];
+    _searchResponse = _searchModel.response[indexPath.row];
+    cell.textLabel.text = _searchResponse.keyword;
     return cell;
 }
--(void)delegateBtnClick:(UIButton *)btn
+-(void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
 {
-    NSInteger index = btn.tag - 100;
-    NSDictionary *dic = @{@"account":[UserInfo account].account,
-                          @"token":[UserInfo account].token};
-    [NetWorkHelp netWorkWithURLString:@""
-                           parameters:dic
+    _searchResponse = _searchModel.response[indexPath.row];
+    [self beginSearch:_searchResponse.keyword];
+}
+-(BOOL)textFieldShouldReturn:(UITextField *)textField
+{
+    if (!textField.text) {
+        [self showHint:@"请先输入搜索关键字"];
+    }else{
+        [self beginSearch:textField.text];
+    }
+    return YES;
+}
+-(void)delegateBtnClick:(NSIndexPath *)indexPath
+{
+    _searchResponse = _searchModel.response[indexPath.row];
+    NSDictionary *parameters = @{@"account":[UserInfo account].account,
+                          @"token":[UserInfo account].token,
+                          @"dataId":_searchResponse.dataId};
+    [NetWorkHelp netWorkWithURLString:delOneRecentlySearch
+                           parameters:parameters
                          SuccessBlock:^(NSDictionary *dic) {
                              if ([dic[@"code"] intValue] == 0) {
-                                 //缺少model
-                                 
-                                 [_myTableview reloadData];
+                                 [self showHint:@"删除成功"];
+                                 [self netWorkSearch];
                              }else{
                                  [self showHint:dic[@"errorMessage"]];
                              }

@@ -17,7 +17,7 @@
 - (void)viewDidLoad {
     [super viewDidLoad];
     // Do any additional setup after loading the view from its nib.
-    self.titleLabel.text = @"登陆";
+    self.titleLabel.text = @"登录";
     self.leftBackImage.hidden=YES;
     self.view.backgroundColor = BXT_BACKGROUND_COLOR;
     self.kBxtUserPhone.delegate = self;
@@ -40,12 +40,12 @@
 {
     [self showHudInView:self.view hint:nil];
     if (_kBxtUserPhone.text && _kBxtUserPasswd.text) {
-        NSDictionary *dic = @{@"phone":_kBxtUserPhone.text,
+        NSDictionary *parameters = @{@"phone":_kBxtUserPhone.text,
                               @"pushType":@"1",
                               @"pushtoken":@"1",
                               @"password":_kBxtUserPasswd.text};
         [NetWorkHelp netWorkWithURLString:userlogin
-                               parameters:dic
+                               parameters:parameters
                              SuccessBlock:^(NSDictionary *dic) {
                                  if ([dic[@"code"] intValue] == 0) {
                                      

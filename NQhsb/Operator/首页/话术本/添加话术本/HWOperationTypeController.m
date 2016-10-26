@@ -33,6 +33,10 @@
     [self.view addSubview:self.tableView];
 }
 #pragma mark - UITableViewDelegate
+-(CGFloat)tableView:(UITableView *)tableView heightForFooterInSection:(NSInteger)section
+{
+    return 0.1;
+}
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section
 {
     return self.dataArray.count;
@@ -54,17 +58,14 @@
     if (indexPath.row == 0)
     {//添加文本话术
         HWAddTextController *textVC = [[HWAddTextController alloc] init];
-        textVC.titleText = self.dataArray[indexPath.row];
         [self.navigationController pushViewController:textVC animated:YES];
     }else if (indexPath.row == 1)
     {//添加图片话术
         HWAddPicController *picVC = [[HWAddPicController alloc] init];
-        picVC.titleText = self.dataArray[indexPath.row];
         [self.navigationController pushViewController:picVC animated:YES];
     }else if (indexPath.row == 2)
     {//添加录音话术
         HWAddVoiceController *voiceVC = [[HWAddVoiceController alloc] init];
-        voiceVC.titleText = self.dataArray[indexPath.row];
         [self.navigationController pushViewController:voiceVC animated:YES];
     }
 }

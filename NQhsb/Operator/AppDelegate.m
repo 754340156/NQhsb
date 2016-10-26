@@ -10,6 +10,7 @@
 #import "LoginViewController.h"
 #import "HWNavigationController.h"
 #import "WXApi.h"
+#import "AppDelegate+UMengShare.h"
 @interface AppDelegate ()<WXApiDelegate>
 
 @end
@@ -28,6 +29,8 @@
         [MainWindow setRootViewController:loginNav];
     }
      [WXApi registerApp:@"wxd930ea5d5a258f4f" withDescription:@"demo 2.0"];//微信支付
+    //友盟分享设置
+    [self UMengShareSetupWithApplication:application didFinishLaunchingWithOptions:launchOptions];
     return YES;
 }
 

@@ -33,7 +33,7 @@ PODS:
   - SDWebImage (3.7.6):
     - SDWebImage/Core (= 3.7.6)
   - SDWebImage/Core (3.7.6)
-  - TZImagePickerController (1.5.0)
+  - TZImagePickerController (1.4.4)
   - UMengSocialCOM (5.2.1)
 
 DEPENDENCIES:
@@ -48,7 +48,7 @@ DEPENDENCIES:
   - MJRefresh (~> 3.1.0)
   - SDCycleScrollView (~> 1.64)
   - SDWebImage (~> 3.7.5)
-  - TZImagePickerController
+  - TZImagePickerController (~> 1.4.4)
   - UMengSocialCOM (~> 5.2.1)
 
 SPEC CHECKSUMS:
@@ -63,9 +63,9 @@ SPEC CHECKSUMS:
   MJRefresh: 743e6404967d1c2c688472ea3ecfde247d872db4
   SDCycleScrollView: f72904c77698a7f93a41bcbbc2d78b073bf7326c
   SDWebImage: c325cf02c30337336b95beff20a13df489ec0ec9
-  TZImagePickerController: d09eef6042852a9dd19224ae4e874f7430852a51
+  TZImagePickerController: 6d1bf4d2f8b424ba92a568043620abe84d999061
   UMengSocialCOM: 074c135ce349aa4c8848d3fb8458757bcb6ffb67
 
-PODFILE CHECKSUM: e731db0d2186dacb102e23a8c51f71c007b57c16
+PODFILE CHECKSUM: 28844b73d61459d7cceccec3c48a2c8f0c59c1a6
 
 COCOAPODS: 1.0.1

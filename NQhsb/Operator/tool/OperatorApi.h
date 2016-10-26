@@ -7,9 +7,11 @@
 //
 
 //总接口
+//
 
-//#define OperatorApi     @"http://192.168.124.41:8080/telephone-operator"
-#define OperatorApi     @"http://139.129.222.124:8080/telephone-operator/"
+
+//#define OperatorApi     @"http://192.168.124.7:8080/telephone-operator"
+#define OperatorApi     @"http://139.129.222.124:8080/telephone-operator"
 
 
 /**
@@ -115,24 +117,24 @@
 #define listOfMe   @"/recording/listOfMe.do"
 
 /**
- *  <#apiName#>
+ *  添加录音
  */
-//#define <#name#>   <#api#>
+#define addrecording   @"/recording/addrecording.do"
 
 /**
- *  <#apiName#>
+ *  删除最近搜索ALL
  */
-//#define <#name#>   <#api#>
+#define delAllRecentlySearch   @"/recording/delAllRecentlySearch.do"
 
 /**
- *  <#apiName#>
+ *  删除最近搜索单条
  */
-//#define <#name#>   <#api#>
+#define delOneRecentlySearch   @"/recording/delOneRecentlySearch.do"
 
 /**
- *  <#apiName#>
+ *  最近搜索
  */
-//#define <#name#>   <#api#>
+#define recentlySearch   @"/recording/recentlySearch.do"
 
 /**
  *  <#apiName#>

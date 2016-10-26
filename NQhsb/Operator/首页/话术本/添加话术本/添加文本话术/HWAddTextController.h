@@ -9,6 +9,5 @@
 #import "NavViewController.h"
 
 @interface HWAddTextController : NavViewController
-/**  title */
-@property (nonatomic,copy) NSString * titleText;
+
 @end

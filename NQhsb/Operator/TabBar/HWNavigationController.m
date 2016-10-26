@@ -41,8 +41,7 @@
     // 设置不可用状态的颜色
     NSMutableDictionary *disMd = [NSMutableDictionary dictionary];
     disMd[NSForegroundColorAttributeName] = [UIColor blackColor];
-    [item setTitleTextAttributes:disMd forState:UIControlStateDisabled];
-    
+    [item setTitleTextAttributes:disMd forState:UIControlStateDisabled];    
 }
 
 - (void)viewDidLoad {

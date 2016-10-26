@@ -1,0 +1,99 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="11201" systemVersion="15G1004" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" colorMatched="YES">
+    <dependencies>
+        <deployment identifier="iOS"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="11161"/>
+        <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
+    </dependencies>
+    <objects>
+        <placeholder placeholderIdentifier="IBFilesOwner" id="-1" userLabel="File's Owner" customClass="HWAddPicController">
+            <connections>
+                <outlet property="CollectionHeight" destination="DIN-aI-ftJ" id="vrV-5Y-01m"/>
+                <outlet property="backView" destination="5CQ-F7-5V1" id="c9x-iC-dEg"/>
+                <outlet property="collectionHeight" destination="DIN-aI-ftJ" id="0VE-Jj-k5F"/>
+                <outlet property="collectionView" destination="Oge-TU-nRt" id="sah-sM-Fqq"/>
+                <outlet property="remarkTV" destination="lRd-vI-Dmv" id="U16-Cc-MJR"/>
+                <outlet property="titleTF" destination="Yhi-46-TLJ" id="3rp-eE-OBS"/>
+                <outlet property="view" destination="i5M-Pr-FkT" id="sfx-zR-JGt"/>
+            </connections>
+        </placeholder>
+        <placeholder placeholderIdentifier="IBFirstResponder" id="-2" customClass="UIResponder"/>
+        <view clearsContextBeforeDrawing="NO" contentMode="scaleToFill" id="i5M-Pr-FkT">
+            <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
+            <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+            <subviews>
+                <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="eaa-L5-O5T">
+                    <subviews>
+                        <textField opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" placeholder="输入标题" textAlignment="natural" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="Yhi-46-TLJ">
+                            <nil key="textColor"/>
+                            <fontDescription key="fontDescription" type="system" pointSize="14"/>
+                            <textInputTraits key="textInputTraits"/>
+                        </textField>
+                        <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="1bW-W5-DI5">
+                            <color key="backgroundColor" white="0.66666666666666663" alpha="0.5" colorSpace="calibratedWhite"/>
+                            <constraints>
+                                <constraint firstAttribute="height" constant="0.5" id="keH-Fp-qRf"/>
+                            </constraints>
+                        </view>
+                    </subviews>
+                    <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                    <constraints>
+                        <constraint firstAttribute="trailing" secondItem="1bW-W5-DI5" secondAttribute="trailing" id="6Am-Wp-jGh"/>
+                        <constraint firstAttribute="trailing" secondItem="Yhi-46-TLJ" secondAttribute="trailing" id="7bK-Jy-p19"/>
+                        <constraint firstItem="1bW-W5-DI5" firstAttribute="leading" secondItem="eaa-L5-O5T" secondAttribute="leading" id="Ei5-Zx-Anj"/>
+                        <constraint firstAttribute="bottom" secondItem="1bW-W5-DI5" secondAttribute="bottom" id="MEB-vW-4Wf"/>
+                        <constraint firstItem="Yhi-46-TLJ" firstAttribute="centerY" secondItem="eaa-L5-O5T" secondAttribute="centerY" id="VEN-Dk-LrU"/>
+                        <constraint firstAttribute="height" constant="44" id="olV-tB-S4f"/>
+                        <constraint firstItem="Yhi-46-TLJ" firstAttribute="leading" secondItem="eaa-L5-O5T" secondAttribute="leading" constant="10" id="z8a-q3-zLq"/>
+                    </constraints>
+                </view>
+                <collectionView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" showsHorizontalScrollIndicator="NO" showsVerticalScrollIndicator="NO" dataMode="none" translatesAutoresizingMaskIntoConstraints="NO" id="Oge-TU-nRt">
+                    <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                    <constraints>
+                        <constraint firstAttribute="height" constant="120" id="DIN-aI-ftJ"/>
+                    </constraints>
+                    <collectionViewFlowLayout key="collectionViewLayout" minimumLineSpacing="10" minimumInteritemSpacing="10" id="ofw-Zs-oeo">
+                        <size key="itemSize" width="50" height="50"/>
+                        <size key="headerReferenceSize" width="0.0" height="0.0"/>
+                        <size key="footerReferenceSize" width="0.0" height="0.0"/>
+                        <inset key="sectionInset" minX="0.0" minY="0.0" maxX="0.0" maxY="0.0"/>
+                    </collectionViewFlowLayout>
+                    <connections>
+                        <outlet property="dataSource" destination="-1" id="JlJ-d1-Dbj"/>
+                        <outlet property="delegate" destination="-1" id="HUk-Au-vVy"/>
+                    </connections>
+                </collectionView>
+                <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="5CQ-F7-5V1">
+                    <subviews>
+                        <textView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" textAlignment="natural" translatesAutoresizingMaskIntoConstraints="NO" id="lRd-vI-Dmv" customClass="PlaceholderTextView">
+                            <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                            <fontDescription key="fontDescription" type="system" pointSize="14"/>
+                            <textInputTraits key="textInputTraits" autocapitalizationType="sentences"/>
+                        </textView>
+                    </subviews>
+                    <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                    <constraints>
+                        <constraint firstItem="lRd-vI-Dmv" firstAttribute="top" secondItem="5CQ-F7-5V1" secondAttribute="top" id="Aqg-iV-9No"/>
+                        <constraint firstAttribute="bottom" secondItem="lRd-vI-Dmv" secondAttribute="bottom" id="ISg-vs-5LQ"/>
+                        <constraint firstAttribute="trailing" secondItem="lRd-vI-Dmv" secondAttribute="trailing" id="NnG-21-uUF"/>
+                        <constraint firstItem="lRd-vI-Dmv" firstAttribute="leading" secondItem="5CQ-F7-5V1" secondAttribute="leading" id="kRU-Ju-avI"/>
+                    </constraints>
+                </view>
+            </subviews>
+            <color key="backgroundColor" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+            <constraints>
+                <constraint firstAttribute="trailing" secondItem="eaa-L5-O5T" secondAttribute="trailing" id="5Ld-Nk-OC9"/>
+                <constraint firstAttribute="trailing" secondItem="5CQ-F7-5V1" secondAttribute="trailing" constant="10" id="93S-Wb-XOk"/>
+                <constraint firstItem="eaa-L5-O5T" firstAttribute="top" secondItem="i5M-Pr-FkT" secondAttribute="top" constant="64" id="CGJ-tU-W4d"/>
+                <constraint firstItem="eaa-L5-O5T" firstAttribute="leading" secondItem="i5M-Pr-FkT" secondAttribute="leading" id="LX7-Om-tO6"/>
+                <constraint firstItem="Oge-TU-nRt" firstAttribute="leading" secondItem="i5M-Pr-FkT" secondAttribute="leading" constant="10" id="QJw-f2-6hL"/>
+                <constraint firstItem="5CQ-F7-5V1" firstAttribute="leading" secondItem="i5M-Pr-FkT" secondAttribute="leading" constant="10" id="VCC-K1-4pl"/>
+                <constraint firstItem="Oge-TU-nRt" firstAttribute="top" secondItem="eaa-L5-O5T" secondAttribute="bottom" constant="10" id="Y3k-MP-Pw8"/>
+                <constraint firstAttribute="bottom" secondItem="5CQ-F7-5V1" secondAttribute="bottom" constant="10" id="h9s-wk-mZe"/>
+                <constraint firstItem="5CQ-F7-5V1" firstAttribute="top" secondItem="Oge-TU-nRt" secondAttribute="bottom" constant="10" id="hEH-YG-Xk5"/>
+                <constraint firstAttribute="trailing" secondItem="Oge-TU-nRt" secondAttribute="trailing" constant="10" id="ied-jM-Sbm"/>
+            </constraints>
+            <point key="canvasLocation" x="-701" y="-32"/>
+        </view>
+    </objects>
+</document>

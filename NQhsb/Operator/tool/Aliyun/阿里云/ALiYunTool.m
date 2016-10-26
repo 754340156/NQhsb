@@ -33,8 +33,6 @@ static OSSClient * client;
     request.objectKey = [NSString stringWithFormat:@"headimage/%@_img_%d.png",[NSDate timeStringWithDataTimeToDate:a],((arc4random()% 100000000) + 10000)];
     
     OSSPlainTextAKSKPairCredentialProvider *credential1 = [[OSSPlainTextAKSKPairCredentialProvider alloc] initWithPlainTextAccessKey:g_AK secretKey:g_SK];
-
-    
     OSSClientConfiguration * conf = [OSSClientConfiguration new];
     conf.maxRetryCount = 3;
     conf.enableBackgroundTransmitService = NO;
@@ -60,8 +58,11 @@ static OSSClient * client;
     NSString *urlString = [NSString stringWithFormat:@"http://huawuyuan.oss-cn-qingdao.aliyuncs.com/%@",request.objectKey];
     
     NSString *encodingString = [urlString stringByAddingPercentEscapesUsingEncoding:NSUTF8StringEncoding];
+    
     OSSTask * task = [client putObject:request];
-    [[task continueWithBlock:^id(OSSTask *task) {
+    
+    [task  continueWithBlock:^id(OSSTask *task) {
+       
         if (task.error) {
             OSSLogError(@"%@", task.error);
         }
@@ -70,8 +71,8 @@ static OSSClient * client;
               result.requestId,
               result.httpResponseHeaderFields);
         return nil;
-    }] waitUntilFinished];
-    
+
+    }];
     return encodingString;
 }
 
@@ -116,12 +117,20 @@ static OSSClient * client;
                 put.uploadingData = data;
                 
                 OSSTask * putTask = [client putObject:put];
-                [putTask waitUntilFinished]; // 阻塞直到上传完成
-                if (!putTask.error) {
-                    NSLog(@"upload object success!");
-                } else {
-                    NSLog(@"upload object failed, error: %@" , putTask.error);
-                }
+    
+                [putTask continueWithBlock:^id(OSSTask *task)
+                 {
+                    
+                     if (task.error)
+                     {
+                         OSSLogError(@"%@", task.error);
+                     }
+                     OSSPutObjectResult * result = task.result;
+                     NSLog(@"Result - requestId: %@, headerFields: %@",
+                           result.requestId,
+                           result.httpResponseHeaderFields);
+                     return nil;
+                }]; // 阻塞直到上传完成
                 if (isAsync) {
                     if (image == images.lastObject) {
                         NSLog(@"upload object finished!");
@@ -199,7 +208,11 @@ static OSSClient * client;
     [[task continueWithBlock:^id(OSSTask *task) {
         if (task.error)
         {
+            complete(UploadImageSuccess);
             OSSLogError(@"%@", task.error);
+            
+        }else{
+            complete(UploadImageFailed);
         }
         OSSPutObjectResult * result = task.result;
         NSLog(@"Result - requestId: %@, headerFields: %@",
@@ -207,7 +220,7 @@ static OSSClient * client;
               result.httpResponseHeaderFields);
         return nil;
     }] waitUntilFinished];
-    
+
     return encodingString;
 
     

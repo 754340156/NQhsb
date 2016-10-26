@@ -42,14 +42,15 @@ kBxtPropertyStrong UITableView *myTableview;
 }
 -(void)netWorkHelp
 {
-    NSDictionary *dic = @{@"account":[UserInfo account].account,
+    NSDictionary *parameters = @{@"account":[UserInfo account].account,
+                          @"token":[UserInfo account].token,
                           @"type":_selectType,
                           @"keyword":_searchTitle,
                           @"attribution":_searchTitleID,
                           @"pageIndex":[NSString stringWithFormat:@"%ld",_pageIndex],
                           @"pageSize":[NSString stringWithFormat:@"%ld",_pageSize]};
     [NetWorkHelp netWorkWithURLString:recordinglist
-                           parameters:dic
+                           parameters:parameters
                          SuccessBlock:^(NSDictionary *dic) {
                              if ([dic[@"code"] intValue] == 0) {
                                  _bigResponse = [BigForumResponse mj_objectWithKeyValues:dic[@"response"]];
@@ -68,10 +69,12 @@ kBxtPropertyStrong UITableView *myTableview;
 }
 -(void)netWorkHelpTitle
 {
-    NSDictionary *dic = @{@"account":[UserInfo account].account,
+
+    NSDictionary *parameters = @{@"account":[UserInfo account].account,
+                          @"token":[UserInfo account].token,
                           @"type":_selectType};
     [NetWorkHelp netWorkWithURLString:titleTree
-                           parameters:dic
+                           parameters:parameters
                          SuccessBlock:^(NSDictionary *dic) {
                              if ([dic[@"code"] intValue] == 0) {
                                  _responseTitle = [titleResponse mj_objectWithKeyValues:dic[@"response"]];

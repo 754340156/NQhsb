@@ -25,5 +25,11 @@
 
 @property (nonatomic, copy) NSString *cover;
 
+@property (nonatomic, copy) NSString *nickname;
+/**  收藏的type */
+@property (nonatomic,copy) NSString * type;
+#pragma mark - 学习计划中用到的属性
+/**  是否加入 */
+@property (nonatomic,assign) BOOL isAdd;
 @end
 

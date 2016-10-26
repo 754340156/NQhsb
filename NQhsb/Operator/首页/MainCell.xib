@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="11201" systemVersion="15G31" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" colorMatched="YES">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="11201" systemVersion="15G1004" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" colorMatched="YES">
     <dependencies>
         <deployment identifier="iOS"/>
         <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="11161"/>
@@ -69,7 +69,6 @@
                                     </button>
                                     <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="录音本" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="2dS-Jq-382">
                                         <constraints>
-                                            <constraint firstAttribute="height" relation="greaterThanOrEqual" constant="21" id="TpM-v9-Z6U"/>
                                             <constraint firstAttribute="height" constant="21" id="xVg-jm-m0R"/>
                                         </constraints>
                                         <fontDescription key="fontDescription" type="system" pointSize="14"/>
@@ -82,7 +81,7 @@
                                     <constraint firstItem="YjH-gw-K0X" firstAttribute="centerX" secondItem="Zmf-4F-55h" secondAttribute="centerX" id="QjG-S4-jXY"/>
                                     <constraint firstItem="2dS-Jq-382" firstAttribute="leading" secondItem="Zmf-4F-55h" secondAttribute="leading" id="UGm-KN-Hu7"/>
                                     <constraint firstItem="YjH-gw-K0X" firstAttribute="top" secondItem="Zmf-4F-55h" secondAttribute="top" constant="30" id="csl-7w-SaG"/>
-                                    <constraint firstAttribute="bottom" secondItem="2dS-Jq-382" secondAttribute="bottom" id="ofd-sQ-GKx"/>
+                                    <constraint firstAttribute="bottom" secondItem="2dS-Jq-382" secondAttribute="bottom" constant="5" id="ofd-sQ-GKx"/>
                                 </constraints>
                             </view>
                         </subviews>
@@ -161,7 +160,7 @@
                                     <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="weg-Gd-sxO">
                                         <state key="normal" backgroundImage="ICON_MusicAnalysis"/>
                                     </button>
-                                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="音乐分析" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="ILA-qe-R6x">
+                                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="录音分析" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="ILA-qe-R6x">
                                         <constraints>
                                             <constraint firstAttribute="height" relation="lessThanOrEqual" constant="21" id="apv-vm-pNK"/>
                                             <constraint firstAttribute="height" relation="greaterThanOrEqual" constant="21" id="cWe-E7-W2X"/>

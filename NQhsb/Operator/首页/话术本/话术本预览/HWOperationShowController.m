@@ -9,6 +9,7 @@
 #import "HWOperationShowController.h"
 #import "HWOperationCell.h"
 #import "HWOperationModel.h"
+#import "HWPublicWebController.h"
 static NSInteger pageIndex = 1;
 static NSInteger pageSize = 10;
 @interface HWOperationShowController ()<UITableViewDataSource,UITableViewDelegate>
@@ -47,9 +48,13 @@ static NSInteger pageSize = 10;
     self.tableView.mj_footer.hidden = YES;
 }
 #pragma mark - UITableViewDelegate
+-(CGFloat)tableView:(UITableView *)tableView heightForFooterInSection:(NSInteger)section
+{
+    return 0.1;
+}
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section
 {
-    self.tableView.mj_footer.hidden = (self.dataArray.count == 0);
+    self.tableView.mj_footer.hidden = (self.dataArray.count < pageSize);
     return  self.dataArray.count;
 }
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath
@@ -61,19 +66,27 @@ static NSInteger pageSize = 10;
 {
     return 106;
 }
+- (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
+{
+    HWPublicWebController *publicWebVC = [[HWPublicWebController alloc] init];
+    publicWebVC.type = self.selectType;
+    publicWebVC.RelevanceId = [self.dataArray[indexPath.row] dataId];
+    [self.navigationController pushViewController:publicWebVC animated:YES];
+}
 #pragma mark - network
 - (void)getDataWithType:(NSString *)type
 {
-    NSDictionary *dic = @{@"account":[UserInfo account].account,
-                          @"type":type};
+    NSDictionary *parameters = @{@"account":[UserInfo account].account,
+                                 @"token":[UserInfo account].token,
+                                 @"type":type};
     [NetWorkHelp netWorkWithURLString:self.apiStr
-                           parameters:dic
+                           parameters:parameters
                          SuccessBlock:^(NSDictionary *dic) {
                              if ([dic[@"code"] intValue] == 0) {
                                  self.dataArray = [HWOperationModel mj_objectArrayWithKeyValuesArray:dic[@"response"][@"list"]];
                                  [self.tableView reloadData];
                              }else{
-
+                                 
                                  [self showHint:dic[@"errorMessage"]];
                              }
                              [self.tableView.mj_footer endRefreshing];
@@ -86,18 +99,19 @@ static NSInteger pageSize = 10;
 }
 - (void)getMoreDataWithType:(NSString *)type
 {
-    NSDictionary *dic = @{@"account":[UserInfo account].account,
-                          @"type":type,
-                          @"pageIndex":@(++pageIndex),
-                          @"pageSize":@(pageSize)};
+    NSDictionary *parameters = @{@"account":[UserInfo account].account,
+                                 @"token":[UserInfo account].token,
+                                 @"type":type,
+                                 @"pageIndex":@(++pageIndex),
+                                 @"pageSize":@(pageSize)};
     [NetWorkHelp netWorkWithURLString:self.apiStr
-                           parameters:dic
+                           parameters:parameters
                          SuccessBlock:^(NSDictionary *dic) {
                              if ([dic[@"code"] intValue] == 0) {
                                  [self.dataArray addObjectsFromArray:[HWOperationModel mj_objectArrayWithKeyValuesArray:dic[@"response"][@"list"]]];
                                  if ( [dic[@"response"][@"count"] integerValue] < pageSize) {
                                      [self.tableView.mj_footer endRefreshingWithNoMoreData];
-                                     return ;
+                                     return;
                                  }
                                  [self.tableView reloadData];
                              }else{

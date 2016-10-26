@@ -29,7 +29,7 @@ kBxtPropertyStrong UIButton *kBxtBigForumTwo;
 {
     _kBxtBigForumOne = [[UIButton alloc] initWithFrame:CGRectMake(0, 64, WIDTH, (HEIGHT-64)/2-5)];
     [_kBxtBigForumOne setBackgroundImage:[UIImage imageNamed:@"销售职"] forState:UIControlStateNormal];
-      [_kBxtBigForumOne setBackgroundImage:[UIImage imageNamed:@"销售职"] forState:UIControlStateSelected];
+    [_kBxtBigForumOne setBackgroundImage:[UIImage imageNamed:@"销售职"] forState:UIControlStateSelected];
     [_kBxtBigForumOne addTarget:self action:@selector(kBxtBigForumOneClick) forControlEvents:UIControlEventTouchUpInside];
     [self.view addSubview:_kBxtBigForumOne];
     

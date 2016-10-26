@@ -9,6 +9,7 @@
 #import "HWMyOperationController.h"
 #import "HWOperationCell.h"
 #import "HWOperationModel.h"
+#import "HWPublicWebController.h" //详情
 static NSInteger pageIndex = 1;
 static NSInteger pageSize = 10;
 @interface HWMyOperationController ()<UITableViewDataSource,UITableViewDelegate>
@@ -48,7 +49,7 @@ static NSInteger pageSize = 10;
     
     [self setRefresh];
     self.scView = [[LXSegmentScrollView alloc]
-               initWithFrame:CGRectMake(0, 64, WIDTH, HEIGHT-64-49)
+               initWithFrame:CGRectMake(0, 64, WIDTH, HEIGHT-64)
                titleArray:@[@"文本",@"图片",@"录音",]
                contentViewArray:self.contentTableViewArr
                SuccessBlock:^(NSInteger index) {
@@ -73,6 +74,7 @@ static NSInteger pageSize = 10;
 -(void)netWorkHelpWithWordsType:(NSInteger)wordsType
 {
     NSDictionary  *parameters=@{@"account":[UserInfo account].account,
+                                @"token":[UserInfo account].token,
                                 @"type":@(3),
                                 @"wordsType":@(wordsType)};
     
@@ -141,6 +143,7 @@ static NSInteger pageSize = 10;
 -(void)netWorkMoreDataWithWordsType:(NSInteger)wordsType
 {
     NSDictionary *dic = @{@"account":[UserInfo account].account,
+                          @"token":[UserInfo account].token,
                           @"type":@(3),
                           @"wordsType":@(wordsType),
                           @"pageIndex":@(++pageIndex),
@@ -260,6 +263,7 @@ static NSInteger pageSize = 10;
         self.tableView1.mj_header = [MJRefreshNormalHeader headerWithRefreshingBlock:^{
             [self netWorkHelpWithWordsType:1];
         }];
+        self.tableView1.tableFooterView=[[UIView alloc] init];
         [self.contentTableViewArr addObject:self.tableView1];
     }
     return self.tableView1;
@@ -268,6 +272,9 @@ static NSInteger pageSize = 10;
 {
     if (!self.tableView2) {
         self.tableView2 = [[UITableView alloc] init];
+        
+        self.tableView2.tableFooterView=[[UIView alloc] init];
+        
         self.tableView2.frame = CGRectMake(0, 64, WIDTH, HEIGHT-64);
         self.tableView2.delegate = self;
         self.tableView2.dataSource = self;
@@ -284,6 +291,7 @@ static NSInteger pageSize = 10;
     if (!self.tableView3) {
         self.tableView3 = [[UITableView alloc] init];
         self.tableView3.frame = CGRectMake(0, 64, WIDTH, HEIGHT-64);
+        self.tableView3.tableFooterView=[[UIView alloc] init];
         self.tableView3.delegate = self;
         self.tableView3.dataSource = self;
         [self.tableView3 registerNib:[UINib nibWithNibName:NSStringFromClass([HWOperationCell class]) bundle:nil] forCellReuseIdentifier:NSStringFromClass([HWOperationCell class])];
@@ -299,18 +307,22 @@ static NSInteger pageSize = 10;
 {
     if ([tableView isEqual:self.tableView1])
     {
-        self.tableView1.mj_footer.hidden = (self.dataArray1.count == 0);
+        self.tableView1.mj_footer.hidden = (self.dataArray1.count < pageSize);
         return self.dataArray1.count;
     }else if ([tableView isEqual:self.tableView2])
     {
-        self.tableView2.mj_footer.hidden = (self.dataArray2.count == 0);
+        self.tableView2.mj_footer.hidden = (self.dataArray2.count < pageSize);
         return self.dataArray2.count;
     }else if ([tableView isEqual:self.tableView3])
     {
-        self.tableView3.mj_footer.hidden = (self.dataArray3.count == 0);
+        self.tableView3.mj_footer.hidden = (self.dataArray3.count < pageSize);
         return self.dataArray3.count;
     }
     return  0;
+}
+-(CGFloat)tableView:(UITableView *)tableView heightForFooterInSection:(NSInteger)section
+{
+    return 0.1;
 }
 -(CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath
 {
@@ -319,6 +331,7 @@ static NSInteger pageSize = 10;
 -(UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath
 {
     HWOperationCell *cell = [tableView dequeueReusableCellWithIdentifier:NSStringFromClass([HWOperationCell class])];
+    cell.selectionStyle=UITableViewCellSelectionStyleNone;
     if ([tableView isEqual:self.tableView1])
     {
         cell.model = self.dataArray1[indexPath.row];
@@ -330,6 +343,27 @@ static NSInteger pageSize = 10;
         cell.model = self.dataArray3[indexPath.row];
     }
     return cell;
+}
+#pragma mark --点击单元格
+-(void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
+{
+    HWPublicWebController  *webVc=[[HWPublicWebController alloc] init];
+    webVc.type=@"3"; //话术本
+    if ([tableView isEqual:self.tableView1])//文本
+    {
+        HWOperationModel *model=self.dataArray1[indexPath.row];
+        webVc.RelevanceId=model.dataId;
+       
+    }else if ([tableView isEqual:self.tableView2])//图片
+    {
+        HWOperationModel *model=self.dataArray2[indexPath.row];
+          webVc.RelevanceId=model.dataId;
+    }else if ([tableView isEqual:self.tableView3])//语音
+    {
+         HWOperationModel *model=self.dataArray3[indexPath.row];
+         webVc.RelevanceId=model.dataId;
+    }
+    [self.navigationController pushViewController:webVc animated:YES];
 }
 #pragma  mark - lazy
 - (NSMutableArray *)dataArray1
@@ -353,7 +387,5 @@ static NSInteger pageSize = 10;
     }
     return _dataArray3;
 }
-
-
 
 @end

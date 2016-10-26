@@ -12,15 +12,18 @@
 {
     
     UITableView *_tableView;
-    
 }
+/**  <#注释#> */
+@property (nonatomic,strong) NSMutableArray * dataArray;
+/**  <#注释#> */
+@property (nonatomic,strong) NSMutableArray * iconArray;
 @end
 
 @implementation HWPhoneViewController
 
 - (void)viewDidLoad {
     [super viewDidLoad];
-    self.titleLabel.text = @"联系客服";
+    self.titleLabel.text = self.titleText;
     [self maketableView];
 }
 -(void)maketableView{
@@ -45,20 +48,8 @@
     {
         cell=[[UITableViewCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:@"Mr-yuwei"];
     }
-    switch (indexPath.section)
-    {
-        case 0:
-            cell.imageView.image=[UIImage imageNamed:@"Collect_ICON_Select"];
-            cell.textLabel.text=@"service@zaih.com";
-            break;
-        case 1:
-             cell.imageView.image=[UIImage imageNamed:@"Collect_ICON_Select"];
-            cell.textLabel.text=@"400-0000-0000(工作日10:00-18:00)";
-            break;
-            
-        default:
-            break;
-    }
+    cell.imageView.image = [UIImage imageNamed:self.iconArray[indexPath.section]];
+    cell.textLabel.text = self.dataArray[indexPath.section];
     cell.textLabel.textColor=[UIColor grayColor];
     [cell setBackgroundColor:[UIColor colorWithRed:223.0/255 green:223.0/255  blue:223.0/255  alpha:1.0]];
     return cell;
@@ -117,23 +108,36 @@
 #pragma mark --点击事件
 -(void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
 {
-    
-    
-    
+    if (indexPath.section == 0) {
+        NSString *mail = self.dataArray[indexPath.section];
+        [[UIApplication sharedApplication] openURL:[NSURL URLWithString:[NSString stringWithFormat:@"mailto://%@",mail]]];
+    }else if (indexPath.section == 1)
+    {
+        NSString *phoneNum = [self.dataArray[indexPath.section] substringToIndex:12];
+        UIAlertController *alertVC = [UIAlertController alertControllerWithTitle:[NSString stringWithFormat:@"确定要拨打%@",phoneNum] message:nil preferredStyle:UIAlertControllerStyleAlert];
+        UIAlertAction *okAction = [UIAlertAction actionWithTitle:@"确定" style:UIAlertActionStyleDefault handler:^(UIAlertAction * _Nonnull action) {
+            [[UIApplication sharedApplication] openURL:[NSURL URLWithString:[NSString stringWithFormat:@"tel://%@",phoneNum]]];
+        }];
+        UIAlertAction *cancelAction = [UIAlertAction actionWithTitle:@"取消" style:UIAlertActionStyleCancel handler:nil];
+        [alertVC addAction:okAction];
+        [alertVC addAction:cancelAction];
+        [self presentViewController:alertVC animated:YES completion:nil];
+        
+    }
 }
-- (void)didReceiveMemoryWarning {
-    [super didReceiveMemoryWarning];
-    // Dispose of any resources that can be recreated.
+#pragma mark - lazy
+- (NSMutableArray *)dataArray
+{
+    if (!_dataArray) {
+        _dataArray = @[@"service@zaih.com",@"400-0000-0000(工作日10:00-18:00)"].mutableCopy;
+    }
+    return _dataArray;
 }
-
-/*
-#pragma mark - Navigation
-
-// In a storyboard-based application, you will often want to do a little preparation before navigation
-- (void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender {
-    // Get the new view controller using [segue destinationViewController].
-    // Pass the selected object to the new view controller.
+- (NSMutableArray *)iconArray
+{
+    if (!_iconArray) {
+        _iconArray = @[@"ICON_mailbox",@"ICON_Telephone"].mutableCopy;
+    }
+    return _iconArray;
 }
-*/
-
 @end

@@ -7,8 +7,9 @@
 //
 
 #import "HelpViewController.h"
-#import "HWAboutViewController.h"//关于
-#import "HWPhoneViewController.h"//联系方式
+#import "HWAboutViewController.h"//关于Or使用
+#import "HWPhoneViewController.h"//联系
+#import "HWUserBackController.h"//用户反馈
 static NSString *kBxtCell = @"cell";
 
 @interface HelpViewController ()<UITableViewDelegate,UITableViewDataSource>
@@ -77,6 +78,7 @@ kBxtPropertyStrong NSMutableArray *kBxtTitleArr;
         case 0:
         {
             HWAboutViewController  *aboutVC=[[HWAboutViewController alloc] init];
+            aboutVC.titleText = self.kBxtTitleArr[indexPath.row];
             self.hidesBottomBarWhenPushed=YES;
             [self.navigationController pushViewController:aboutVC animated:YES];
             self.hidesBottomBarWhenPushed=NO;
@@ -86,6 +88,7 @@ kBxtPropertyStrong NSMutableArray *kBxtTitleArr;
         case 1://使用帮助应该需要H5--->
         {
             HWAboutViewController  *aboutVC=[[HWAboutViewController alloc] init];
+            aboutVC.titleText = self.kBxtTitleArr[indexPath.row];
             self.hidesBottomBarWhenPushed=YES;
             [self.navigationController pushViewController:aboutVC animated:YES];
             self.hidesBottomBarWhenPushed=NO;
@@ -94,6 +97,7 @@ kBxtPropertyStrong NSMutableArray *kBxtTitleArr;
         case 2:
         {
             HWPhoneViewController  *phoneVC=[[HWPhoneViewController alloc] init];
+            phoneVC.titleText = self.kBxtTitleArr[indexPath.row];
             self.hidesBottomBarWhenPushed=YES;
             [self.navigationController pushViewController:phoneVC animated:YES];
              self.hidesBottomBarWhenPushed=NO;
@@ -101,7 +105,11 @@ kBxtPropertyStrong NSMutableArray *kBxtTitleArr;
             break;
         case 3: //意见反馈-->目前还没有找到接口
         {
-            
+            HWUserBackController *userBackVC = [[HWUserBackController alloc] init];
+            userBackVC.titleText = self.kBxtTitleArr[indexPath.row];
+            self.hidesBottomBarWhenPushed = YES;
+            [self.navigationController pushViewController:userBackVC animated:YES];
+            self.hidesBottomBarWhenPushed = NO;
         }
             break;
             
@@ -109,10 +117,5 @@ kBxtPropertyStrong NSMutableArray *kBxtTitleArr;
             break;
     }
 }
-- (void)didReceiveMemoryWarning {
-    [super didReceiveMemoryWarning];
-    // Dispose of any resources that can be recreated.
-}
-
 
 @end

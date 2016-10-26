@@ -177,10 +177,8 @@
         [self showHint:@"请输入你的个性签名"];
         return;
     }
-
-   // [self showHudInView:self.view hint:nil];
+    [self showHudInView:self.view hint:@"加载中..."];
     [ALiYunTool asyncUploadImages:@[_headerImage] complete:^(NSArray<NSString *> *names, UploadImageState state) {
-       // [self hideHud];
         [self  finish:names[0]];
     }];
 }
@@ -194,29 +192,24 @@
 
     [NetWorkHelp  netWorkWithURLString:userupdatUser parameters:parameters SuccessBlock:^(NSDictionary *dic)
      {
-         //[self hideHud];
+         [self hideHud];
          if ([dic[@"code"]integerValue]==0)
          {
              XBAccessLoginTokenResult *result = [XBAccessLoginTokenResult mj_objectWithKeyValues:dic[@"response"][@"user"]];
              [UserInfo saveAccount:result];
         //这里需要保存用户的信息
         dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(1.5 * NSEC_PER_SEC)), dispatch_get_main_queue(), ^{
-                 
-                 [self.navigationController popViewControllerAnimated:YES];
+        [self.navigationController popViewControllerAnimated:YES];
          });
-             
          }else
          {
              [self showHint:dic[@"errorMessage"]];
-             
          }
      } failBlock:^(NSError *error)
      {
-       // [self hideHud];
+       [self hideHud];
         [self showHint:@"网络连接失败"];
      }];
-
-       
 }
 
 - (void)didReceiveMemoryWarning {

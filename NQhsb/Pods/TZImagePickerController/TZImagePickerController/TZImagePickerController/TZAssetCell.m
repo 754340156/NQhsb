@@ -31,7 +31,7 @@
 - (void)awakeFromNib {
     self.timeLength.font = [UIFont boldSystemFontOfSize:11];
 }
-*/
+ */
 
 - (void)setModel:(TZAssetModel *)model {
     _model = model;
@@ -46,7 +46,7 @@
         if ([self.representedAssetIdentifier isEqualToString:[[TZImageManager manager] getAssetIdentifier:model.asset]]) {
             self.imageView.image = photo;
         } else {
-            // NSLog(@"this cell is showing other asset");
+            NSLog(@"this cell is showing other asset");
             [[PHImageManager defaultManager] cancelImageRequest:self.imageRequestID];
         }
         if (!isDegraded) {
@@ -55,7 +55,7 @@
     }];
     if (imageRequestID && self.imageRequestID && imageRequestID != self.imageRequestID) {
         [[PHImageManager defaultManager] cancelImageRequest:self.imageRequestID];
-        // NSLog(@"cancelImageRequest %d",self.imageRequestID);
+        NSLog(@"cancelImageRequest %d",self.imageRequestID);
     }
     self.imageRequestID = imageRequestID;
     self.selectPhotoButton.selected = model.isSelected;
@@ -113,9 +113,6 @@
         imageView.clipsToBounds = YES;
         [self.contentView addSubview:imageView];
         _imageView = imageView;
-        
-        [self.contentView bringSubviewToFront:_selectImageView];
-        [self.contentView bringSubviewToFront:_bottomView];
     }
     return _imageView;
 }

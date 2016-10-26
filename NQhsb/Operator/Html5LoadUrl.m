@@ -12,11 +12,13 @@
 +(void)loadUrlWithRelevanceId:(NSString *)relevanceId type:(NSString *)type SuccessBlock:(void(^)(NSString *url))successBlock failBlock:(void(^)(NSError*error))failBlock
 {
     __block NSString *str;
-    NSDictionary *dic = @{@"account":[UserInfo account].account,
+
+    NSDictionary *parameters = @{@"account":[UserInfo account].account,
+                          @"token":[UserInfo account].token,
                           @"relevanceId":relevanceId,
                           @"type":type};
     [NetWorkHelp netWorkWithURLString:H5linkPath
-                           parameters:dic
+                           parameters:parameters
                          SuccessBlock:^(NSDictionary *dic) {
                              str = dic[@"response"][@"linkPath"];
                              successBlock(str);

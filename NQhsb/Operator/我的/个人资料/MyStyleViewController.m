@@ -185,7 +185,8 @@ kBxtPropertyStrong UILabel *kBxtMyNameLabel;
 #pragma mark --获取用户的信息
 -(void)loadSelfInfo
 {
-    NSDictionary *parameters=@{@"account":[UserInfo account].account};
+    NSDictionary *parameters=@{@"account":[UserInfo account].account,
+                               @"token":[UserInfo account].token};
     
     [NetWorkHelp  netWorkWithURLString:getUserData parameters:parameters SuccessBlock:^(NSDictionary *dic)
      {
@@ -199,7 +200,6 @@ kBxtPropertyStrong UILabel *kBxtMyNameLabel;
              
              [_kBxtHeadImageBtn sd_setImageWithURL:[NSURL URLWithString:dic[@"response"][@"user"][@"headpic"]] forState:UIControlStateNormal placeholderImage:[UIImage imageNamed:@"MINE_ICON_Unselected"]];
              [self.myTableview reloadData];
-             
          }else
          {
              [self showHint:dic[@"errorMessage"]];
