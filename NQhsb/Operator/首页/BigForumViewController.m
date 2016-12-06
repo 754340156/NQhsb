@@ -15,6 +15,12 @@ kBxtPropertyStrong UIButton *kBxtBigForumOne;
 
 kBxtPropertyStrong UIButton *kBxtBigForumTwo;
 
+kBxtPropertyStrong UIView   *kHeadView;
+
+kBxtPropertyStrong UIView   *kFootView;
+
+kBxtPropertyStrong UIView   *centerView;
+
 @end
 
 @implementation BigForumViewController
@@ -27,21 +33,37 @@ kBxtPropertyStrong UIButton *kBxtBigForumTwo;
 }
 -(void)createUI
 {
-    _kBxtBigForumOne = [[UIButton alloc] initWithFrame:CGRectMake(0, 64, WIDTH, (HEIGHT-64)/2-5)];
-    [_kBxtBigForumOne setBackgroundImage:[UIImage imageNamed:@"销售职"] forState:UIControlStateNormal];
-    [_kBxtBigForumOne setBackgroundImage:[UIImage imageNamed:@"销售职"] forState:UIControlStateSelected];
+    self.kHeadView = [[UIView alloc] init];
+    _kHeadView.frame = CGRectMake(0, 64, WIDTH, (HEIGHT-64)/2-5);
+    [_kHeadView setBackgroundColor:[UIColor whiteColor]];
+    [self.view addSubview:_kHeadView];
+    
+    self.centerView = [[UIView alloc] initWithFrame:CGRectMake(0, _kHeadView.bottom, WIDTH, 10)];
+    _centerView.backgroundColor = [UIColor colorWithRed:0.8916 green:0.8916 blue:0.8916 alpha:1.0];
+    [self.view addSubview:_centerView];
+    
+    self.kFootView = [[UIView alloc] init];
+    [_kFootView setFrame:CGRectMake(0, _centerView.bottom, WIDTH, HEIGHT-_centerView.bottom)];
+    [_kFootView setBackgroundColor:[UIColor whiteColor]];
+    [self.view addSubview:_kFootView];
+    
+    _kBxtBigForumOne = [[UIButton alloc] initWithFrame:CGRectMake(40, 30, _kHeadView.width-80, _kHeadView.height-60)];
+    [_kBxtBigForumOne.layer setMasksToBounds:YES];
+    [_kBxtBigForumOne.layer setShadowRadius:1];
+    [_kBxtBigForumOne.layer setShadowColor:[UIColor blackColor].CGColor];
+    [_kBxtBigForumOne setBackgroundImage:[UIImage imageNamed:@"xiaoshouzhi"] forState:UIControlStateNormal];
+    [_kBxtBigForumOne setBackgroundImage:[UIImage imageNamed:@"xiaoshouzhi"] forState:UIControlStateSelected];
     [_kBxtBigForumOne addTarget:self action:@selector(kBxtBigForumOneClick) forControlEvents:UIControlEventTouchUpInside];
-    [self.view addSubview:_kBxtBigForumOne];
+    [_kHeadView addSubview:_kBxtBigForumOne];
     
-    UIView *centerView = [[UIView alloc] initWithFrame:CGRectMake(0, _kBxtBigForumOne.bottom, WIDTH, 10)];
-    centerView.backgroundColor = [UIColor colorWithRed:0.8916 green:0.8916 blue:0.8916 alpha:1.0];
-    [self.view addSubview:centerView];
-    
-    _kBxtBigForumTwo = [[UIButton alloc] initWithFrame:CGRectMake(0, centerView.bottom, WIDTH, _kBxtBigForumOne.height)];
-    [_kBxtBigForumTwo setBackgroundImage:[UIImage imageNamed:@"管理职"] forState:UIControlStateNormal];
-     [_kBxtBigForumTwo setBackgroundImage:[UIImage imageNamed:@"管理职"] forState:UIControlStateSelected];
+    _kBxtBigForumTwo = [[UIButton alloc] initWithFrame:CGRectMake(40, 30, _kFootView.width-80, _kFootView.height-60)];
+    [_kBxtBigForumTwo.layer setMasksToBounds:YES];
+    [_kBxtBigForumTwo.layer setShadowRadius:1];
+    [_kBxtBigForumTwo.layer setShadowColor:[UIColor blackColor].CGColor];
+    [_kBxtBigForumTwo setBackgroundImage:[UIImage imageNamed:@"guanlizhi"] forState:UIControlStateNormal];
+     [_kBxtBigForumTwo setBackgroundImage:[UIImage imageNamed:@"guanlizhi"] forState:UIControlStateSelected];
     [_kBxtBigForumTwo addTarget:self action:@selector(kBxtBigForumTwoClick) forControlEvents:UIControlEventTouchUpInside];
-    [self.view addSubview:_kBxtBigForumTwo];
+    [_kFootView addSubview:_kBxtBigForumTwo];
     
 }
 //销售职

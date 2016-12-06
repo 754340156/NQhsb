@@ -8,10 +8,12 @@
 
 #import "MyStyleViewController.h"
 #import "MySettingViewController.h"
+#import "CSAnimationView.h"
 #import "HWReSetKeyViewController.h" //修改密码
 #import "YWWeakSelfInfoViewController.h" //编辑个人信息
 #import "HWSelfintegralController.h" //我的积分
 #import "HWReChargeController.h" //会员充值
+
 static NSString *kBxtCell = @"cell";
 
 @interface MyStyleViewController ()<UITableViewDelegate,UITableViewDataSource>
@@ -25,6 +27,8 @@ kBxtPropertyStrong UIView *kBxtHeadView;
 kBxtPropertyStrong UIButton *kBxtHeadImageBtn;
 
 kBxtPropertyStrong UILabel *kBxtMyNameLabel;
+
+kBxtPropertyStrong CSAnimationView *animationView;
 
 @end
 
@@ -42,7 +46,7 @@ kBxtPropertyStrong UILabel *kBxtMyNameLabel;
     // Do any additional setup after loading the view.
 //    self.titleLabel.text = @"我的";
     self.navigationBarBackground.hidden = YES;
-    self.view.backgroundColor = [UIColor lightGrayColor];
+    self.view.backgroundColor = BXT_BACKGROUND_COLOR;
     [self kBxtTitleArr];
     [self myTableview];
     [self kBxtHeadView];
@@ -60,11 +64,22 @@ kBxtPropertyStrong UILabel *kBxtMyNameLabel;
         _kBxtHeadView = [[UIView alloc] init];
         _kBxtHeadView.frame = CGRectMake(0, 0, WIDTH, 170);
         _kBxtHeadView.backgroundColor = _myTableview.backgroundColor;
-        _kBxtHeadImageBtn = [[UIButton alloc] initWithFrame:CGRectMake(WIDTH/2-30, _kBxtHeadView.height/2-30, 60, 60)];
+        
+//        _animationView = [[CSAnimationView alloc] initWithFrame:CGRectMake(WIDTH/2-30, _kBxtHeadView.height/2-30, 60, 60)];
+//        _animationView.backgroundColor = [UIColor redColor];
+//        _animationView.duration = 1;
+//        _animationView.delay    = 0;
+//        _animationView.type =CSAnimationTypeBounceDown ;
+//        [_kBxtHeadView addSubview:_animationView];
+        
+        _kBxtHeadImageBtn = [[UIButton alloc] init];
+        _kBxtHeadImageBtn.frame = CGRectMake(WIDTH/2-30, _kBxtHeadView.height/2-30, 60, 60);
         [_kBxtHeadImageBtn addTarget:self action:@selector(pushtoWeakselfInfo) forControlEvents:UIControlEventTouchUpInside];
-        _kBxtHeadImageBtn.backgroundColor = [UIColor redColor];
+        _kBxtHeadImageBtn.backgroundColor = KTabBarColor;
         _kBxtHeadImageBtn.layer.masksToBounds = YES;
         _kBxtHeadImageBtn.layer.cornerRadius  = _kBxtHeadImageBtn.width/2;
+        [_kBxtHeadView addSubview:_kBxtHeadImageBtn];
+        
         [_kBxtHeadView addSubview:_kBxtHeadImageBtn];
         _kBxtMyNameLabel = [[UILabel alloc] init];
         _kBxtMyNameLabel.frame = CGRectMake(_kBxtHeadImageBtn.left, _kBxtHeadImageBtn.bottom+5, _kBxtHeadImageBtn.width, 20);
@@ -214,6 +229,10 @@ kBxtPropertyStrong UILabel *kBxtMyNameLabel;
     
     
 }
+//-(void)viewDidAppear:(BOOL)animated
+//{
+//    [_animationView startCanvasAnimation];
+//}
 /*
 #pragma mark - Navigation
 

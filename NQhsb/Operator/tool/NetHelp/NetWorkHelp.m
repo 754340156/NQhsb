@@ -1,14 +1,20 @@
 //
 //  NetWorkHelp.m
-//  Thousands Of Donkey
+//  Thousands Of jock
 //
 //  Created by a on 15/7/23.
-//  Copyright (c) 2015年 NeiQuan. All rights reserved.
+//  Copyright (c) 2015年 jock. All rights reserved.
 //
 
 #import "NetWorkHelp.h"
 
+typedef NS_ENUM(NSInteger, kBxtNewWorkErrorCode){
+    kBxtNewWorkErrorCodeFinish = 0, //请求成功
+    kBxtNewWorkErrorCodeError  = 1<5,//请求错误，缺少参数，具体看接口文档
+};
+
 @implementation NetWorkHelp
+
 //POST请求
 + (void)netWorkWithURLString:(NSString *)urlString parameters:(NSDictionary*)parameters SuccessBlock:(void(^)(NSDictionary*dic))successBlock failBlock:(void(^)(NSError*error))failBlock
 {
@@ -24,11 +30,14 @@
         
     } success:^(NSURLSessionDataTask * _Nonnull task, id  _Nullable responseObject) {
         NSDictionary *dictionary = [NSJSONSerialization JSONObjectWithData:responseObject options:NSJSONReadingMutableContainers error:nil];
-        successBlock(dictionary);
+        
+            successBlock(dictionary);
         
     } failure:^(NSURLSessionDataTask * _Nullable task, NSError * _Nonnull error) {
-        LogError(@"Error: %@", error.description);
-        failBlock(error);
+        
+            LogError(@"Error: %@", error.description);
+            failBlock(error);
+        
     }];
 }
 +(NSString*)DataTOjsonString:(id)object

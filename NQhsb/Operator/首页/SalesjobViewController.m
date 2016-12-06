@@ -43,12 +43,12 @@ kBxtPropertyStrong UITableView *myTableview;
 -(void)netWorkHelp
 {
     NSDictionary *parameters = @{@"account":[UserInfo account].account,
-                          @"token":[UserInfo account].token,
-                          @"type":_selectType,
-                          @"keyword":_searchTitle,
-                          @"attribution":_searchTitleID,
-                          @"pageIndex":[NSString stringWithFormat:@"%ld",_pageIndex],
-                          @"pageSize":[NSString stringWithFormat:@"%ld",_pageSize]};
+                                 @"token":[UserInfo account].token,
+                                 @"type":_selectType,
+                                 @"keyword":_searchTitle,
+                                 @"attribution":_searchTitleID,
+                                 @"pageIndex":[NSString stringWithFormat:@"%ld",_pageIndex],
+                                 @"pageSize":[NSString stringWithFormat:@"%ld",_pageSize]};
     [NetWorkHelp netWorkWithURLString:recordinglist
                            parameters:parameters
                          SuccessBlock:^(NSDictionary *dic) {
@@ -83,7 +83,7 @@ kBxtPropertyStrong UITableView *myTableview;
                                  [self showHint:dic[@"errorMessage"]];
                              }
                          } failBlock:^(NSError *error) {
-                             
+                             [self showHint:kBxtNetWorkError];
                          }];
 }
 -(void)createTitle
@@ -259,6 +259,7 @@ kBxtPropertyStrong UITableView *myTableview;
 {
     SalesjobCell *cell = [tableView dequeueReusableCellWithIdentifier:kBxtSalesjobCell];
     cell.list = _bigResponse.list[indexPath.row];
+    cell.accessoryType = UITableViewCellAccessoryDisclosureIndicator;
     return cell;
 }
 -(void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
@@ -270,9 +271,11 @@ kBxtPropertyStrong UITableView *myTableview;
                             SuccessBlock:^(NSString *url) {
                                 job.kBxtH5Url = url;
                                 job.kBxtTitle = list.title;
+                                job.relevanceId = list.dataId;
+                                job.type        = list.type;
                                 [self.navigationController pushViewController:job animated:YES];
                             } failBlock:^(NSError *error) {
-                                [self showHint:@"连接失败,请检查网络连接"];
+                                [self showHint:kBxtNetWorkError];
                             }];
     
 }

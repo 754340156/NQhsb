@@ -8,8 +8,10 @@
 
 #import <UIKit/UIKit.h>
 #import "BigForumModels.h"
-
+#import "MainSearchFinishModels.h"
 @interface SalesjobCell : UITableViewCell
 
 @property (nonatomic,strong) BigForumList *list;
+
+@property (nonatomic,strong) MainSearchFinishList *searchList;
 @end

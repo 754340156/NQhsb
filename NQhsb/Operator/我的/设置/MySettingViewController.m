@@ -32,13 +32,13 @@ kBxtPropertyStrong NSMutableArray *kBxtTitleArr;
 {
     __weak typeof(self)weakself=self;
     UIButton  *layoutButton=[UIButton buttonWithType:UIButtonTypeCustom];
-    [layoutButton setFrame:CGRectMake(30, self.view.height-150, [UIScreen mainScreen].bounds.size.width-60, 40)];
+    [layoutButton setFrame:CGRectMake(0, self.view.height-150, WIDTH, 45)];
     [layoutButton setTitle:@"退出登录" forState:UIControlStateNormal];
     [layoutButton setTitleColor:[UIColor whiteColor] forState:UIControlStateNormal];
     [layoutButton addTarget:weakself action:@selector(uerLayout) forControlEvents:UIControlEventTouchUpInside];
     [layoutButton setBackgroundColor:KTabBarColor];
-    layoutButton .layer.cornerRadius=5.0f;
-    layoutButton.layer.masksToBounds=YES;
+//    layoutButton .layer.cornerRadius=5.0f;
+//    layoutButton.layer.masksToBounds=YES;
     [self.view addSubview: layoutButton];
     
 }

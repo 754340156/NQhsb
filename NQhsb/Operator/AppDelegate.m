@@ -11,6 +11,7 @@
 #import "HWNavigationController.h"
 #import "WXApi.h"
 #import "AppDelegate+UMengShare.h"
+#import "AppDelegate+JPush.h"
 @interface AppDelegate ()<WXApiDelegate>
 
 @end
@@ -28,9 +29,11 @@
         HWNavigationController *loginNav = [[HWNavigationController alloc] initWithRootViewController:login];
         [MainWindow setRootViewController:loginNav];
     }
-     [WXApi registerApp:@"wxd930ea5d5a258f4f" withDescription:@"demo 2.0"];//微信支付
+    [WXApi registerApp:@"wx5a8faf4ce5c9cac7" withDescription:@"话务员"];
+    
     //友盟分享设置
     [self UMengShareSetupWithApplication:application didFinishLaunchingWithOptions:launchOptions];
+    [self JpushApplication:application didFinishLaunchingWithOptions:launchOptions];
     return YES;
 }
 

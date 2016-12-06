@@ -10,8 +10,10 @@
 //
 
 
-//#define OperatorApi     @"http://192.168.124.7:8080/telephone-operator"
-#define OperatorApi     @"http://139.129.222.124:8080/telephone-operator"
+//#define OperatorApi     @"http://192.168.1.112:8080/telephone-operator"
+//#define OperatorApi     @"http://139.129.222.124:8080/telephone-operator"
+#define OperatorApi     @"http://telephone-operator.tunnel.qydev.com/telephone-operator"
+
 
 
 /**
@@ -105,6 +107,10 @@
 #define H5linkPath   @"/recording/linkPath.do"
 
 /**
+ *  说明页面
+ */
+#define H5HelpUrl    @"/chain/queryInstructions.do"
+/**
  *  最近播放
  */
 #define checklist   @"/recording/checklist.do"
@@ -137,29 +143,31 @@
 #define recentlySearch   @"/recording/recentlySearch.do"
 
 /**
- *  <#apiName#>
+ *  添加收藏
  */
-//#define <#name#>   <#api#>
+#define collectionadd   @"/collection/add.do"
+
 
 /**
- *  <#apiName#>
+ *  添加话术本
  */
-//#define <#name#>   <#api#>
+#define recordingaddwords   @"/recording/addwords.do"
+
 
 /**
- *  <#apiName#>
+ *  生成录音分析
  */
-//#define <#name#>   <#api#>
+#define questiongenerate    @"/question/generate.do"
 
 /**
- *  <#apiName#>
+ *  删除话术本
  */
-//#define <#name#>   <#api#>
+#define recordingdelete   @"/recording/delete.do"
 
 /**
- *  <#apiName#>
+ *  充值说明
  */
-//#define <#name#>   <#api#>
+#define chainqueryInstructions   @"/chain/queryInstructions.do"
 
 /**
  *  <#apiName#>

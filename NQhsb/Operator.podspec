@@ -22,8 +22,6 @@ Pod::Spec.new do |s|
   s.dependencies =	pod 'SDCycleScrollView', '~> 1.64'#轮播器
   s.dependencies =	pod 'IQKeyboardManager'#用于键盘管理
   s.dependencies =	pod 'GJCFUitils'#各种常用宏的集合
-  s.dependencies =	pod 'JPush-iOS-SDK', '~> 2.1.7'
-  s.dependencies =	pod 'UMengSocialCOM', '~> 5.2.1'
   s.dependencies =	pod 'SDCycleScrollView','~> 1.64'
   s.dependencies =	pod 'CocoaAsyncSocket', '~> 7.4.3'
   s.dependencies =	pod 'TZImagePickerController', '~> 1.4.4'

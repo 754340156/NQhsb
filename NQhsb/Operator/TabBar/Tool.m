@@ -66,7 +66,7 @@
         UITabBarController *tabBarController = [[UITabBarController alloc] init];
         tabBarController.tabBar.backgroundColor=[UIColor colorWithRed:0.9037 green:0.899 blue:0.9085 alpha:1.0];
         tabBarController.viewControllers = viewArr;
-        tabBarController.tabBar.backgroundImage=[UIImage createImageWithColor:kBxtBackgroundColor];
+        tabBarController.tabBar.backgroundImage=[UIImage createImageWithColor:[UIColor whiteColor]];
         tabBarController.selectedIndex = 0;
         UIView *view=[[UIView alloc]init];
         view.frame=CGRectMake(0, 0, WIDTH, 0.5);

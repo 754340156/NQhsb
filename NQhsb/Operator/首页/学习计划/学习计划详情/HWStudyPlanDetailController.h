@@ -13,4 +13,6 @@
 @property (nonatomic,copy) NSString * dataId;
 /**  下面的tableView数据源 */
 @property (nonatomic,strong) NSArray * dataArray;
+
+@property (nonatomic,strong) NSString *kTitle;
 @end

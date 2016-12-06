@@ -11,5 +11,5 @@
 @interface HWMusicAnswerTableViewCell : UITableViewCell
 @property (weak, nonatomic) IBOutlet UIImageView *leftImageView;
 @property (weak, nonatomic) IBOutlet UILabel *titleLable;
-
+@property(nonatomic,retain)UIImageView *rightImageView;
 @end

@@ -38,8 +38,14 @@ static NSInteger pageSize = 10;
 @end
 
 @implementation HWAddStudyPlanController
-
-- (void)viewDidLoad {
+#pragma mark - lifeCycle
+- (void)viewWillAppear:(BOOL)animated
+{
+    [super viewWillAppear:YES];
+    self.addDataArray = [NSMutableArray array];
+}
+- (void)viewDidLoad
+{
     [super viewDidLoad];
     
     self.titleLabel.text = @"添加学习计划";
@@ -57,18 +63,17 @@ static NSInteger pageSize = 10;
                    titleArray:@[@"话术本",@"大讲堂",@"录音库",]
                    contentViewArray:self.contentTableViewArr
                    SuccessBlock:^(NSInteger index) {
-                       LogApi(@"%ld",(long)index);
-                       self.currentIndex = index;
-                       
-                       if (index == 1) {
-                           [weakSelf.tableView1.mj_header beginRefreshing];
-                           
-                       }else if(index == 2){
-                           [weakSelf.tableView2.mj_header beginRefreshing];
-                           
-                       }else{
-                           [weakSelf.tableView3.mj_header beginRefreshing];
-                       }
+//                       LogApi(@"%ld",(long)index);
+//                       self.currentIndex = index;
+//                       if (index == 1) {
+//                           [weakSelf.tableView1.mj_header beginRefreshing];
+//                           
+//                       }else if(index == 2){
+//                           [weakSelf.tableView2.mj_header beginRefreshing];
+//                           
+//                       }else{
+//                           [weakSelf.tableView3.mj_header beginRefreshing];
+//                       }
                    }];
     [self.view addSubview:_scView];
     [self setConfirmBtn];
@@ -234,13 +239,13 @@ static NSInteger pageSize = 10;
     self.tableView3.mj_header = [MJRefreshNormalHeader headerWithRefreshingBlock:^{
         [weakSelf netWorkHelpWithType:5];
     }];
-    self.tableView1.mj_footer = [MJRefreshBackFooter footerWithRefreshingBlock:^{
+    self.tableView1.mj_footer = [MJRefreshBackNormalFooter footerWithRefreshingBlock:^{
         [weakSelf netWorkMoreDataWithType:3];
     }];
-    self.tableView2.mj_footer = [MJRefreshBackFooter footerWithRefreshingBlock:^{
+    self.tableView2.mj_footer = [MJRefreshBackNormalFooter footerWithRefreshingBlock:^{
         [weakSelf netWorkMoreDataWithType:1];
     }];
-    self.tableView3.mj_footer = [MJRefreshBackFooter footerWithRefreshingBlock:^{
+    self.tableView3.mj_footer = [MJRefreshBackNormalFooter footerWithRefreshingBlock:^{
         [weakSelf netWorkMoreDataWithType:5];
     }];
     [self.tableView1.mj_header beginRefreshing];
@@ -257,7 +262,7 @@ static NSInteger pageSize = 10;
     if (!self.tableView1) {
         self.tableView1 = [[UITableView alloc] init];
         self.tableView1.tableFooterView = [[UIView alloc] init];
-        self.tableView1.frame = CGRectMake(0, 64, WIDTH, HEIGHT-64);
+        self.tableView1.frame = CGRectMake(0, 64, WIDTH, HEIGHT-64-64);
         self.tableView1.delegate = self;
         self.tableView1.dataSource = self;
         [self.tableView1 registerNib:[UINib nibWithNibName:NSStringFromClass([HWAddStudyPlanCell class]) bundle:nil] forCellReuseIdentifier:NSStringFromClass([HWAddStudyPlanCell class])];
@@ -273,7 +278,7 @@ static NSInteger pageSize = 10;
     if (!self.tableView2) {
         self.tableView2 = [[UITableView alloc] init];
         self.tableView2.tableFooterView = [[UIView alloc] init];
-        self.tableView2.frame = CGRectMake(0, 64, WIDTH, HEIGHT-64);
+        self.tableView2.frame = CGRectMake(0, 64, WIDTH, HEIGHT-64-64);
         self.tableView2.delegate = self;
         self.tableView2.dataSource = self;
         [self.tableView2 registerNib:[UINib nibWithNibName:NSStringFromClass([HWAddStudyPlanCell class]) bundle:nil] forCellReuseIdentifier:NSStringFromClass([HWAddStudyPlanCell class])];
@@ -289,7 +294,7 @@ static NSInteger pageSize = 10;
     if (!self.tableView3) {
         self.tableView3 = [[UITableView alloc] init];
         self.tableView3.tableFooterView = [[UIView alloc] init];
-        self.tableView3.frame = CGRectMake(0, 64, WIDTH, HEIGHT-64);
+        self.tableView3.frame = CGRectMake(0, 64, WIDTH, HEIGHT-64-64);
         self.tableView3.delegate = self;
         self.tableView3.dataSource = self;
         [self.tableView3 registerNib:[UINib nibWithNibName:NSStringFromClass([HWAddStudyPlanCell class]) bundle:nil] forCellReuseIdentifier:NSStringFromClass([HWAddStudyPlanCell class])];
@@ -305,17 +310,15 @@ static NSInteger pageSize = 10;
     self.confirmBtn = [UIButton buttonWithType:UIButtonTypeSystem];
     [self.view addSubview:self.confirmBtn];
     [self.confirmBtn mas_makeConstraints:^(MASConstraintMaker *make) {
-        make.top.equalTo(self.scView.mas_bottom).offset(10);
-        make.left.offset(35);
-        make.right.offset(-35);
-        make.bottom.offset(-10);
+        make.top.equalTo(self.view.mas_bottom).offset(-45);
+        make.left.offset(0);
+        make.right.offset(0);
+        make.height.offset(45);
     }];
     [self.confirmBtn addTarget:self action:@selector(confirmAction) forControlEvents:UIControlEventTouchUpInside];
     [self.confirmBtn setTitleColor:[UIColor whiteColor] forState:UIControlStateNormal];
     [self.confirmBtn setTitle:@"确定" forState:UIControlStateNormal];
-    [self.confirmBtn setBackgroundColor:[UIColor redColor]];
-    self.confirmBtn.layer.masksToBounds = YES;
-    self.confirmBtn.layer.cornerRadius = 4;
+    [self.confirmBtn setBackgroundColor:KTabBarColor];
 
 }
 #pragma mark - Target
@@ -333,6 +336,7 @@ static NSInteger pageSize = 10;
     for (NSDictionary *dic in self.addDataArray) {
         [array addObject:dic.allValues[0]];
     }
+    detailVC.kTitle     = @"添加学习计划";
     detailVC.dataArray = array.copy;
     [self.navigationController pushViewController:detailVC animated:YES];
 }

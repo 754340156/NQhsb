@@ -15,4 +15,8 @@ kBxtPropertyStrong UIWebView *kBxtWebView;
 kBxtPropertyStrong NSString *kBxtH5Url;
 
 kBxtPropertyStrong NSString *kBxtTitle;
+
+kBxtPropertyStrong NSString *relevanceId;
+
+kBxtPropertyStrong NSString *type;
 @end

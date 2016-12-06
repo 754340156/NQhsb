@@ -98,6 +98,7 @@
 #import "OperatorApi.h"
 #import "YWOperatorHeader.h" //余伟接口api以免冲突
 #import "ZZOperatorHeader.h"//赵哲接口同上
+#import "XTStringStatic.h"
 #import "HWNavigationController.h"
 
 #import "LoginViewController.h" 
@@ -132,7 +133,7 @@
 
 //RGB(十六进制)
 #define ColorFromRGB(rgbValue,a) [UIColor colorWithRed:((float)((rgbValue & 0xFF0000) >> 16))/255.0 green:((float)((rgbValue & 0xFF00) >> 8))/255.0 blue:((float)(rgbValue & 0xFF))/255.0 alpha:a]
-
+#define UIColorFromRGB(rgbValue) [UIColor colorWithRed:((float)((rgbValue & 0xFF0000) >> 16))/255.0 green:((float)((rgbValue & 0xFF00) >> 8))/255.0 blue:((float)(rgbValue & 0xFF))/255.0 alpha:1.0]
 //设置字体大小（17）
 #define FontOfSize(size) [UIFont systemFontOfSize:size]
 
@@ -157,10 +158,12 @@
 //导航色
 #define KnavColor [UIColor whiteColor]
 
+#define K_Color_gray UIColorFromRGB(0x999999)
 
- #define KTabBarColor    [UIColor  colorWithRed:222.0/255 green:40/255.0 blue:50/255.0 alpha:1.0]
+
+ #define KTabBarColor    [UIColor colorWithRed:0.851 green:0.255 blue:0.306 alpha:1]
 //界面背景色
-#define BXT_BACKGROUND_COLOR  [UIColor colorWithRed:0.9176 green:0.9176 blue:0.9176 alpha:1.0]
+#define BXT_BACKGROUND_COLOR  [UIColor colorWithWhite:0.948 alpha:1.000]
 
 //粉红色字体
 #define RED_COLOR  UIColorRGBA(204, 0, 108, 1)

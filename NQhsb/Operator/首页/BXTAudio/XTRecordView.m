@@ -56,12 +56,12 @@
     [self addSubview:timeLabel];
     
     actionView = [[UIView alloc] init];
-    [actionView setFrame:CGRectMake((self.frame.size.width - 200)/2.0, self.frame.size.height - 80, 200, 80)];
+    [actionView setFrame:CGRectMake((self.frame.size.width - 300)/2.0, self.frame.size.height - 80, 300, 80)];
     [actionView setBackgroundColor:[UIColor clearColor]];
     [self addSubview:actionView];
     
     recordButton = [UIButton buttonWithType:UIButtonTypeCustom];
-    [recordButton setFrame:CGRectMake(60, 0, 70, 70)];
+    [recordButton setFrame:CGRectMake(120, 0, 70, 70)];
     [recordButton setImage:[UIImage imageNamed:@"组2"] forState:UIControlStateNormal];
     [recordButton setImage:[UIImage imageNamed:@"组1"] forState:UIControlStateSelected];
     [recordButton addTarget:self action:@selector(clickedRecorderButton:) forControlEvents:UIControlEventTouchUpInside];
@@ -143,7 +143,11 @@
                                       [NSNumber numberWithBool:NO],AVLinearPCMIsFloatKey,
                                       nil];
         
-        audioPath = [self FilePathInLibraryWithName:@"Caches/UserRecordTemp.wav"];
+        NSDate *currentDate = [NSDate date];//获取当前时间，日期
+        NSDateFormatter *dateFormatter = [[NSDateFormatter alloc] init];
+        [dateFormatter setDateFormat:@"YYYY_MM_dd_hh:mm:ss"];
+        NSString *dateString = [dateFormatter stringFromDate:currentDate];
+        audioPath = [self FilePathInLibraryWithName:[NSString stringWithFormat:@"Caches/%@.wav",dateString]];
         NSURL *url = [NSURL fileURLWithPath:audioPath];
         
         NSError *error = nil;
@@ -277,30 +281,14 @@
 #pragma mark 完成
 -(void)finishButtonClick
 {
-    if (audioPlayer != nil && audioPlayer.isPlaying) {
-        [_finishButton setSelected:NO];
-    }else{
-        if (isRecordedWave && !isRecording) {
-            [_finishButton setSelected:YES];
-            __block NSString *str;
-            NSString *audioUrl = [ALiYunTool asyncUploadVideoPath:audioPath complete:^(UploadImageState state) {
-                
-                
-                if (state == UploadImageFailed) {
-
-                    str = @"0";
-                }else{
-                    str = @"1";
-                }
-                
-            }];
-            NSDictionary *dic = @{@"audioPath":audioPath,
-                                  @"audioUrl":audioUrl,
-                                  @"errorMessage":str};
-            NSNotificationCenter *center = [NSNotificationCenter defaultCenter];
-            [center postNotificationName:@"uploadAudio" object:@"audio" userInfo:dic];
-        }
-    }
+    [playButton setSelected:NO];
+    [self stopRecord];
+    [self stopPlaying];
+    [_finishButton setSelected:YES];
+    
+    NSDictionary *dic = @{@"audioPath":audioPath};
+    NSNotificationCenter *center = [NSNotificationCenter defaultCenter];
+    [center postNotificationName:@"uploadAudio" object:@"audio" userInfo:dic];
 }
 
 -(void) playRecordingWithPath:(NSString *)RecordPath{

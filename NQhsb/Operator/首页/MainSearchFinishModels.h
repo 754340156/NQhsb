@@ -8,7 +8,7 @@
 
 #import <Foundation/Foundation.h>
 
-@class MainSearchFinishResponse,MainSearchList;
+@class MainSearchFinishResponse,MainSearchFinishList;
 @interface MainSearchFinishModels : NSObject
 
 @property (nonatomic, strong) MainSearchFinishResponse *response;
@@ -16,7 +16,6 @@
 @property (nonatomic, copy) NSString *code;
 
 @end
-
 @interface MainSearchFinishResponse : NSObject
 
 @property (nonatomic, assign) NSInteger startOfNextPage;
@@ -35,7 +34,7 @@
 
 @property (nonatomic, assign) NSInteger pageCount;
 
-@property (nonatomic, strong) NSArray<MainSearchList *> *list;
+@property (nonatomic, strong) NSArray<MainSearchFinishList *> *list;
 
 @property (nonatomic, assign) NSInteger startOfLastPage;
 
@@ -47,7 +46,7 @@
 
 @end
 
-@interface MainSearchList : NSObject
+@interface MainSearchFinishList : NSObject
 
 @property (nonatomic, copy) NSString *dataId;
 

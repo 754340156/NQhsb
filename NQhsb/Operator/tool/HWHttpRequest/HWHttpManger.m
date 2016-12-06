@@ -63,13 +63,14 @@
 + (void)getquestionListWithIds:(NSString *)ids success:(void (^)(id result))success failBlock:(void(^)(NSError*error))failBlock
 {
     
-    NSDictionary *parameters=@{@"account":[UserInfo account].account,@"ids":ids,
+    NSDictionary *parameters=@{@"account":[UserInfo account].account,
+                               @"ids":ids,
                                @"token":[UserInfo account].token};
     [NetWorkHelp  netWorkWithURLString:MusicquestionChooselist parameters:parameters SuccessBlock:^(NSDictionary *dic)
      {
          if (success)
          {
-             success( [HWMusicquestionListModel mj_objectArrayWithKeyValuesArray:dic[@"response"][@"moodule"]]);
+             success( [HWMusicquestionListModel mj_objectArrayWithKeyValuesArray:dic[@"response"][@"selectmoodule"]]);
          }
      } failBlock:^(NSError *error)
      {
@@ -79,17 +80,24 @@
          }
      }];
 }
-#pragma mark --根据模板id获取题库
-+ (void)getquestiondataId:(NSString *)dataid success:(void (^)(id result))success failBlock:(void(^)(NSError*error))failBlock
+#pragma mark --根据模板id获取题库（未缓存）
++ (void)getquestiondataId:(NSString *)dataid type:(NSString *)type success:(void (^)(id result))success failBlock:(void(^)(NSError*error))failBlock
 {
     NSDictionary *parameters=@{@"account":[UserInfo account].account,
-                               @"dataId":dataid,
+                               @"moduleId":dataid,
                                @"token":[UserInfo account].token};
-    [NetWorkHelp  netWorkWithURLString:MusicquestionBankList parameters:parameters SuccessBlock:^(NSDictionary *dic)
+    [NetWorkHelp  netWorkWithURLString:MusicquestionBankList
+                            parameters:parameters
+                          SuccessBlock:^(NSDictionary *dic)
      {
          if (success)
          {
-             success( [HWMusicquestionBankModel mj_objectArrayWithKeyValuesArray:dic[@"response"][@"list"]]);
+             if ([dic[@"code"] intValue] == 0) {
+                 success( [HWMusicquestionBankModel mj_objectArrayWithKeyValuesArray:dic[@"response"][@"list"]]);
+             }else{
+                 failBlock(nil);
+             }
+             
          }
      } failBlock:^(NSError *error)
      {
@@ -98,8 +106,35 @@
              failBlock(error);
          }
      }];
-
     
+}
+#pragma mark --根据模板id获取题库（已缓存）
++ (void)getCacheQuestiondataId:(NSString *)dataid questionlogId:(NSString *)questionlogId success:(void (^)(id result))success failBlock:(void(^)(NSError*error))failBlock
+{
+    NSDictionary *parameters=@{@"account":[UserInfo account].account,
+                               @"moduleId":dataid,
+                               @"questionlogId":questionlogId,
+                               @"token":[UserInfo account].token};
+    [NetWorkHelp  netWorkWithURLString:MusicquestionbankLogList
+                            parameters:parameters
+                          SuccessBlock:^(NSDictionary *dic)
+     {
+         if (success)
+         {
+             if ([dic[@"code"] intValue] == 0) {
+                 success( [HWMusicquestionBankModel mj_objectArrayWithKeyValuesArray:dic[@"response"][@"list"]]);
+             }else{
+                 failBlock(nil);
+             }
+             
+         }
+     } failBlock:^(NSError *error)
+     {
+         if (failBlock)
+         {
+             failBlock(error);
+         }
+     }];
     
 }
 @end

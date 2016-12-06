@@ -35,17 +35,29 @@
  */
 #define studyPlanGenerate   @"/studyplan/generate.do"
 /**
+ *  修改学习计划
+ */
+#define studyPlanUpdate   @"/studyplan/update.do"
+/**
  *  删除学习计划
  */
 #define studyPlanDelete   @"/studyplan/delete.do"
 /**
- *  工作日志详情
+ *  工作日志列表
  */
 #define workLogList   @"/worklog/list.do"
+/**
+ *  工作日志详情
+ */
+#define workLogDetail   @"/worklog/details.do"
 /**
  *  添加工作日志
  */
 #define addWorkLog   @"/worklog/add.do"
+/**
+ *  修改工作日志
+ */
+#define updateWorkLog   @"/worklog/update.do"
 /**
  *  删除工作日志(单条)
  */

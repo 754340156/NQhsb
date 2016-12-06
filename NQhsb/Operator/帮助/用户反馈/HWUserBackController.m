@@ -44,7 +44,7 @@ static NSInteger picCount = 4;
 - (void)setRightButton
 {
     [self.rightButton setTitle:@"提交" forState:UIControlStateNormal];
-    [self.rightButton setTitleColor:[UIColor redColor] forState:UIControlStateNormal];
+    [self.rightButton setTitleColor:KTabBarColor forState:UIControlStateNormal];
     [self.rightButton addTarget:self action:@selector(submitAction) forControlEvents:UIControlEventTouchUpInside];
 }
 - (void)setCollectionView
@@ -64,7 +64,7 @@ static NSInteger picCount = 4;
     HWEditPicCell * cell = [collectionView dequeueReusableCellWithReuseIdentifier:NSStringFromClass([HWEditPicCell class]) forIndexPath:indexPath];
     cell.videoImageView.hidden = YES;
     if (indexPath.row == self.selectedPhotos.count) {
-        cell.imageView.image = [UIImage imageNamed:@"ICON_Addto"];
+        cell.imageView.image = [UIImage imageNamed:@"tianjiazhaopian_icon"];
         cell.deleteBtn.hidden = YES;
     } else {
         cell.imageView.image = self.selectedPhotos[indexPath.row];
@@ -104,6 +104,7 @@ static NSInteger picCount = 4;
 - (void)pushImagePickerController
 {
     TZImagePickerController * imagePickerVC = [[TZImagePickerController alloc] initWithMaxImagesCount:maxImageCount delegate:self];
+    imagePickerVC.selectedAssets = self.selectedAssets;
     imagePickerVC.allowPickingVideo = NO;
     imagePickerVC.allowPickingOriginalPhoto = NO;
     [self presentViewController:imagePickerVC animated:YES completion:nil];

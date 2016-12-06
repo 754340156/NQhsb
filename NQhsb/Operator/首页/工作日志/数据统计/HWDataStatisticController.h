@@ -9,5 +9,5 @@
 #import "NavViewController.h"
 
 @interface HWDataStatisticController : NavViewController
-
+@property (nonatomic, strong) NSString *htmlUrl;
 @end

@@ -22,7 +22,6 @@
     CGContextFillRect(context, rect);
     UIImage *theImage = UIGraphicsGetImageFromCurrentImageContext();
     UIGraphicsEndImageContext();
-    
     return theImage;
 }
 + (UIImage *)circleImage:(UIImage *)imageV borderWidth:(CGFloat)borderWidth borderColor:(UIColor *)borderColor
@@ -64,6 +63,7 @@
     
     return newImage;
 }
+
 /**
  *  视频截图
  *

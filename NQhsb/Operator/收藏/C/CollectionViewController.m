@@ -10,21 +10,25 @@
 #import "HWPublicWebController.h"
 #import "CollectionViewCell.h"
 #import "HWCollectionModel.h"
+
 static NSInteger pageIndex = 1;
 static NSInteger pageSize = 10;
+
 @interface CollectionViewController ()<UITableViewDataSource,UITableViewDelegate>
+
+kBxtPropertyStrong HWCollectionModel *collectionModel;
 
 kBxtPropertyStrong LXSegmentScrollView *scView;
 
-kBxtPropertyStrong NSMutableArray *kBxtTableViewArr;
+kBxtPropertyStrong NSMutableArray   *kBxtTableViewArr;
 
-kBxtPropertyStrong UITableView *myTableview;
+kBxtPropertyStrong UITableView      *myTableview;
 
-kBxtPropertyStrong UITableView *myTableviewTwo;
+kBxtPropertyStrong UITableView      *myTableviewTwo;
 
-kBxtPropertyStrong UITableView *myTableviewThree;
+kBxtPropertyStrong UITableView      *myTableviewThree;
 
-kBxtPropertyAssign NSInteger   selectType;
+kBxtPropertyAssign NSInteger        selectType;
 
 kBxtPropertyStrong NSMutableArray * dataArray;
 
@@ -39,8 +43,8 @@ kBxtPropertyStrong NSMutableArray * data3Array;
     [super viewDidLoad];
 
     self.titleLabel.text = @"收藏";
+    _selectType = 1;
     [self.leftBackImage setHidden:YES];
-    MJWeakSelf;
     _kBxtTableViewArr = [NSMutableArray array];
     [self myTableview];
     
@@ -54,18 +58,17 @@ kBxtPropertyStrong NSMutableArray * data3Array;
                titleArray:@[@"话术本",@"大讲堂",@"录音库"]
                contentViewArray:_kBxtTableViewArr
                SuccessBlock:^(NSInteger index) {
-                   LogApi(@"%ld",(long)index);
+//                   LogApi(@"%ld",(long)index);
                    _selectType = index;
-                   
-                   if (index == 1) {
-                       [weakSelf.myTableview.mj_header beginRefreshing];
-                       
-                   }else if(index == 2){
-                       [weakSelf.myTableviewTwo.mj_header beginRefreshing];
-
-                   }else{
-                       [weakSelf.myTableviewThree.mj_header beginRefreshing];
-                   }
+//                   if (index == 1) {
+//                       [weakSelf.myTableview.mj_header beginRefreshing];
+//                       
+//                   }else if(index == 2){
+//                       [weakSelf.myTableviewTwo.mj_header beginRefreshing];
+//
+//                   }else{
+//                       [weakSelf.myTableviewThree.mj_header beginRefreshing];
+//                   }
                }];
     [self.view addSubview:_scView];
 
@@ -220,7 +223,7 @@ kBxtPropertyStrong NSMutableArray * data3Array;
      }];
     
 }
-- (void)networkDelegateCollectionWithDataId:(NSString *)dataId success:(void(^)())success
+- (void)networkDelegateCollectionWithDataId:(NSString *)dataId
 {
     NSDictionary *parameters = @{@"account":[UserInfo account].account,
                                  @"token":[UserInfo account].token,
@@ -230,7 +233,6 @@ kBxtPropertyStrong NSMutableArray * data3Array;
                          SuccessBlock:^(NSDictionary *dic) {
                              if ([dic[@"code"] intValue] == 0) {
                                  [self showHint:@"删除成功"];
-                                 success();
                              }else{
                                  
                                  [self showHint:dic[@"errorMessage"]];
@@ -244,10 +246,11 @@ kBxtPropertyStrong NSMutableArray * data3Array;
 {
     if (!_myTableview) {
         _myTableview = [[UITableView alloc] init];
-        _myTableview.frame = CGRectMake(0, 64, WIDTH, HEIGHT-64);
+        _myTableview.frame = CGRectMake(0, 64, WIDTH, HEIGHT-64-49);
         _myTableview.delegate = self;
         _myTableview.tableFooterView=[[UIView alloc] init];
         _myTableview.dataSource = self;
+        _myTableview.backgroundColor = BXT_BACKGROUND_COLOR;
         [_myTableview registerNib:[UINib nibWithNibName:NSStringFromClass([CollectionViewCell class]) bundle:nil] forCellReuseIdentifier:NSStringFromClass([CollectionViewCell class])];
         _myTableview.mj_header = [MJRefreshNormalHeader headerWithRefreshingBlock:^{
             [self netWorkHelpWithType:3];
@@ -260,10 +263,11 @@ kBxtPropertyStrong NSMutableArray * data3Array;
 {
     if (!_myTableviewTwo) {
         _myTableviewTwo = [[UITableView alloc] init];
-        _myTableviewTwo.frame = CGRectMake(0, 64, WIDTH, HEIGHT-64);
+        _myTableviewTwo.frame = CGRectMake(0, 64, WIDTH, HEIGHT-64-49);
         _myTableviewTwo.tableFooterView=[[UIView alloc] init];
         _myTableviewTwo.delegate = self;
         _myTableviewTwo.dataSource = self;
+        _myTableviewTwo.backgroundColor = BXT_BACKGROUND_COLOR;
         [_myTableviewTwo registerNib:[UINib nibWithNibName:NSStringFromClass([CollectionViewCell class]) bundle:nil] forCellReuseIdentifier:NSStringFromClass([CollectionViewCell class])];
         _myTableviewTwo.mj_header = [MJRefreshNormalHeader headerWithRefreshingBlock:^{
             [self netWorkHelpWithType:1];
@@ -277,10 +281,11 @@ kBxtPropertyStrong NSMutableArray * data3Array;
 {
     if (!_myTableviewThree) {
         _myTableviewThree = [[UITableView alloc] init];
-        _myTableviewThree.frame = CGRectMake(0, 64, WIDTH, HEIGHT-64);
+        _myTableviewThree.frame = CGRectMake(0, 64, WIDTH, HEIGHT-64-49);
         _myTableviewThree.delegate = self;
         _myTableviewThree.tableFooterView=[[UIView alloc] init];
         _myTableviewThree.dataSource = self;
+        _myTableviewThree.backgroundColor = BXT_BACKGROUND_COLOR;
         [_myTableviewThree registerNib:[UINib nibWithNibName:NSStringFromClass([CollectionViewCell class]) bundle:nil] forCellReuseIdentifier:NSStringFromClass([CollectionViewCell class])];
         _myTableviewThree.mj_header = [MJRefreshNormalHeader headerWithRefreshingBlock:^{
             [self netWorkHelpWithType:5];
@@ -301,13 +306,13 @@ kBxtPropertyStrong NSMutableArray * data3Array;
     _myTableviewThree.mj_header = [MJRefreshNormalHeader headerWithRefreshingBlock:^{
         [weakSelf netWorkHelpWithType:5];
     }];
-    _myTableview.mj_footer = [MJRefreshBackFooter footerWithRefreshingBlock:^{
+    _myTableview.mj_footer = [MJRefreshBackNormalFooter footerWithRefreshingBlock:^{
         [weakSelf netWorkMoreDataWithType:3];
     }];
-    _myTableviewTwo.mj_footer = [MJRefreshBackFooter footerWithRefreshingBlock:^{
+    _myTableviewTwo.mj_footer = [MJRefreshBackNormalFooter footerWithRefreshingBlock:^{
         [weakSelf netWorkMoreDataWithType:1];
     }];
-    _myTableviewThree.mj_footer = [MJRefreshBackFooter footerWithRefreshingBlock:^{
+    _myTableviewThree.mj_footer = [MJRefreshBackNormalFooter footerWithRefreshingBlock:^{
         [weakSelf netWorkMoreDataWithType:5];
     }];
     [_myTableview.mj_header beginRefreshing];
@@ -353,6 +358,10 @@ kBxtPropertyStrong NSMutableArray * data3Array;
     {
         cell.model = self.data3Array[indexPath.row];
     }
+    //给cell加长按手势
+    UILongPressGestureRecognizer *gestureLongPress = [[UILongPressGestureRecognizer alloc]initWithTarget:self action:@selector(gestureLongPress:)];
+    //    gestureLongPress.minimumPressDuration =1;
+    [cell.contentView addGestureRecognizer:gestureLongPress];
     return cell;
 }
 //cell顶格
@@ -375,32 +384,55 @@ kBxtPropertyStrong NSMutableArray * data3Array;
 {
     return UITableViewCellEditingStyleDelete;
 }
-- (NSString *)tableView:(UITableView *)tableView titleForDeleteConfirmationButtonForRowAtIndexPath:(NSIndexPath *)indexPath
+-(void)tableView:(UITableView *)tableView commitEditingStyle:(UITableViewCellEditingStyle)editingStyle forRowAtIndexPath:(NSIndexPath *)indexPath
 {
-    return @"删除";
+    if (editingStyle==UITableViewCellEditingStyleDelete) {
+        //        获取选中删除行索引值
+        NSInteger row = [indexPath row];
+        //        通过获取的索引值删除数组中的值
+        NSMutableArray *arr = [NSMutableArray array];
+        if (tableView == _myTableview) {
+            arr = _dataArray;
+        }else if (tableView == _myTableviewTwo){
+            arr = _data2Array;
+        }else{
+            arr = _data3Array;
+        }
+        _collectionModel = arr[row];
+        [self networkDelegateCollectionWithDataId:_collectionModel.dataId];
+        [arr removeObjectAtIndex:row];
+        //        删除单元格的某一行时，在用动画效果实现删除过程
+        [tableView deleteRowsAtIndexPaths:[NSArray arrayWithObject:indexPath] withRowAnimation:UITableViewRowAnimationAutomatic];
+    }
 }
-- (void)tableView:(UITableView *)tableView commitEditingStyle:(UITableViewCellEditingStyle)editingStyle forRowAtIndexPath:(NSIndexPath *)indexPath
+#pragma mark - 长按手势
+
+- (void)gestureLongPress:(UILongPressGestureRecognizer *)gestureRecognizer
 {
-    MJWeakSelf;
-    if (editingStyle == UITableViewCellEditingStyleDelete) {
-        if ([tableView isEqual:_myTableview])
-        {
-            [self networkDelegateCollectionWithDataId:[self.dataArray[indexPath.row] dataId] success:^{
-                [weakSelf.dataArray removeObjectAtIndex:indexPath.row];
-                [_myTableview reloadData];
-            }];
-        }else if ([tableView isEqual:_myTableviewTwo])
-        {
-            [self networkDelegateCollectionWithDataId:[self.data2Array[indexPath.row] dataId] success:^{
-                [weakSelf.data2Array removeObjectAtIndex:indexPath.row];
-                [_myTableviewTwo reloadData];
-            }];
-        }else if ([tableView isEqual:_myTableviewThree])
-        {
-            [self networkDelegateCollectionWithDataId:[self.data3Array[indexPath.row] dataId] success:^{
-                [weakSelf.data3Array removeObjectAtIndex:indexPath.row];
-                [_myTableviewThree reloadData];
-            }];
+    UITableView *tableview = [[UITableView alloc] init];
+    if (_selectType == 1) {
+        tableview = _myTableview;
+    }else if(_selectType == 2){
+        tableview = _myTableviewTwo;
+    }else{
+        tableview = _myTableviewThree;
+    }
+    CGPoint tmpPointTouch = [gestureRecognizer locationInView:tableview];
+    if (gestureRecognizer.state ==UIGestureRecognizerStateBegan) {
+        NSIndexPath *indexPath = [tableview indexPathForRowAtPoint:tmpPointTouch];
+        if (indexPath == nil) {
+            LogError(@"not tableView");
+        }else{
+            NSInteger focusSection = [indexPath section];
+            NSInteger  focusRow = [indexPath row];
+            
+            LogError(@"%ld",focusSection);
+            LogError(@"%ld",focusRow);
+            if (tableview.editing == YES) {
+                [tableview setEditing:NO animated:YES];
+            }else{
+                [tableview setEditing:YES animated:YES];
+            }
         }
     }
 }

@@ -9,7 +9,7 @@
 #import "HWOperationShowController.h"
 #import "HWOperationCell.h"
 #import "HWOperationModel.h"
-#import "HWPublicWebController.h"
+#import "SalesjobDetailViewController.h"
 static NSInteger pageIndex = 1;
 static NSInteger pageSize = 10;
 @interface HWOperationShowController ()<UITableViewDataSource,UITableViewDelegate>
@@ -23,6 +23,7 @@ static NSInteger pageSize = 10;
 
 - (void)viewDidLoad {
     [super viewDidLoad];
+    self.titleLabel.text = self.titleText;
     [self setTableView];
     [self setRefresh];
 }
@@ -33,6 +34,8 @@ static NSInteger pageSize = 10;
     self.tableView.delegate = self;
     self.tableView.dataSource = self;
     [self.view addSubview:self.tableView];
+    self.tableView.tableFooterView  = [[UIView alloc] init];
+    self.tableView.backgroundColor = BXT_BACKGROUND_COLOR;
     [self.tableView registerNib:[UINib nibWithNibName:NSStringFromClass([HWOperationCell class]) bundle:nil] forCellReuseIdentifier:NSStringFromClass([HWOperationCell class])];
 }
 - (void)setRefresh
@@ -41,17 +44,13 @@ static NSInteger pageSize = 10;
     self.tableView.mj_header = [MJRefreshNormalHeader headerWithRefreshingBlock:^{
         [weakSelf getDataWithType:self.selectType];
     }];
-    self.tableView.mj_footer = [MJRefreshAutoNormalFooter footerWithRefreshingBlock:^{
+    self.tableView.mj_footer = [MJRefreshBackNormalFooter footerWithRefreshingBlock:^{
         [weakSelf getMoreDataWithType:self.selectType];
     }];
     [self.tableView.mj_header beginRefreshing];
     self.tableView.mj_footer.hidden = YES;
 }
 #pragma mark - UITableViewDelegate
--(CGFloat)tableView:(UITableView *)tableView heightForFooterInSection:(NSInteger)section
-{
-    return 0.1;
-}
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section
 {
     self.tableView.mj_footer.hidden = (self.dataArray.count < pageSize);
@@ -60,6 +59,7 @@ static NSInteger pageSize = 10;
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath
 {
     HWOperationCell *cell = [tableView dequeueReusableCellWithIdentifier:NSStringFromClass([HWOperationCell class])];
+    cell.model = self.dataArray[indexPath.row];
     return cell;
 }
 - (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath
@@ -68,10 +68,17 @@ static NSInteger pageSize = 10;
 }
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
 {
-    HWPublicWebController *publicWebVC = [[HWPublicWebController alloc] init];
-    publicWebVC.type = self.selectType;
-    publicWebVC.RelevanceId = [self.dataArray[indexPath.row] dataId];
-    [self.navigationController pushViewController:publicWebVC animated:YES];
+    SalesjobDetailViewController *publicWebVC = [[SalesjobDetailViewController alloc] init];
+    HWOperationModel *model = self.dataArray[indexPath.row];
+    [Html5LoadUrl loadUrlWithRelevanceId:model.dataId type:self.selectType SuccessBlock:^(NSString *url) {
+        publicWebVC.kBxtH5Url = url;
+        publicWebVC.kBxtTitle = model.title;
+        publicWebVC.type = self.selectType;
+        publicWebVC.relevanceId = model.dataId;
+        [self.navigationController pushViewController:publicWebVC animated:YES];
+    } failBlock:^(NSError *error) {
+        [self showHint:kBxtNetWorkError];
+    }];
 }
 #pragma mark - network
 - (void)getDataWithType:(NSString *)type

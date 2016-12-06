@@ -19,7 +19,8 @@
 
 - (void)awakeFromNib {
     [super awakeFromNib];
-    // Initialization code
+    self.iconImageV.layer.cornerRadius = 63 / 2;
+    self.iconImageV.layer.masksToBounds = YES;
 }
 
 - (void)setModel:(HWOperationModel *)model

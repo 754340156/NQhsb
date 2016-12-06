@@ -18,7 +18,7 @@
 
 - (void)awakeFromNib {
     [super awakeFromNib];
-    self.hotSeaBtn.layer.borderColor = [UIColor redColor].CGColor;
+    self.hotSeaBtn.layer.borderColor = KTabBarColor.CGColor;
     self.hotSeaBtn.layer.borderWidth = 0.5;
     self.hotSeaBtn.layer.masksToBounds = YES;
     self.hotSeaBtn.layer.cornerRadius = 5;
@@ -33,7 +33,7 @@
 {
     _titleText = titleText;
     [self.hotSeaBtn setTitle:titleText forState:UIControlStateNormal];
-    [self.hotSeaBtn setTitleColor:[UIColor redColor] forState:UIControlStateNormal];
+    [self.hotSeaBtn setTitleColor:KTabBarColor forState:UIControlStateNormal];
 }
 + (CGSize) getSizeWithText:(NSString*)text
 {

@@ -39,15 +39,16 @@
     
     // 创建 左侧 按钮
     self.leftButton = [UIButton buttonWithType:UIButtonTypeCustom];
-    _leftButton.frame = CGRectMake(10,30, 55, 30);
+    _leftButton.frame = CGRectMake(10,10, 85, 50);
     [_leftButton addTarget:self action:@selector(backPrePage) forControlEvents:UIControlEventTouchUpInside];
     _leftButton.adjustsImageWhenHighlighted =NO;
     [_navigationBarBackground addSubview:_leftButton];
     
     _leftBackImage = [[UIImageView alloc] init];
-    _leftBackImage.frame = CGRectMake(0, 0, 22, 22);
-    _leftBackImage.image = [UIImage imageNamed:@"ICON-return"];
+    _leftBackImage.frame = CGRectMake(0, 20, 22, 22);
+    _leftBackImage.image = [UIImage imageNamed:@"fanhui"];
     [_leftButton addSubview:_leftBackImage];
+    
     // 创建 右侧 按钮
     self.rightButton = [UIButton buttonWithType:UIButtonTypeCustom];
     _rightButton.frame = CGRectMake(width-65, 30, 55, 30);
@@ -57,7 +58,6 @@
     _rightImage=[[UIImageView alloc]initWithFrame:CGRectMake(33, 2, 22, 22)];
     _rightImage.hidden = YES;
     [_rightButton addSubview:_rightImage];
-    
     
     if (self.navigationBarIsHideen ==YES) {
         self.navigationBarBackground.hidden = YES;

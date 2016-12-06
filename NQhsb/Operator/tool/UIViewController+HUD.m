@@ -43,6 +43,7 @@ static const void *HttpRequestHUDKey = &HttpRequestHUDKey;
     // Configure for text only and offset down
     hud.mode = MBProgressHUDModeText;
     hud.labelText = hint;
+    hud.labelColor = [UIColor whiteColor];
     hud.margin = 10;
     hud.yOffset = 150;
     hud.removeFromSuperViewOnHide = YES;
@@ -56,7 +57,8 @@ static const void *HttpRequestHUDKey = &HttpRequestHUDKey;
     hud.userInteractionEnabled = NO;
     // Configure for text only and offset down
     hud.mode = MBProgressHUDModeText;
-    hud.labelText = hint;
+    hud.labelText = @"加载中...";
+    hud.labelColor = [UIColor whiteColor];
     hud.margin = 10.f;
     hud.yOffset = IS_IPHONE_5?200.f:150.f;
     hud.yOffset += yOffset;

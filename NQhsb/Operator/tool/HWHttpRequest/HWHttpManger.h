@@ -28,11 +28,14 @@
 + (void)getquestionListWithIds:(NSString *)ids success:(void (^)(id result))success failBlock:(void(^)(NSError*error))failBlock;
 
 /**
- 根据模板id获取题库
+ 根据模板id获取题库（未缓存）
  */
-+ (void)getquestiondataId:(NSString *)dataid success:(void (^)(id result))success failBlock:(void(^)(NSError*error))failBlock;
++ (void)getquestiondataId:(NSString *)dataid type:(NSString *)type success:(void (^)(id result))success failBlock:(void(^)(NSError*error))failBlock;
 
-
+/**
+ 根据模板id获取题库（已缓存）
+ */
++ (void)getCacheQuestiondataId:(NSString *)dataid questionlogId:(NSString *)questionlogId success:(void (^)(id result))success failBlock:(void(^)(NSError*error))failBlock;
 
 
 

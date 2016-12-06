@@ -20,8 +20,9 @@
 
 - (void)viewDidLoad {
     [super viewDidLoad];
-    self.title=@"个人资料";
+    self.title=@"更改头像";
     self.tableView.tableFooterView=[[ UIView alloc] init];
+    [self.view setBackgroundColor:BXT_BACKGROUND_COLOR];
     [self makeRightButton];
     [self loadBasic];
 }
@@ -94,7 +95,7 @@
     
     if (indexPath.row==0)
     {
-        UIActionSheet *sheet=[[UIActionSheet alloc] initWithTitle:@"" delegate:self cancelButtonTitle:@"取消" destructiveButtonTitle:nil otherButtonTitles:@"拍照",@"从相册选择" ,nil];
+        UIActionSheet *sheet=[[UIActionSheet alloc] initWithTitle:nil delegate:self cancelButtonTitle:@"取消" destructiveButtonTitle:nil otherButtonTitles:@"拍照",@"从相册选择" ,nil];
         [sheet  showInView:self.view];
     }
     
@@ -182,25 +183,30 @@
         [self  finish:names[0]];
     }];
 }
-//这里需要OSS获取图片签名神马的
-//-->不会啊
 #pragma mark --上传个人信息数据
 -(void)finish:(NSString *)headerpic
 {
     //[self showHudInView:self.view hint:nil];
-    NSDictionary  *parameters=@{@"headpic":headerpic,@"nickname":_nameTextField.text,@"mysign":_markTextfield.text,@"account":[UserInfo account].account};
+    NSDictionary  *parameters=@{@"headpic":headerpic,
+                                @"nickname":_nameTextField.text,
+                                @"mysign":_markTextfield.text,
+                                @"account":[UserInfo account].account,
+                                @"token":[UserInfo account].token};
 
-    [NetWorkHelp  netWorkWithURLString:userupdatUser parameters:parameters SuccessBlock:^(NSDictionary *dic)
+    [NetWorkHelp  netWorkWithURLString:userupdatUser
+                            parameters:parameters
+                          SuccessBlock:^(NSDictionary *dic)
      {
          [self hideHud];
          if ([dic[@"code"]integerValue]==0)
          {
-             XBAccessLoginTokenResult *result = [XBAccessLoginTokenResult mj_objectWithKeyValues:dic[@"response"][@"user"]];
-             [UserInfo saveAccount:result];
+             
         //这里需要保存用户的信息
-        dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(1.5 * NSEC_PER_SEC)), dispatch_get_main_queue(), ^{
-        [self.navigationController popViewControllerAnimated:YES];
-         });
+            dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(1.5 * NSEC_PER_SEC)), dispatch_get_main_queue(), ^{
+                XBAccessLoginTokenResult *result = [XBAccessLoginTokenResult mj_objectWithKeyValues:dic[@"response"][@"user"]];
+                [UserInfo saveAccount:result];
+                [self.navigationController popViewControllerAnimated:YES];
+             });
          }else
          {
              [self showHint:dic[@"errorMessage"]];

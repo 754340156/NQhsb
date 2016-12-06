@@ -8,6 +8,11 @@
 
 #import <UIKit/UIKit.h>
 @class HWMusicquestionListModel;
+@protocol HWMusicListCollectionViewCelldelegate <NSObject>
+
+-(void)clickansitisButtonwithindexPath:(NSIndexPath *)indexpath;
+
+@end
 @interface HWMusicListCollectionViewCell : UICollectionViewCell
 
 @property(nonatomic,retain)HWMusicquestionListModel *questionModel;
@@ -16,5 +21,7 @@
 @property(nonatomic,retain) NSIndexPath *indexpath;
 //描述信息
 @property (weak, nonatomic) IBOutlet UILabel *describeLable;
+@property (weak, nonatomic) IBOutlet UIButton *startAnsstis;//开始分析
+@property(nonatomic,weak)id<HWMusicListCollectionViewCelldelegate>delegate;
 
 @end

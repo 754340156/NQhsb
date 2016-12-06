@@ -28,9 +28,13 @@
     [super awakeFromNib];
     backImage.layer.cornerRadius=3;
     backImage.layer.masksToBounds=YES;
-    _openButton.layer.shadowRadius=3;
-    _openButton.layer.shadowColor=KTabBarColor.CGColor;
+    backImage.layer.shadowRadius=3;
+    backImage.layer.shadowColor=[UIColor blackColor].CGColor;
+    _openButton.titleLabel.font = FontOfSize(13);
     _openButton.layer.masksToBounds=YES;
+    _openButton.layer.cornerRadius = 5;
+    _openButton.layer.borderWidth = 1;
+    _openButton.layer.borderColor = KTabBarColor.CGColor;
 
 }
 #pragma mark --set方法

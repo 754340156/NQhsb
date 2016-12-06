@@ -7,13 +7,15 @@
 //
 
 #import "HWAddVoiceController.h"
-#import "EMCDDeviceManager.h"
+
 #import "AudioPlayViewController.h"
 @interface HWAddVoiceController ()<UITableViewDelegate,UITableViewDataSource>
 {
     NSTimer  *_timer;
     
 }
+@property (weak, nonatomic) IBOutlet XTRecordView *RecordView;
+
 
 @property (weak, nonatomic) IBOutlet UITableView *tableView;
 
@@ -29,7 +31,7 @@
     self.titleLabel.text = @"添加录音话术";
     self.titleLabel.textColor = [UIColor whiteColor];
     self.navigationBarBackground.backgroundColor = [UIColor blackColor];
-    self.leftBackImage.frame = CGRectMake(0, 0, 15, 22);
+    self.leftBackImage.frame = CGRectMake(0, 19, 15, 22);
     [self.leftBackImage setImage:[UIImage imageNamed:@"返回0"]];
     NSNotificationCenter *notiCenter = [NSNotificationCenter defaultCenter];    
     // 注册一个监听事件。第三个参数的事件名， 系统用这个参数来区别不同事件。
@@ -54,25 +56,22 @@
 #pragma mark - target
 - (void)receiveNotification:(NSNotification *)noti
 {
-    [self showHudInView:self.view hint:nil];
     NSDictionary *dic = noti.userInfo;
     if ([dic[@"errorMessage"] intValue] == 0) {
-        [self showHint:@"上传成功"];
         AudioPlayViewController *play = [[AudioPlayViewController alloc] init];
-        play.audioUrl = dic[@"audioUrl"];
         play.audioPath = dic[@"audioPath"];
+        play.selectType = @"3";
+        play.api = recordingaddwords;
         [self.navigationController pushViewController:play animated:YES];
-        [self hideHud];
     }else{
         [self showHint:@"上传失败，请重新上传"];
-        [self hideHud];
     }
 }
 - (void)dealloc
 {
     // 移除当前对象监听的事件
     [[NSNotificationCenter defaultCenter] removeObserver:self];
-    
+    [_RecordView stopRecord];
 }
 
 #pragma mark - lazy
@@ -91,8 +90,6 @@
 #pragma mark --音频的content应该是音频的链接
 -(void)addWordswithContent:(NSString *)content
 {
-    
-    
     
 }
 @end

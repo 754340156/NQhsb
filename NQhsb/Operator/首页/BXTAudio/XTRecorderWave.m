@@ -8,6 +8,7 @@
 
 #import "XTRecorderWave.h"
 
+
 @implementation XTRecorderWave
 @synthesize samples;
 
@@ -55,9 +56,9 @@
             if (sample >= 0) {
                 sample = 0;
             }
-            height = ((sample + 11.0) / 18.0)*(self.bounds.size.height - 20);
+            height = ((sample + 11.0) / 18.0)*(self.bounds.size.height - 10);
         }else{
-            height = (-10.0 /sample) * (self.bounds.size.height - 20)/18;
+            height = (-10.0 /sample) * (self.bounds.size.height - 10)/18;
         }
         CGRect rect = CGRectMake(i*_sampleWidth + 0.15, ((self.bounds.size.height - 20)-height)/2 + 20, _sampleWidth - 0.3, height);
         UIRectFill(rect);
@@ -67,7 +68,7 @@
             //长条带时间
             float x = i * _sampleWidth - 0.5;
             UIBezierPath* rectanglePath = [UIBezierPath bezierPathWithRect: CGRectMake(x, 0, 1, 6)];
-            [[UIColor whiteColor] setFill];
+            [KTabBarColor setFill];
             [rectanglePath fill];
             
             {//时间

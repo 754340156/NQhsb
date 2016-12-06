@@ -33,6 +33,7 @@ kBxtPropertyStrong UITableView *myTableview;
         _myTableview.frame = CGRectMake(0, 64, WIDTH, HEIGHT-64);
         _myTableview.delegate = self;
         _myTableview.dataSource = self;
+        [_myTableview registerNib:[UINib nibWithNibName:@"SalesjobCell" bundle:nil] forCellReuseIdentifier:kBxtSalesjobCell];
         [self.view addSubview:_myTableview];
     }
     return _myTableview;
@@ -52,22 +53,23 @@ kBxtPropertyStrong UITableView *myTableview;
 -(UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath
 {
     SalesjobCell *cell = [tableView dequeueReusableCellWithIdentifier:kBxtSalesjobCell];
-    cell.list = _response.list[indexPath.row];
+    cell.searchList = _response.list[indexPath.row];
     return cell;
 }
 -(void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
 {
-//    MainSearchList *list = _response.list[indexPath.row];
-//    SalesjobDetailViewController *job = [[SalesjobDetailViewController alloc] init];
-//    [Html5LoadUrl loadUrlWithRelevanceId:list.dataId
-//                                    type:list.type
-//                            SuccessBlock:^(NSString *url) {
-//                                job.kBxtH5Url = url;
-//                                job.kBxtTitle = list.title;
-//                                [self.navigationController pushViewController:job animated:YES];
-//                            } failBlock:^(NSError *error) {
-//                                [self showHint:@"连接失败,请检查网络连接"];
-//                            }];
+    MainSearchFinishList *list = _response.list[indexPath.row];
+    SalesjobDetailViewController *job = [[SalesjobDetailViewController alloc] init];
+    [Html5LoadUrl loadUrlWithRelevanceId:list.dataId
+                                    type:list.type
+                            SuccessBlock:^(NSString *url) {
+                                job.kBxtH5Url = url;
+                                job.kBxtTitle = list.title;
+                                job.relevanceId = list.dataId;
+                                [self.navigationController pushViewController:job animated:YES];
+                            } failBlock:^(NSError *error) {
+                                [self showHint:kBxtNetWorkError];
+                            }];
     
 }
 - (void)didReceiveMemoryWarning {

@@ -22,6 +22,12 @@
 
 - (void)awakeFromNib {
     [super awakeFromNib];
+    self.iconImageV.layer.cornerRadius = 63 / 2;
+    self.iconImageV.layer.masksToBounds = YES;
+    self.addBtn.layer.borderColor = KTabBarColor.CGColor;
+    self.addBtn.layer.borderWidth = 0.5f;
+    self.addBtn.layer.cornerRadius = 3;
+    self.addBtn.layer.masksToBounds = YES;
 }
 
 - (IBAction)addAction:(UIButton *)sender

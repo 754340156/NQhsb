@@ -1,5 +1,5 @@
-<?xml version="1.0" encoding="UTF-8" standalone="no"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="11201" systemVersion="15G1004" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" colorMatched="YES">
+<?xml version="1.0" encoding="UTF-8"?>
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="11201" systemVersion="16A323" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" colorMatched="YES">
     <dependencies>
         <deployment identifier="iOS"/>
         <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="11161"/>
@@ -48,7 +48,7 @@
                         <state key="normal" title="  加入" image="ICON_Plus">
                             <color key="titleColor" red="1" green="0.14357277239999999" blue="0.1981537877" alpha="1" colorSpace="calibratedRGB"/>
                         </state>
-                        <state key="selected" title="移除" image="ICON_Minussign">
+                        <state key="selected" title="  移除" image="ICON_Minussign">
                             <color key="titleColor" red="1" green="0.14357277239999999" blue="0.1981537877" alpha="1" colorSpace="calibratedRGB"/>
                         </state>
                         <connections>
@@ -66,7 +66,7 @@
                     <constraint firstItem="9c3-tq-O4l" firstAttribute="top" secondItem="EtV-5B-4Ah" secondAttribute="top" id="LqZ-16-bdd"/>
                     <constraint firstItem="J5g-PB-hgQ" firstAttribute="top" secondItem="LnZ-65-6BW" secondAttribute="bottom" constant="7" id="Sjn-xM-sWk"/>
                     <constraint firstItem="LnZ-65-6BW" firstAttribute="leading" secondItem="J5g-PB-hgQ" secondAttribute="leading" id="UbA-iS-8pL"/>
-                    <constraint firstAttribute="trailingMargin" secondItem="oMI-rv-LqS" secondAttribute="trailing" constant="20" id="boa-c1-C1D"/>
+                    <constraint firstAttribute="trailingMargin" secondItem="oMI-rv-LqS" secondAttribute="trailing" constant="10" id="boa-c1-C1D"/>
                     <constraint firstItem="9c3-tq-O4l" firstAttribute="leading" secondItem="H2p-sc-9uM" secondAttribute="leadingMargin" id="g6W-Vl-OTy"/>
                     <constraint firstItem="9c3-tq-O4l" firstAttribute="centerY" secondItem="LnZ-65-6BW" secondAttribute="centerY" id="h7q-6k-oHu"/>
                     <constraint firstItem="9c3-tq-O4l" firstAttribute="top" secondItem="H2p-sc-9uM" secondAttribute="topMargin" constant="14" id="mBo-Cu-g7h"/>
@@ -86,7 +86,7 @@
         </tableViewCell>
     </objects>
     <resources>
-        <image name="ICON_Minussign" width="13" height="1"/>
-        <image name="ICON_Plus" width="13" height="13"/>
+        <image name="ICON_Minussign" width="1" height="1"/>
+        <image name="ICON_Plus" width="12" height="12"/>
     </resources>
 </document>

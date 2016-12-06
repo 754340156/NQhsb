@@ -13,9 +13,9 @@
  *  	H5请求
  *
  *  @param relevanceId 详情ID
- *  @param type        类型  1 大讲堂(销售职)  2 大讲堂(管理职)  3 话术本  4 大咖讲话术  5 录音库  6 工作日志  7 录音分析
+ *  @param type        类型  1 大讲堂(销售职)  2 大讲堂(管理职)  3 话术本  4 大咖讲话术  5 录音库  6 工作日志  7 录音分析   8  同7（后台傻逼了多写了一个）9 活动
  *
  *  @return H5链接
  */
-+ (void)loadUrlWithRelevanceId:(NSString *)relevanceId type:(NSString *)type SuccessBlock:(void(^)(NSString *url))successBlock failBlock:(void(^)(NSError*error))failBlock;
++ (void)loadUrlWithRelevanceId:(NSString *)relevanceId type:(NSString *)type SuccessBlock:(void(^)(NSString *url))successBlock failBlock:(void(^)(NSError *error))failBlock;
 @end

@@ -12,16 +12,18 @@
 
 @end
 
+
+
 @implementation MainSearchFinishResponse
 
 + (NSDictionary *)objectClassInArray{
-    return @{@"list" : [MainSearchList class]};
+    return @{@"list" : [MainSearchFinishList class]};
 }
 
 @end
 
 
-@implementation MainSearchList
+@implementation MainSearchFinishList
 
 @end
 

@@ -7,7 +7,7 @@
 //
 
 #import "HWSearchOperationController.h"
-#import "HWPublicWebController.h"
+#import "SalesjobDetailViewController.h"
 #import "HWOperationModel.h"
 #import "HWOperationCell.h"
 #import "HWHotSearchCell.h"
@@ -44,11 +44,12 @@ static NSInteger pageSize = 10;
     [self.collectionView registerNib:[UINib nibWithNibName:NSStringFromClass([HWHotSearchCell class]) bundle:nil] forCellWithReuseIdentifier:NSStringFromClass([HWHotSearchCell class])];
     [self.collectionView registerClass:[UICollectionReusableView class] forSupplementaryViewOfKind:UICollectionElementKindSectionHeader withReuseIdentifier:NSStringFromClass([UICollectionElementKindSectionHeader class])];
     self.collectionView.scrollEnabled = NO;
-    self.tableView.tableFooterView = [[UITableViewHeaderFooterView alloc] init];
+    self.tableView.tableFooterView = [[UIView alloc] init];
+    self.tableView.backgroundColor = BXT_BACKGROUND_COLOR;
 }
 - (void)setRefresh
 {
-    self.tableView.mj_footer  = [MJRefreshBackFooter footerWithRefreshingBlock:^{
+    self.tableView.mj_footer  = [MJRefreshBackNormalFooter footerWithRefreshingBlock:^{
         [self networkSearchMoreData];
     }];
     self.tableView.mj_footer.hidden = YES;
@@ -67,10 +68,21 @@ static NSInteger pageSize = 10;
 }
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
 {
-    HWPublicWebController *publicWebVC = [[HWPublicWebController alloc] init];
-    publicWebVC.type = self.type;
-    publicWebVC.RelevanceId = [self.searchDataA[indexPath.row] dataId];
-    [self.navigationController pushViewController:publicWebVC animated:YES];
+    SalesjobDetailViewController *publicWebVC = [[SalesjobDetailViewController alloc] init];
+    HWOperationModel *model = self.searchDataA[indexPath.row];
+    [Html5LoadUrl loadUrlWithRelevanceId:model.dataId type:self.type SuccessBlock:^(NSString *url) {
+        publicWebVC.kBxtH5Url = url;
+        publicWebVC.kBxtTitle = model.title;
+        publicWebVC.type = self.type;
+        publicWebVC.relevanceId = model.dataId;
+        [self.navigationController pushViewController:publicWebVC animated:YES];
+    } failBlock:^(NSError *error) {
+        [self showHint:kBxtNetWorkError];
+    }];
+}
+- (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath
+{
+    return 106;
 }
 #pragma mark - UICollectionViewDeleagte
 - (NSInteger )collectionView:(UICollectionView *)collectionView numberOfItemsInSection:(NSInteger)section
@@ -104,6 +116,7 @@ static NSInteger pageSize = 10;
     }
     return CGSizeMake(80, 24);
 }
+
 #pragma mark - UISearchBarDelegate
 - (void)searchBarSearchButtonClicked:(UISearchBar *)searchBar
 {
@@ -122,12 +135,14 @@ static NSInteger pageSize = 10;
 //热门搜索
 - (void)networkHotSearch
 {
+    [MBProgressHUD showHUDAddedTo:self.view animated:YES];
     NSDictionary *parameters = @{@"account":[UserInfo account].account,
                           @"token":[UserInfo account].token,
                           @"type":self.type};
     [NetWorkHelp netWorkWithURLString:hotSearch
                            parameters:parameters
                          SuccessBlock:^(NSDictionary *dic) {
+                             [MBProgressHUD hideHUDForView:self.view animated:YES];
                              if ([dic[@"code"] intValue] == 0) {
                                  for (NSDictionary *dictionary in dic[@"response"]) {
                                      [self.hotSeaDataA addObject: dictionary[@"title"]];
@@ -137,6 +152,7 @@ static NSInteger pageSize = 10;
                                  [self showHint:dic[@"errorMessage"]];
                              }
                          } failBlock:^(NSError *error) {
+                             [MBProgressHUD hideHUDForView:self.view animated:YES];
                              [self showHint:@"网络连接错误"];
                          }];
     

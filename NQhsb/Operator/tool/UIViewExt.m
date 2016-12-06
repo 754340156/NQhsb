@@ -235,7 +235,7 @@
 {
     CGFloat scale = [[UIScreen mainScreen] scale];
     
-    if (NULL != UIGraphicsBeginImageContextWithOptions)
+    if (NULL != &UIGraphicsBeginImageContextWithOptions)
         UIGraphicsBeginImageContextWithOptions(self.bounds.size, NO, scale);
     else
         UIGraphicsBeginImageContext(self.bounds.size);

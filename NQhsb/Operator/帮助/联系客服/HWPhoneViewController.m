@@ -29,6 +29,7 @@
 -(void)maketableView{
     
     _tableView=[[ UITableView alloc] initWithFrame:CGRectMake(0, 64, self.view.width, self.view.height) style:UITableViewStylePlain];
+    _tableView.backgroundColor = BXT_BACKGROUND_COLOR;
     _tableView.delegate=self;
     _tableView.dataSource=self;
     [self.view addSubview:_tableView];
@@ -51,7 +52,6 @@
     cell.imageView.image = [UIImage imageNamed:self.iconArray[indexPath.section]];
     cell.textLabel.text = self.dataArray[indexPath.section];
     cell.textLabel.textColor=[UIColor grayColor];
-    [cell setBackgroundColor:[UIColor colorWithRed:223.0/255 green:223.0/255  blue:223.0/255  alpha:1.0]];
     return cell;
 }
 -(CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath{
@@ -69,7 +69,7 @@
 -(UIView*)tableView:(UITableView *)tableView viewForHeaderInSection:(NSInteger)section{
     
     UIView *view=[[ UIView alloc] initWithFrame:CGRectMake(0, 0, self.view.width, 46)];
-    [view setBackgroundColor:[ UIColor whiteColor]];
+    [view setBackgroundColor:BXT_BACKGROUND_COLOR];
     UILabel *labl=[[UILabel alloc] initWithFrame:CGRectMake(20, 0, self.view.width-20, 46)];
     labl.font=[UIFont systemFontOfSize:16];
     switch (section) {

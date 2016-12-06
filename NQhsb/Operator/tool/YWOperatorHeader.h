@@ -70,16 +70,22 @@
  *已选择的模板列表--->生成问题分析模板
  */
 #define  MusicquestionChooselist  @"/question/chooselist.do"
-
+/**
+ * 未生成的模版列表
+ */
+#define Musicquestionchooseloglist @"/question/chooseloglist.do"
 /**
  *根据模板id获取题库
  */
 #define  MusicquestionBankList  @"/question/banklist.do"
-
+/**
+ *根据模板id获取题库(已缓存)
+ */
+#define  MusicquestionbankLogList  @"/question/bankLogList.do"
 /**
  *根据题库做题
  */
-#define  MusicquestionAddproblem  @"/question/addproblem.do"
+#define  MusicquestionAddproblem  @"/question/addallproblem.do"
 
 
 #endif /* YWOperatorHeader_h */

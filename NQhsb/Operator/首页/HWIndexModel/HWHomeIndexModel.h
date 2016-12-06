@@ -16,7 +16,7 @@
 @property(nonatomic,copy)NSString  *nickname;
 @property(nonatomic,copy)NSString  *dataId;
 @property(nonatomic,copy)NSString  *clickNum;//播放数量
-
+@property(nonatomic,copy)NSString  *url;     //底部活动链接
 
 @end
 

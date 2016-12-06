@@ -8,21 +8,29 @@
 
 #import "HWJobLogController.h"
 #import "HWDataStatisticController.h"
+#import "HWJobLogDetailController.h"
 #import "HWAddJobLogController.h"
 #import "HWJobLogCell.h"
 #import "HWJobLogModel.h"
 static NSInteger pageIndex = 1;
 static NSInteger pageSize = 10;
 @interface HWJobLogController ()<UITableViewDataSource,UITableViewDelegate>
-@property (weak, nonatomic) IBOutlet UITableView *tableView;
+@property (nonatomic,strong) UITableView *tableView;
 /**  <#注释#> */
 @property (weak, nonatomic) IBOutlet UIButton *addLogBtn;
 @property (nonatomic,strong) NSMutableArray * dataArray;
+@property (weak, nonatomic) IBOutlet UIButton *addShujuBtn;
 @end
 
 @implementation HWJobLogController
-
-- (void)viewDidLoad {
+#pragma mark - lifeCycle
+- (void)viewWillAppear:(BOOL)animated
+{
+    [super viewWillAppear:animated];
+    [self.tableView.mj_header beginRefreshing];
+}
+- (void)viewDidLoad
+{
     [super viewDidLoad];
     self.titleLabel.text = @"工作日志";
     [self setCorner];
@@ -32,14 +40,22 @@ static NSInteger pageSize = 10;
 #pragma mark - setup
 - (void)setCorner
 {
-    self.addLogBtn.layer.cornerRadius = 5;
-    self.addLogBtn.layer.masksToBounds = YES;
-    self.addLogBtn.layer.borderWidth = 0.7;
-    self.addLogBtn.layer.borderColor = [UIColor redColor].CGColor;
+    self.addShujuBtn.layer.masksToBounds = YES;
+    self.addShujuBtn.layer.borderWidth = 0.7;
+    self.addShujuBtn.titleLabel.textColor = KTabBarColor;
+    self.addShujuBtn.layer.borderColor = KTabBarColor.CGColor;
+    self.addShujuBtn.layer.cornerRadius = 3;
+    [self.addLogBtn setBackgroundColor:KTabBarColor];
 }
 - (void)setTableView
 {
-    [self.tableView registerNib:[UINib nibWithNibName:NSStringFromClass([HWJobLogCell class]) bundle:nil] forCellReuseIdentifier:NSStringFromClass([HWJobLogCell class])];
+    self.tableView = [[UITableView alloc] initWithFrame:CGRectMake(0, 64, WIDTH, HEIGHT-64-90) style:UITableViewStylePlain];
+    _tableView.backgroundColor = BXT_BACKGROUND_COLOR;
+    _tableView.delegate = self;
+    _tableView.dataSource = self;
+    [_tableView registerNib:[UINib nibWithNibName:NSStringFromClass([HWJobLogCell class]) bundle:nil] forCellReuseIdentifier:NSStringFromClass([HWJobLogCell class])];
+    _tableView.tableFooterView = [[UIView alloc] init];
+    [self.view addSubview:_tableView];
 }
 - (void)setRefresh
 {
@@ -65,9 +81,11 @@ static NSInteger pageSize = 10;
     cell.selectionStyle = UITableViewCellSelectionStyleNone;
     return cell;
 }
--(CGFloat)tableView:(UITableView *)tableView heightForFooterInSection:(NSInteger)section
+- (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
 {
-    return 0.1;
+    HWJobLogDetailController *jobLogDetailVC = [[HWJobLogDetailController alloc] init];
+    jobLogDetailVC.dataId = [self.dataArray[indexPath.row] dataId];
+    [self.navigationController pushViewController:jobLogDetailVC animated:YES];
 }
 - (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath
 {
@@ -149,12 +167,14 @@ static NSInteger pageSize = 10;
 }
 - (void)networkDelegateJobLogWithDataId:(NSString *)dataId success:(void(^)())success
 {
+    [MBProgressHUD showHUDAddedTo:self.view animated:YES];
     NSDictionary *parameters = @{@"account":[UserInfo account].account,
                                  @"token":[UserInfo account].token,
                           @"dataId":dataId};
     [NetWorkHelp netWorkWithURLString:deleteWorkLog
                            parameters:parameters
                          SuccessBlock:^(NSDictionary *dic) {
+                             [MBProgressHUD hideHUDForView:self.view animated:YES];
                              if ([dic[@"code"] intValue] == 0) {
                                  [self showHint:@"删除成功"];
                                  success();
@@ -162,6 +182,7 @@ static NSInteger pageSize = 10;
                                  [self showHint:dic[@"errorMessage"]];
                              }
                          } failBlock:^(NSError *error) {
+                             [MBProgressHUD hideHUDForView:self.view animated:YES];
                              [self showHint:@"网络连接错误"];
                          }];
 }
@@ -170,7 +191,15 @@ static NSInteger pageSize = 10;
 - (IBAction)dataStatisticAction:(id)sender
 {
     HWDataStatisticController *dataStatisticVC = [[HWDataStatisticController alloc] init];
-    [self.navigationController pushViewController:dataStatisticVC animated:YES];
+    [Html5LoadUrl loadUrlWithRelevanceId:nil
+                                    type:@"6"
+                            SuccessBlock:^(NSString *url) {
+                                dataStatisticVC.htmlUrl = url;
+                                [self.navigationController pushViewController:dataStatisticVC animated:YES];
+                            } failBlock:^(NSError *error) {
+                              
+                            }];
+    
 }
 //添加日志
 - (IBAction)addWorkLogAction:(id)sender

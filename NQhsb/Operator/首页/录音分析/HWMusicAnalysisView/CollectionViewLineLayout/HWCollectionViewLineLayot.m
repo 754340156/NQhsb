@@ -37,10 +37,11 @@
     
     // 设置cell的大小
     CGFloat itemWH = self.collectionView.frame.size.height * 0.8;
-    self.itemSize = CGSizeMake(itemWH, itemWH);
+    CGFloat itemW = self.collectionView.frame.size.width * 0.7;
+    self.itemSize = CGSizeMake(itemW, itemWH);
     
     // 设置内边距
-    CGFloat inset = (self.collectionView.frame.size.width - itemWH) * 0.5;
+    CGFloat inset = (self.collectionView.frame.size.width - itemW) * 0.5;
     self.sectionInset = UIEdgeInsetsMake(0, inset, 0, inset);
 }
 
@@ -63,7 +64,7 @@
         // 利用差距计算出缩放比例（成反比）
         CGFloat scale = 1 - delta / (self.collectionView.frame.size.width + self.itemSize.width);
         attrs.transform = CGAffineTransformMakeScale(scale, scale);
-        //  attrs.transform3D = CATransform3DMakeRotation(scale * M_PI_4, 0, 1, 1);
+//        attrs.transform3D = CATransform3DMakeRotation(scale * M_PI_4, 1, 1, 1);
     }
     
     return array;

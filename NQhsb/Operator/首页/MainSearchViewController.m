@@ -54,7 +54,7 @@ kBxtPropertyStrong MainSearchFinishModels *finishModels;
 {
     if (!_searchTF) {
         _searchTF = [[UITextField alloc] init];
-        _searchTF.frame = CGRectMake(10, 27, WIDTH-70, 35);
+        _searchTF.frame = CGRectMake(10, 27, WIDTH-70, 33);
         _searchTF.placeholder = @"请输入关键字";
         _searchTF.backgroundColor = BXT_BACKGROUND_COLOR;
         _searchTF.layer.masksToBounds = YES;
@@ -62,13 +62,15 @@ kBxtPropertyStrong MainSearchFinishModels *finishModels;
         _searchTF.clearButtonMode = UITextFieldViewModeWhileEditing;
         _searchTF.returnKeyType = UIReturnKeySearch;
         _searchTF.delegate = self;
+        [_searchTF becomeFirstResponder];
         [self setTextFieldLeftPadding:_searchTF forWidth:40];
         
         UIButton *clearBack = [[UIButton alloc] initWithFrame:CGRectMake(_searchTF.right, _searchTF.top, 70, _searchTF.height)];
         [clearBack setTitle:@"取消" forState:UIControlStateNormal];
-        [clearBack setTitleColor:[UIColor colorWithRed:0.8588 green:0.0 blue:0.0 alpha:1.0] forState:UIControlStateNormal];
+        [clearBack setTitleColor:[UIColor colorWithWhite:0.289 alpha:1.000] forState:UIControlStateNormal];
         [clearBack addTarget:self action:@selector(clearBtn) forControlEvents:UIControlEventTouchUpInside];
         
+        [self.navigationBarBackground setFrame:CGRectMake(0, 0, WIDTH, 84)];
         [self.navigationBarBackground addSubview:_searchTF];
         [self.navigationBarBackground addSubview:clearBack];
     }
@@ -79,7 +81,7 @@ kBxtPropertyStrong MainSearchFinishModels *finishModels;
     CGRect frame = textField.frame;
     frame.size.width = leftWidth;
     UIView *leftview = [[UIView alloc] initWithFrame:frame];
-    UIImageView *leftImage = [[UIImageView alloc] initWithFrame:CGRectMake(leftWidth /2, leftWidth / 5, leftWidth /2.5, leftWidth/ 2.5)];
+    UIImageView *leftImage = [[UIImageView alloc] initWithFrame:CGRectMake(10, leftWidth / 5, leftWidth /2.5, leftWidth/ 2.5)];
     leftImage.image = [UIImage imageNamed:@"Button_search"];
     [leftview addSubview:leftImage];
     textField.leftViewMode = UITextFieldViewModeAlways;
@@ -95,10 +97,11 @@ kBxtPropertyStrong MainSearchFinishModels *finishModels;
            [self netWorkSearch];
         }];
         
-        UIView *foot = [[UIView alloc] initWithFrame:CGRectMake(0, 0, WIDTH, 40)];
-        foot.backgroundColor = [UIColor colorWithRed:0.7261 green:0.7223 blue:0.73 alpha:1.0];
+        UIView *foot = [[UIView alloc] initWithFrame:CGRectMake(0, 0, WIDTH, 30)];
+        foot.backgroundColor = [UIColor colorWithWhite:0.873 alpha:1.000];
         UIButton *footLabel = [[UIButton alloc] initWithFrame:CGRectMake(0, 0, foot.width, foot.height)];
         [footLabel setTitle:@"清理历史纪录" forState:UIControlStateNormal];
+        [footLabel setFont:FontOfSize(13)];
         [footLabel setTintColor:[UIColor blackColor]];
         footLabel.titleLabel.textAlignment = NSTextAlignmentCenter;
         footLabel.backgroundColor = [UIColor clearColor];
@@ -162,7 +165,7 @@ kBxtPropertyStrong MainSearchFinishModels *finishModels;
                           @"keyword":searchText,
                           @"pageIndex":@(_pageIndex),
                           @"pageSize":@(_pageSize)};
-    [NetWorkHelp netWorkWithURLString:recentlySearch
+    [NetWorkHelp netWorkWithURLString:recordinglist
                            parameters:dic
                          SuccessBlock:^(NSDictionary *dic) {
                              if ([dic[@"code"] intValue] == 0) {

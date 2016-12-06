@@ -9,7 +9,8 @@
 #import "NavViewController.h"
 
 @interface HWMusicMSSelectedController : NavViewController
+@property(nonatomic,  copy)NSString        *releatedID;
 @property(nonatomic,retain)NSMutableArray *datalistArray;
-
+@property(nonatomic,  copy)NSString       *pushtitle;
 
 @end

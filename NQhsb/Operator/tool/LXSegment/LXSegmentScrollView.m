@@ -33,8 +33,16 @@
         _segmentToolView=[[LiuXSegmentView alloc] initWithFrame:CGRectMake(0, 0, MainScreen_W, 44) titles:titleArray clickBlick:^void(NSInteger index) {
             NSLog(@"-----%ld",index);
             [_bgScrollView setContentOffset:CGPointMake(MainScreen_W*(index-1), 0)];
+            
             successBlock(index);
         }];
+        
+        _segmentToolView.titleNomalColor      = [UIColor colorWithWhite:0.23 alpha:1.0];
+        _segmentToolView.titleSelectColor     = KTabBarColor;
+        _segmentToolView.backGroudColorNormal = BXT_BACKGROUND_COLOR;
+        _segmentToolView.backGroudSelectColor = [UIColor whiteColor];
+        _segmentToolView.isShowLine           = NO;
+        
         self.countArr = titleArray;
         [self addSubview:_segmentToolView];
         [self addSubview:self.bgScrollView];
@@ -77,5 +85,34 @@
         
     }
     
+}
+
+- (BOOL)gestureRecognizer:(UIGestureRecognizer *)gestureRecognizer shouldRecognizeSimultaneouslyWithGestureRecognizer:(UIGestureRecognizer *)otherGestureRecognizer
+{
+    if ([gestureRecognizer isKindOfClass:[UIPanGestureRecognizer class]])
+    {
+        switch (gestureRecognizer.state)
+        {
+            case UIGestureRecognizerStateBegan:
+            {
+                UIPanGestureRecognizer *pan = (UIPanGestureRecognizer *)gestureRecognizer;
+                CGPoint velocity = [pan velocityInView:self];
+                CGFloat Vx = fabs(velocity.x);
+                CGFloat Vy = fabs(velocity.y);
+                
+                return !(Vx > Vy - 50.0 || Vy < 400.0 || Vx > 500.0);
+            }
+                break;
+                
+            case UIGestureRecognizerStateChanged:
+                return NO;
+                break;
+                
+            default:
+                break;
+        }
+    }
+    
+    return YES;
 }
 @end

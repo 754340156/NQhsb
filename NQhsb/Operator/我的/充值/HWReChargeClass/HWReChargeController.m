@@ -31,6 +31,7 @@
     _dataOrderArray=[[NSMutableArray alloc] init];
     [self addOwnCollectionView];
     [self getUerOrderData];//获取订单数据
+    [self getRechargeInstructions];//获取充值说明
 }
 -(void)addOwnCollectionView
 {
@@ -136,6 +137,25 @@
     }];
     
     
+}
+/**
+ *  获取充值说明
+ */
+-(void)getRechargeInstructions
+{
+    NSDictionary *dic = @{@"account":[UserInfo account].account,
+                          @"type":@"3"};
+    [NetWorkHelp netWorkWithURLString:chainqueryInstructions
+                           parameters:dic
+                         SuccessBlock:^(NSDictionary *dic) {
+                             if ([dic[@"code"] intValue] == 0) {
+                                 DLog(@"充值说明查询成功");
+                             }else{
+                                 [self showHint:dic[@"errorMessage"]];
+                             }
+                         } failBlock:^(NSError *error) {
+                             [self showHint:kBxtNetWorkError];
+                         }];
 }
 - (void)didReceiveMemoryWarning {
     [super didReceiveMemoryWarning];

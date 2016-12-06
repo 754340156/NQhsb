@@ -33,7 +33,7 @@ static NSInteger picCount = 4;
     [super viewDidLoad];
     self.titleLabel.text = @"添加图片话术";
     self.backView.layer.shadowOpacity = 0.3;
-    [self.rightButton setTitleColor:[UIColor redColor] forState:UIControlStateNormal];
+    [self.rightButton setTitleColor:KTabBarColor forState:UIControlStateNormal];
     [self.rightButton setTitle:@"保存" forState:UIControlStateNormal];
     [self.rightButton addTarget:self action:@selector(saveAction) forControlEvents:UIControlEventTouchUpInside];
     self.selectedPhotos = [NSMutableArray array];
@@ -100,6 +100,7 @@ static NSInteger picCount = 4;
 - (void)pushImagePickerController
 {
     TZImagePickerController * imagePickerVC = [[TZImagePickerController alloc] initWithMaxImagesCount:maxImageCount delegate:self];
+    imagePickerVC.selectedAssets = self.selectedAssets;
     imagePickerVC.allowPickingVideo = NO;
     imagePickerVC.allowPickingOriginalPhoto = NO;
     [self presentViewController:imagePickerVC animated:YES completion:nil];
@@ -155,19 +156,23 @@ static NSInteger picCount = 4;
         [self showHint:@"你还没有添加图片"];
         return;
     }
-    
-    [self  showHudInView:self.view hint:@""];
+    MJWeakSelf;
+    [MBProgressHUD showHUDAddedTo:self.view animated:YES];
     [ALiYunTool  asyncUploadImages:_selectedPhotos complete:^(NSArray<NSString *> *names, UploadImageState state) {
         if (state==UploadImageSuccess)
         {
-         [self postData:names];//将返回的url传递到本地服务器，字段需要用“,”隔开
+         [weakSelf postData:names success:^{
+             [MBProgressHUD hideHUDForView:weakSelf.view animated:YES];
+         } fail:^{
+             [MBProgressHUD hideHUDForView:weakSelf.view animated:YES];
+         }];//将返回的url传递到本地服务器，字段需要用“,”隔开
         }
     }];
 }
 #pragma mark --将阿里云返回的图片URL上传到服务器
--(void)postData:(NSArray *)imageArray
+-(void)postData:(NSArray *)imageArray success:(void(^)())success fail:(void(^)())fail
 {
-    
+    MJWeakSelf;
     NSString *content=[imageArray componentsJoinedByString:@","];
     NSDictionary *parameters = @{@"account":[UserInfo account].account,
                           @"token":[UserInfo account].token,
@@ -179,28 +184,24 @@ static NSInteger picCount = 4;
     [NetWorkHelp netWorkWithURLString:homePageaddWords
                            parameters:parameters
                          SuccessBlock:^(NSDictionary *dic) {
-                             [self hideHud];
+                             success();
                              if ([dic[@"code"] intValue] == 0) {
                                  //添加成功
-                                 [self showHint:@"添加成功"];
+                                 [weakSelf showHint:@"保存成功"];
                                  dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(2.0 * NSEC_PER_SEC)), dispatch_get_main_queue(), ^{
-                                     [self.navigationController popViewControllerAnimated:YES];
+                                     [weakSelf.navigationController popViewControllerAnimated:YES];
                                  });
                              }else{
-                                 [self showHint:dic[@"errorMessage"]];
+                                 [weakSelf showHint:dic[@"errorMessage"]];
                              }
                          } failBlock:^(NSError *error) {
-                            [self hideHud];
-                             [self showHint:@"网络连接错误"];
+                             fail();
+                             [weakSelf showHint:@"网络连接错误"];
                          }];
-
-    
-    
-    
-    
 }
 #pragma mark - lazy
-- (UIImagePickerController *)imagePickerVc {
+- (UIImagePickerController *)imagePickerVc
+{
     if (_imagePickerVc == nil) {
         _imagePickerVc = [[UIImagePickerController alloc] init];
         _imagePickerVc.delegate = self;

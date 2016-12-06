@@ -21,19 +21,23 @@ static NSInteger pageSize = 10;
 
 @implementation HWStudyPlanController
 
-- (void)viewDidLoad {
+- (void)viewDidLoad
+{
     [super viewDidLoad];
     self.titleLabel.text = @"学习计划";
+    [_addPlanBtn setBackgroundColor:KTabBarColor];
     [self setRefresh];
     [self setCorner];
 }
 #pragma mark - setup
 - (void)setRefresh
 {
+    self.tableView.tableFooterView = [[UIView alloc] init];
+    self.tableView.backgroundColor = BXT_BACKGROUND_COLOR;
     self.tableView.mj_header = [MJRefreshNormalHeader headerWithRefreshingBlock:^{
         [self networkHelp];
     }];
-    self.tableView.mj_footer = [MJRefreshBackFooter footerWithRefreshingBlock:^{
+    self.tableView.mj_footer = [MJRefreshBackNormalFooter footerWithRefreshingBlock:^{
         [self networkMoreDataHelp];
     }];
     [self.tableView.mj_header beginRefreshing];
@@ -45,10 +49,6 @@ static NSInteger pageSize = 10;
     self.addPlanBtn.layer.cornerRadius = 4;
 }
 #pragma mark - UITableViewDelegate
--(CGFloat)tableView:(UITableView *)tableView heightForFooterInSection:(NSInteger)section
-{
-    return 0.1;
-}
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section
 {
     self.tableView.mj_footer.hidden = (self.dataArray.count < pageSize);
@@ -72,6 +72,28 @@ static NSInteger pageSize = 10;
     detailVC.dataId = [self.dataArray[indexPath.row] dataId];
     [self.navigationController pushViewController:detailVC animated:YES];
 }
+- (BOOL)tableView:(UITableView *)tableView canEditRowAtIndexPath:(NSIndexPath *)indexPath
+{
+    return  YES;
+}
+- (UITableViewCellEditingStyle)tableView:(UITableView *)tableView editingStyleForRowAtIndexPath:(NSIndexPath *)indexPath
+{
+    return UITableViewCellEditingStyleDelete;
+}
+- (NSString *)tableView:(UITableView *)tableView titleForDeleteConfirmationButtonForRowAtIndexPath:(NSIndexPath *)indexPath
+{
+    return @"删除";
+}
+- (void)tableView:(UITableView *)tableView commitEditingStyle:(UITableViewCellEditingStyle)editingStyle forRowAtIndexPath:(NSIndexPath *)indexPath
+{
+    MJWeakSelf;
+    if (editingStyle == UITableViewCellEditingStyleDelete) {
+        [self networkDelegateStudyPlanWithDataId:[self.dataArray[indexPath.row] dataId] success:^{
+            [weakSelf.dataArray removeObjectAtIndex:indexPath.row];
+            [weakSelf.tableView reloadData];
+        }];
+    }
+}
 #pragma mark - Action
 - (IBAction)addPlanAction:(id)sender
 {
@@ -82,7 +104,7 @@ static NSInteger pageSize = 10;
 - (void)networkHelp
 {
     NSDictionary *parameters = @{@"account":[UserInfo account].account,
-                          @"token":[UserInfo account].token};
+                                 @"token":[UserInfo account].token};
     [NetWorkHelp netWorkWithURLString:studyPlanlist
                            parameters:parameters
                          SuccessBlock:^(NSDictionary *dic) {
@@ -100,6 +122,7 @@ static NSInteger pageSize = 10;
                              [self.tableView.mj_header endRefreshing];
                              [self showHint:@"网络连接错误"];
                          }];
+    self.tableView.frame = CGRectMake(0, 64, WIDTH, HEIGHT-64-45);
 }
 - (void)networkMoreDataHelp
 {
@@ -127,6 +150,27 @@ static NSInteger pageSize = 10;
                              pageIndex--;
                              [self.tableView.mj_footer endRefreshing];
                              [self.tableView.mj_header endRefreshing];
+                             [self showHint:@"网络连接错误"];
+                         }];
+}
+- (void)networkDelegateStudyPlanWithDataId:(NSString *)dataId success:(void(^)())success
+{
+    [MBProgressHUD showHUDAddedTo:self.view animated:YES];
+    NSDictionary *parameters = @{@"account":[UserInfo account].account,
+                                 @"token":[UserInfo account].token,
+                                 @"dataId":dataId};
+    [NetWorkHelp netWorkWithURLString:studyPlanDelete
+                           parameters:parameters
+                         SuccessBlock:^(NSDictionary *dic) {
+                             [MBProgressHUD hideHUDForView:self.view animated:YES];
+                             if ([dic[@"code"] intValue] == 0) {
+                                 [self showHint:@"删除成功"];
+                                 success();
+                             }else{
+                                 [self showHint:dic[@"errorMessage"]];
+                             }
+                         } failBlock:^(NSError *error) {
+                             [MBProgressHUD hideHUDForView:self.view animated:YES];
                              [self showHint:@"网络连接错误"];
                          }];
 }

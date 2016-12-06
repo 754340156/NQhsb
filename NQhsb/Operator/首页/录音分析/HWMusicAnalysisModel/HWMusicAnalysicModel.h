@@ -17,6 +17,20 @@
 
 @end
 
+
+//我的录音列表model
+@interface HWMusicAnalysicVideoModel : BaseModel
+
+@property(nonatomic,copy) NSString *cover;
+@property(nonatomic,copy) NSString *title; //标题
+@property(nonatomic,copy) NSString *type;
+
+@property(nonatomic,copy) NSString *nickname;
+@property(nonatomic,copy) NSString *clickNum; //发布人名称
+@property(nonatomic,copy) NSString *dataId;//id
+
+@end
+
 //学习计划模板Model
 @interface HWMusicAnalysicListModel : BaseModel
 
@@ -43,8 +57,10 @@
 @property(nonatomic,copy) NSString *account;
 @property(nonatomic,copy) NSString *dtCreat;//创建日期
 @property(nonatomic,copy) NSString *type;
-
+@property(nonatomic,copy) NSString *isCache; //是否缓存数据 //0未缓存1已缓存
 @property(nonatomic,copy) NSString *onPic;//背景图
+@property(nonatomic,copy) NSString *uanswer; //用户缓存到答案
+@property(nonatomic,copy) NSString *answer;  //正确答案
 
 
 @end

@@ -12,6 +12,10 @@
 
 @end
 
+@implementation HWMusicAnalysicVideoModel
+
+@end
+
 
 
 @implementation HWMusicAnalysicListModel

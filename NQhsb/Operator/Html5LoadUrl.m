@@ -9,18 +9,15 @@
 #import "Html5LoadUrl.h"
 
 @implementation Html5LoadUrl
-+(void)loadUrlWithRelevanceId:(NSString *)relevanceId type:(NSString *)type SuccessBlock:(void(^)(NSString *url))successBlock failBlock:(void(^)(NSError*error))failBlock
++(void)loadUrlWithRelevanceId:(NSString *)relevanceId type:(NSString *)type SuccessBlock:(void(^)(NSString *url))successBlock failBlock:(void(^)(NSError *error))failBlock
 {
     __block NSString *str;
-
     NSDictionary *parameters = @{@"account":[UserInfo account].account,
-                          @"token":[UserInfo account].token,
-                          @"relevanceId":relevanceId,
-                          @"type":type};
+                                   @"token":[UserInfo account].token};
     [NetWorkHelp netWorkWithURLString:H5linkPath
                            parameters:parameters
                          SuccessBlock:^(NSDictionary *dic) {
-                             str = dic[@"response"][@"linkPath"];
+                             str = [NSString stringWithFormat:@"%@?account=%@&relevanceId=%@&type=%@",dic[@"response"][@"linkPath"],[UserInfo account].account,relevanceId,type];
                              successBlock(str);
                          } failBlock:^(NSError *error) {
                              failBlock(error);

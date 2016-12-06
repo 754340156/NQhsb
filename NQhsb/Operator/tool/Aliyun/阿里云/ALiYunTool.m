@@ -166,7 +166,7 @@ static OSSClient * client;
     NSDate* dat = [NSDate dateWithTimeIntervalSinceNow:0];
     NSTimeInterval a=[dat timeIntervalSince1970];
     //
-    request.objectKey = [NSString stringWithFormat:@"audiofile/%@_audio_%d.amr",[NSDate timeStringWithDataTimeToDate:a],((arc4random()% 100000000) + 10000)];
+    request.objectKey = [NSString stringWithFormat:@"audiofile/%@_audio_%d.mp3",[NSDate timeStringWithUserListTime:a],((arc4random()% 100000000) + 10000)];
     
     OSSPlainTextAKSKPairCredentialProvider *credential1 = [[OSSPlainTextAKSKPairCredentialProvider alloc] initWithPlainTextAccessKey:g_AK secretKey:g_SK];
     
@@ -211,19 +211,13 @@ static OSSClient * client;
             complete(UploadImageSuccess);
             OSSLogError(@"%@", task.error);
             
-        }else{
-            complete(UploadImageFailed);
         }
         OSSPutObjectResult * result = task.result;
         NSLog(@"Result - requestId: %@, headerFields: %@",
               result.requestId,
               result.httpResponseHeaderFields);
         return nil;
-    }] waitUntilFinished];
-
+    }]waitUntilFinished];
     return encodingString;
-
-    
-    
 }
 @end

@@ -7,7 +7,7 @@
 //
 
 #import "NavViewController.h"
-
+#import "XTRecordView.h"
 @interface HWAddVoiceController : NavViewController
 
 @end

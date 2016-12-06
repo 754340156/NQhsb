@@ -26,6 +26,7 @@ kBxtPropertyStrong NSMutableArray *kBxtTitleArr;
     [super viewDidLoad];
     self.leftBackImage.hidden=YES;
     self.titleLabel.text = @"帮助";
+    self.view.backgroundColor = BXT_BACKGROUND_COLOR;
     [self kBxtTitleArr];
     [self myTableview];
 }
@@ -40,7 +41,7 @@ kBxtPropertyStrong NSMutableArray *kBxtTitleArr;
 {
     if (!_myTableview) {
         _myTableview = [[UITableView alloc] init];
-        _myTableview.frame = CGRectMake(0, 64, WIDTH, HEIGHT-64);
+        _myTableview.frame = CGRectMake(0, 64, WIDTH, _kBxtTitleArr.count*44);
         _myTableview.delegate = self;
         _myTableview.dataSource = self;
         [self.view addSubview:_myTableview];

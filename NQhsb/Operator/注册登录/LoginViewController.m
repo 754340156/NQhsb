@@ -31,7 +31,7 @@
     label1.text = @"密 码:";
     label1.textColor = [UIColor blackColor];
     [self.kBxtUserPasswd addSubview:label1];
-    
+    [self.kBxtLoginBtn setFrame:CGRectMake(0, HEIGHT/2, WIDTH, 45)];
     [self.kBxtLoginBtn addTarget:self action:@selector(kBxtLoginBtnClick) forControlEvents:UIControlEventTouchUpInside];
     [self.kBxtReginBtn addTarget:self action:@selector(kBxtReginBtnClick:) forControlEvents:UIControlEventTouchUpInside];
     [self.kBxtForgetBtn addTarget:self action:@selector(kBxtReginBtnClick:) forControlEvents:UIControlEventTouchUpInside];

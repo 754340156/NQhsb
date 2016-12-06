@@ -13,5 +13,8 @@
 //用于统计模板问题数据
 @property(nonatomic,retain)NSMutableArray *questionDataArray;
 
-
+/**
+ *  用于传到下个页面
+ */
+@property(nonatomic,retain)NSString *relevanceId;
 @end

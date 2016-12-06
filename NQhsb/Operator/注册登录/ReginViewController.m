@@ -27,6 +27,10 @@
     [self setTextFieldLeftPadding:_kBxtPasswdTF forWidth:15];
     [self setTextFieldLeftPadding:_kBxtAffirmTF forWidth:15];
     self.view.backgroundColor = BXT_BACKGROUND_COLOR;
+    self.kBxtReginBtn.backgroundColor = KTabBarColor;
+    self.kBxtAutoCodeLabel.backgroundColor = KTabBarColor;
+    self.kBxtAutoCodeLabel.layer.masksToBounds = YES;
+    self.kBxtAutoCodeLabel.layer.cornerRadius  = 3;
     [self.kBxtAuthCodeBtn addTarget:self action:@selector(kBxtAuthCodeBtn:) forControlEvents:UIControlEventTouchUpInside];
     [self.kBxtReginBtn addTarget:self action:@selector(kBxtReginBtnClick) forControlEvents:UIControlEventTouchUpInside];
 }
@@ -87,7 +91,7 @@
                          SuccessBlock:^(NSDictionary *dic) {
                              if ([dic[@"code"] intValue] == 0) {
                                  str = @"注册成功";
-                                 [self showHint:@"注册成功"];
+                                 [self showHint:str];
                                  [self.navigationController popViewControllerAnimated:YES];
                              }else{
                                  [self showHint:dic[@"errorMessage"]];

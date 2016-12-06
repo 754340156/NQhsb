@@ -10,4 +10,6 @@
 
 @interface HWMusicSelectedModleController : NavViewController
 
+@property(nonatomic,copy)NSString  *releatedId;//关联id
+
 @end

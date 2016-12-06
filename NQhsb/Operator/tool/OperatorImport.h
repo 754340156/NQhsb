@@ -13,6 +13,10 @@
 
 #import "Html5LoadUrl.h"
 
+#import "UMSocialUIManager.h"
+//仿微信按住说话
+#import "LGAudioKit.h"
+
 //存储用户信息
 #import "UserInfo.h"
 #import "XBAccount.h"
@@ -30,10 +34,7 @@
 #import "UIImageView+WebCache.h"
 
 //UM
-#import "UMSocial.h"
-#import "UMSocialData.h"
-#import "UMSocialWechatHandler.h"
-#import "UMSocialQQHandler.h"
+
 
 //Frame通用
 #import "UIViewExt.h"
@@ -75,6 +76,7 @@
 //阿里云
 #import "ALiYunTool.h"
 
+#import "WeiXinTool.h"
 //阿里支付
 #import <AlipaySDK/AlipaySDK.h>
 

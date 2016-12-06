@@ -9,10 +9,12 @@
 #import "HWMyOperationController.h"
 #import "HWOperationCell.h"
 #import "HWOperationModel.h"
-#import "HWPublicWebController.h" //详情
+#import "SalesjobDetailViewController.h" //详情
 static NSInteger pageIndex = 1;
 static NSInteger pageSize = 10;
 @interface HWMyOperationController ()<UITableViewDataSource,UITableViewDelegate>
+
+@property (nonatomic,strong) HWOperationModel *operationModel;
 
 @property (nonatomic,strong) LXSegmentScrollView *scView;
 
@@ -39,8 +41,9 @@ static NSInteger pageSize = 10;
     [super viewDidLoad];
     
     self.titleLabel.text = self.titleText;
-    MJWeakSelf;
+
     self.contentTableViewArr = [NSMutableArray array];
+    
     [self myTableview];
     
     [self myTableviewTwo];
@@ -53,18 +56,17 @@ static NSInteger pageSize = 10;
                titleArray:@[@"文本",@"图片",@"录音",]
                contentViewArray:self.contentTableViewArr
                SuccessBlock:^(NSInteger index) {
-                   LogApi(@"%ld",(long)index);
+//                   LogApi(@"%ld",(long)index);
                    self.currentIndex = index;
-                   
-                   if (index == 1) {
-                       [weakSelf.tableView1.mj_header beginRefreshing];
-                       
-                   }else if(index == 2){
-                       [weakSelf.tableView2.mj_header beginRefreshing];
-                       
-                   }else{
-                       [weakSelf.tableView3.mj_header beginRefreshing];
-                   }
+//                   if (index == 1) {
+//                       [weakSelf.tableView1.mj_header beginRefreshing];
+//                       
+//                   }else if(index == 2){
+//                       [weakSelf.tableView2.mj_header beginRefreshing];
+//                       
+//                   }else{
+//                       [weakSelf.tableView3.mj_header beginRefreshing];
+//                   }
                }];
     [self.view addSubview:_scView];
     
@@ -78,23 +80,25 @@ static NSInteger pageSize = 10;
                                 @"type":@(3),
                                 @"wordsType":@(wordsType)};
     
-    [NetWorkHelp  netWorkWithURLString:listOfMe parameters:parameters SuccessBlock:^(NSDictionary *dic)
+    [NetWorkHelp  netWorkWithURLString:listOfMe
+                            parameters:parameters
+                          SuccessBlock:^(NSDictionary *dic)
      {
          [self hideHud];
          if ([dic[@"code"]integerValue]==0)
          {
              switch (wordsType) {
                  case 1:
-                     self.dataArray1 = [HWOperationModel mj_objectArrayWithKeyValuesArray:dic[@"response"][@"list"]];
-                     [self.tableView1 reloadData];
+                     _dataArray1 = [HWOperationModel mj_objectArrayWithKeyValuesArray:dic[@"response"][@"list"]];
+                     [_tableView1 reloadData];
                      break;
                  case 2:
-                     self.dataArray2 = [HWOperationModel mj_objectArrayWithKeyValuesArray:dic[@"response"][@"list"]];
-                     [self.tableView2 reloadData];
+                     _dataArray2 = [HWOperationModel mj_objectArrayWithKeyValuesArray:dic[@"response"][@"list"]];
+                     [_tableView2 reloadData];
                      break;
                  case 3:
-                     self.dataArray3 = [HWOperationModel mj_objectArrayWithKeyValuesArray:dic[@"response"][@"list"]];
-                     [self.tableView3 reloadData];
+                     _dataArray3 = [HWOperationModel mj_objectArrayWithKeyValuesArray:dic[@"response"][@"list"]];
+                     [_tableView3 reloadData];
                      break;
              }
              //成功处理数据
@@ -106,32 +110,32 @@ static NSInteger pageSize = 10;
          }
          switch (wordsType) {
              case 1:
-                 [self.tableView1.mj_header endRefreshing];
-                 [self.tableView1.mj_footer endRefreshing];
+                 [_tableView1.mj_header endRefreshing];
+                 [_tableView1.mj_footer endRefreshing];
                  break;
              case 2:
-                 [self.tableView2.mj_header endRefreshing];
-                 [self.tableView2.mj_footer endRefreshing];
+                 [_tableView2.mj_header endRefreshing];
+                 [_tableView2.mj_footer endRefreshing];
                  break;
              case 3:
-                 [self.tableView3.mj_header endRefreshing];
-                 [self.tableView3.mj_footer endRefreshing];
+                 [_tableView3.mj_header endRefreshing];
+                 [_tableView3.mj_footer endRefreshing];
                  break;
          }
      } failBlock:^(NSError *error)
      {
          switch (wordsType) {
              case 1:
-                 [self.tableView1.mj_header endRefreshing];
-                 [self.tableView1.mj_footer endRefreshing];
+                 [_tableView1.mj_header endRefreshing];
+                 [_tableView1.mj_footer endRefreshing];
                  break;
              case 2:
-                 [self.tableView2.mj_header endRefreshing];
-                 [self.tableView2.mj_footer endRefreshing];
+                 [_tableView2.mj_header endRefreshing];
+                 [_tableView2.mj_footer endRefreshing];
                  break;
              case 3:
-                 [self.tableView3.mj_header endRefreshing];
-                 [self.tableView3.mj_footer endRefreshing];
+                 [_tableView3.mj_header endRefreshing];
+                 [_tableView3.mj_footer endRefreshing];
                  break;
          }
          [self showHint:@"网络连接失败"];
@@ -158,7 +162,7 @@ static NSInteger pageSize = 10;
                  case 1:
                      [self.dataArray1 addObjectsFromArray: [HWOperationModel mj_objectArrayWithKeyValuesArray:dic[@"response"][@"list"]]];
                      if ( [dic[@"response"][@"count"] integerValue] < pageSize) {
-                         [self.tableView1.mj_footer endRefreshingWithNoMoreData];
+                         [_tableView1.mj_footer endRefreshingWithNoMoreData];
                          return ;
                      }
                      [self.tableView1 reloadData];
@@ -166,7 +170,7 @@ static NSInteger pageSize = 10;
                  case 2:
                      [self.dataArray2 addObjectsFromArray: [HWOperationModel mj_objectArrayWithKeyValuesArray:dic[@"response"][@"list"]]];
                      if ( [dic[@"response"][@"count"] integerValue] < pageSize) {
-                         [self.tableView2.mj_footer endRefreshingWithNoMoreData];
+                         [_tableView2.mj_footer endRefreshingWithNoMoreData];
                          return ;
                      }
                      [self.tableView2 reloadData];
@@ -174,7 +178,7 @@ static NSInteger pageSize = 10;
                  case 3:
                      [self.dataArray3 addObjectsFromArray: [HWOperationModel mj_objectArrayWithKeyValuesArray:dic[@"response"][@"list"]]];
                      if ( [dic[@"response"][@"count"] integerValue] < pageSize) {
-                         [self.tableView3.mj_footer endRefreshingWithNoMoreData];
+                         [_tableView3.mj_footer endRefreshingWithNoMoreData];
                          return ;
                      }
                      [self.tableView3 reloadData];
@@ -189,16 +193,16 @@ static NSInteger pageSize = 10;
          }
          switch (wordsType) {
              case 1:
-                 [self.tableView1.mj_header endRefreshing];
-                 [self.tableView1.mj_footer endRefreshing];
+                 [_tableView1.mj_header endRefreshing];
+                 [_tableView1.mj_footer endRefreshing];
                  break;
              case 2:
-                 [self.tableView2.mj_header endRefreshing];
-                 [self.tableView2.mj_footer endRefreshing];
+                 [_tableView2.mj_header endRefreshing];
+                 [_tableView2.mj_footer endRefreshing];
                  break;
              case 3:
-                 [self.tableView3.mj_header endRefreshing];
-                 [self.tableView3.mj_footer endRefreshing];
+                 [_tableView3.mj_header endRefreshing];
+                 [_tableView3.mj_footer endRefreshing];
                  break;
          }
      } failBlock:^(NSError *error)
@@ -206,16 +210,16 @@ static NSInteger pageSize = 10;
          pageIndex--;
          switch (wordsType) {
              case 1:
-                 [self.tableView1.mj_header endRefreshing];
-                 [self.tableView1.mj_footer endRefreshing];
+                 [_tableView1.mj_header endRefreshing];
+                 [_tableView1.mj_footer endRefreshing];
                  break;
              case 2:
-                 [self.tableView2.mj_header endRefreshing];
-                 [self.tableView2.mj_footer endRefreshing];
+                 [_tableView2.mj_header endRefreshing];
+                 [_tableView2.mj_footer endRefreshing];
                  break;
              case 3:
-                 [self.tableView3.mj_header endRefreshing];
-                 [self.tableView3.mj_footer endRefreshing];
+                 [_tableView3.mj_header endRefreshing];
+                 [_tableView3.mj_footer endRefreshing];
                  break;
          }
          [self showHint:@"网络连接失败"];
@@ -225,98 +229,101 @@ static NSInteger pageSize = 10;
 - (void)setRefresh
 {
     MJWeakSelf;
-    self.tableView1.mj_header = [MJRefreshNormalHeader headerWithRefreshingBlock:^{
+    _tableView1.mj_header = [MJRefreshNormalHeader headerWithRefreshingBlock:^{
         [weakSelf netWorkHelpWithWordsType:1];
     }];
-    self.tableView2.mj_header = [MJRefreshNormalHeader headerWithRefreshingBlock:^{
+    _tableView2.mj_header = [MJRefreshNormalHeader headerWithRefreshingBlock:^{
         [weakSelf netWorkHelpWithWordsType:2];
     }];
-    self.tableView3.mj_header = [MJRefreshNormalHeader headerWithRefreshingBlock:^{
+    _tableView3.mj_header = [MJRefreshNormalHeader headerWithRefreshingBlock:^{
         [weakSelf netWorkHelpWithWordsType:3];
     }];
-    self.tableView1.mj_footer = [MJRefreshBackFooter footerWithRefreshingBlock:^{
+    _tableView1.mj_footer = [MJRefreshBackNormalFooter footerWithRefreshingBlock:^{
         [weakSelf netWorkMoreDataWithWordsType:1];
     }];
-    self.tableView2.mj_footer = [MJRefreshBackFooter footerWithRefreshingBlock:^{
+    _tableView2.mj_footer = [MJRefreshBackNormalFooter footerWithRefreshingBlock:^{
         [weakSelf netWorkMoreDataWithWordsType:2];
     }];
-    self.tableView3.mj_footer = [MJRefreshBackFooter footerWithRefreshingBlock:^{
+    _tableView3.mj_footer = [MJRefreshBackNormalFooter footerWithRefreshingBlock:^{
         [weakSelf netWorkMoreDataWithWordsType:3];
     }];
-    [self.tableView1.mj_header beginRefreshing];
-    [self.tableView2.mj_header beginRefreshing];
-    [self.tableView3.mj_header beginRefreshing];
+    [_tableView1.mj_header beginRefreshing];
+    [_tableView2.mj_header beginRefreshing];
+    [_tableView3.mj_header beginRefreshing];
     
-    self.tableView1.mj_footer.hidden = YES;
-    self.tableView2.mj_footer.hidden = YES;
-    self.tableView3.mj_footer.hidden = YES;
+    _tableView1.mj_footer.hidden = YES;
+    _tableView2.mj_footer.hidden = YES;
+    _tableView3.mj_footer.hidden = YES;
 }
 #pragma mark - setup
 -(UITableView *)myTableview
 {
-    if (!self.tableView1) {
-        self.tableView1 = [[UITableView alloc] init];
-        self.tableView1.frame = CGRectMake(0, 64, WIDTH, HEIGHT-64);
-        self.tableView1.delegate = self;
-        self.tableView1.dataSource = self;
-        [self.tableView1 registerNib:[UINib nibWithNibName:NSStringFromClass([HWOperationCell class]) bundle:nil] forCellReuseIdentifier:NSStringFromClass([HWOperationCell class])];
-        self.tableView1.mj_header = [MJRefreshNormalHeader headerWithRefreshingBlock:^{
+    if (!_tableView1) {
+        _tableView1 = [[UITableView alloc] init];
+        _tableView1.frame = CGRectMake(0, 64, WIDTH, HEIGHT-64);
+        _tableView1.delegate = self;
+        _tableView1.dataSource = self;
+        _tableView1.backgroundColor = BXT_BACKGROUND_COLOR;
+        [_tableView1 registerNib:[UINib nibWithNibName:NSStringFromClass([HWOperationCell class]) bundle:nil] forCellReuseIdentifier:NSStringFromClass([HWOperationCell class])];
+        _tableView1.mj_header = [MJRefreshNormalHeader headerWithRefreshingBlock:^{
             [self netWorkHelpWithWordsType:1];
         }];
-        self.tableView1.tableFooterView=[[UIView alloc] init];
-        [self.contentTableViewArr addObject:self.tableView1];
+        _tableView1.tableFooterView=[[UIView alloc] init];
+        [_contentTableViewArr addObject:_tableView1];
     }
-    return self.tableView1;
+    return _tableView1;
 }
 -(UITableView *)myTableviewTwo
 {
-    if (!self.tableView2) {
-        self.tableView2 = [[UITableView alloc] init];
+    if (!_tableView2) {
+        _tableView2 = [[UITableView alloc] init];
         
-        self.tableView2.tableFooterView=[[UIView alloc] init];
+        _tableView2.tableFooterView=[[UIView alloc] init];
         
-        self.tableView2.frame = CGRectMake(0, 64, WIDTH, HEIGHT-64);
-        self.tableView2.delegate = self;
-        self.tableView2.dataSource = self;
-        [self.tableView2 registerNib:[UINib nibWithNibName:NSStringFromClass([HWOperationCell class]) bundle:nil] forCellReuseIdentifier:NSStringFromClass([HWOperationCell class])];
+        _tableView2.frame = CGRectMake(0, 64, WIDTH, HEIGHT-64);
+        _tableView2.delegate = self;
+        _tableView2.dataSource = self;
+        _tableView2.backgroundColor = BXT_BACKGROUND_COLOR;
+        [_tableView2 registerNib:[UINib nibWithNibName:NSStringFromClass([HWOperationCell class]) bundle:nil] forCellReuseIdentifier:NSStringFromClass([HWOperationCell class])];
         self.tableView2.mj_header = [MJRefreshNormalHeader headerWithRefreshingBlock:^{
             [self netWorkHelpWithWordsType:2];
         }];
-        [self.contentTableViewArr addObject:self.tableView2];
+        [_contentTableViewArr addObject:_tableView2];
     }
-    return self.tableView2;
+    return _tableView2;
 }
 -(UITableView *)myTableviewThree
 {
-    if (!self.tableView3) {
-        self.tableView3 = [[UITableView alloc] init];
-        self.tableView3.frame = CGRectMake(0, 64, WIDTH, HEIGHT-64);
-        self.tableView3.tableFooterView=[[UIView alloc] init];
-        self.tableView3.delegate = self;
-        self.tableView3.dataSource = self;
-        [self.tableView3 registerNib:[UINib nibWithNibName:NSStringFromClass([HWOperationCell class]) bundle:nil] forCellReuseIdentifier:NSStringFromClass([HWOperationCell class])];
-        self.tableView3.mj_header = [MJRefreshNormalHeader headerWithRefreshingBlock:^{
+    if (!_tableView3) {
+        _tableView3 = [[UITableView alloc] init];
+        _tableView3.frame = CGRectMake(0, 64, WIDTH, HEIGHT-64);
+        _tableView3.tableFooterView=[[UIView alloc] init];
+        _tableView3.delegate = self;
+        _tableView3.dataSource = self;
+        _tableView3.backgroundColor = BXT_BACKGROUND_COLOR;
+        [_tableView3 registerNib:[UINib nibWithNibName:NSStringFromClass([HWOperationCell class]) bundle:nil] forCellReuseIdentifier:NSStringFromClass([HWOperationCell class])];
+        _tableView3.mj_header = [MJRefreshNormalHeader headerWithRefreshingBlock:^{
             [self netWorkHelpWithWordsType:3];
         }];
-        [self.contentTableViewArr addObject:self.tableView3];
+        [_contentTableViewArr addObject:_tableView3];
     }
-    return self.tableView3;
+    return _tableView3;
 }
 #pragma mark - UITableViewDelegate
 -(NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section
 {
     if ([tableView isEqual:self.tableView1])
     {
-        self.tableView1.mj_footer.hidden = (self.dataArray1.count < pageSize);
-        return self.dataArray1.count;
-    }else if ([tableView isEqual:self.tableView2])
+        _tableView1.mj_footer.hidden = (_dataArray1.count < pageSize);
+        return _dataArray1.count;
+    }else if ([tableView isEqual:_tableView2])
     {
-        self.tableView2.mj_footer.hidden = (self.dataArray2.count < pageSize);
-        return self.dataArray2.count;
-    }else if ([tableView isEqual:self.tableView3])
+        _tableView2.mj_footer.hidden = (_dataArray2.count < pageSize);
+        return _dataArray2.count;
+    }else if ([tableView isEqual:_tableView3])
     {
-        self.tableView3.mj_footer.hidden = (self.dataArray3.count < pageSize);
-        return self.dataArray3.count;
+        _tableView3.mj_footer.hidden = (_dataArray3.count < pageSize);
+        return _dataArray3.count;
     }
     return  0;
 }
@@ -332,38 +339,112 @@ static NSInteger pageSize = 10;
 {
     HWOperationCell *cell = [tableView dequeueReusableCellWithIdentifier:NSStringFromClass([HWOperationCell class])];
     cell.selectionStyle=UITableViewCellSelectionStyleNone;
-    if ([tableView isEqual:self.tableView1])
+    if ([tableView isEqual:_tableView1])
     {
-        cell.model = self.dataArray1[indexPath.row];
-    }else if ([tableView isEqual:self.tableView2])
+        cell.model = _dataArray1[indexPath.row];
+    }else if ([tableView isEqual:_tableView2])
     {
-        cell.model = self.dataArray2[indexPath.row];
-    }else if ([tableView isEqual:self.tableView3])
+        cell.model = _dataArray2[indexPath.row];
+        
+    }else if ([tableView isEqual:_tableView3])
     {
-        cell.model = self.dataArray3[indexPath.row];
+        cell.model = _dataArray3[indexPath.row];
     }
+    //给cell加长按手势
+    UILongPressGestureRecognizer *gestureLongPress = [[UILongPressGestureRecognizer alloc]initWithTarget:self action:@selector(gestureLongPress:)];
+//    gestureLongPress.minimumPressDuration =1;
+    [cell.contentView addGestureRecognizer:gestureLongPress];
+    
     return cell;
+}
+
+-(UITableViewCellEditingStyle)tableView:(UITableView *)tableView editingStyleForRowAtIndexPath:(NSIndexPath *)indexPath
+{
+    return UITableViewCellEditingStyleDelete;
+}
+-(void)tableView:(UITableView *)tableView commitEditingStyle:(UITableViewCellEditingStyle)editingStyle forRowAtIndexPath:(NSIndexPath *)indexPath
+{
+    if (editingStyle==UITableViewCellEditingStyleDelete) {
+        //        获取选中删除行索引值
+        NSInteger row = [indexPath row];
+        //        通过获取的索引值删除数组中的值
+        NSMutableArray *arr = [NSMutableArray array];
+        if (tableView == _tableView1) {
+            arr = _dataArray1;
+        }else if (tableView == _tableView2){
+            arr = _dataArray2;
+        }else{
+            arr = _dataArray3;
+        }
+        _operationModel = arr[indexPath.row];
+        [self netWorkHelpId:_operationModel.dataId];
+        [arr removeObjectAtIndex:row];
+        
+        //        删除单元格的某一行时，在用动画效果实现删除过程
+        [tableView deleteRowsAtIndexPaths:[NSArray arrayWithObject:indexPath] withRowAnimation:UITableViewRowAnimationAutomatic];
+    }  
+}
+#pragma mark - 长按手势
+
+- (void)gestureLongPress:(UILongPressGestureRecognizer *)gestureRecognizer
+{
+    UITableView *tableview = [[UITableView alloc] init];
+    if (_currentIndex == 1) {
+        tableview = _tableView1;
+    }else if(_currentIndex == 2){
+        tableview = _tableView2;
+    }else{
+        tableview = _tableView3;
+    }
+    CGPoint tmpPointTouch = [gestureRecognizer locationInView:tableview];
+    if (gestureRecognizer.state ==UIGestureRecognizerStateBegan) {
+        NSIndexPath *indexPath = [tableview indexPathForRowAtPoint:tmpPointTouch];
+        if (indexPath == nil) {
+            LogError(@"not tableView");
+        }else{
+            NSInteger focusSection = [indexPath section];
+            NSInteger  focusRow = [indexPath row];
+            
+            LogError(@"%ld",focusSection);
+            LogError(@"%ld",focusRow);
+            if (tableview.editing == YES) {
+                [tableview setEditing:NO animated:YES];
+            }else{
+                [tableview setEditing:YES animated:YES];
+            }
+            
+//            deletebtn.hidden =NO;
+        }
+    }
 }
 #pragma mark --点击单元格
 -(void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
 {
-    HWPublicWebController  *webVc=[[HWPublicWebController alloc] init];
-    webVc.type=@"3"; //话术本
-    if ([tableView isEqual:self.tableView1])//文本
+    SalesjobDetailViewController *webVc=[[SalesjobDetailViewController alloc] init];
+    NSString *dataId = [NSString string];
+    NSString *title = [NSString string];
+    if ([tableView isEqual:_tableView1])//文本
     {
-        HWOperationModel *model=self.dataArray1[indexPath.row];
-        webVc.RelevanceId=model.dataId;
-       
-    }else if ([tableView isEqual:self.tableView2])//图片
+        dataId = [_dataArray1[indexPath.row] dataId];
+        title = [_dataArray1[indexPath.row] title];
+    }else if ([tableView isEqual:_tableView2])//图片
     {
-        HWOperationModel *model=self.dataArray2[indexPath.row];
-          webVc.RelevanceId=model.dataId;
-    }else if ([tableView isEqual:self.tableView3])//语音
+        dataId = [_dataArray2[indexPath.row] dataId];
+        title = [_dataArray2[indexPath.row] title];
+    }else if ([tableView isEqual:_tableView3])//语音
     {
-         HWOperationModel *model=self.dataArray3[indexPath.row];
-         webVc.RelevanceId=model.dataId;
+        dataId = [_dataArray3[indexPath.row] dataId];
+        title = [_dataArray3[indexPath.row] title];
     }
-    [self.navigationController pushViewController:webVc animated:YES];
+    [Html5LoadUrl loadUrlWithRelevanceId:dataId type:@"3" SuccessBlock:^(NSString *url) {
+        webVc.kBxtH5Url = url;
+        webVc.type = @"3";
+        webVc.kBxtTitle = title;
+        webVc.relevanceId = dataId;
+        [self.navigationController pushViewController:webVc animated:YES];
+    } failBlock:^(NSError *error) {
+        [self showHint:kBxtNetWorkError];
+    }];
 }
 #pragma  mark - lazy
 - (NSMutableArray *)dataArray1
@@ -386,6 +467,27 @@ static NSInteger pageSize = 10;
         _dataArray3 = [NSMutableArray array];
     }
     return _dataArray3;
+}
+
+-(void)netWorkHelpId:(NSString *)Id
+{
+    NSDictionary *dic = @{@"account":[UserInfo account].account,
+                          @"token":[UserInfo account].token,
+                          @"type":@"3",
+                          @"wordsType":[NSString stringWithFormat:@"%ld",_currentIndex],
+                          @"dataId":Id};
+    [NetWorkHelp netWorkWithURLString:recordingdelete
+                           parameters:dic
+                         SuccessBlock:^(NSDictionary *dic) {
+                             if ([dic[@"code"] intValue] == 0) {
+                                 LogApi(@"删除成功");
+                             }else{
+                                 [self showHint:dic[@"errorMessage"]];
+                                 DLog(@"删除失败 %@",dic[@"errorMessage"]);
+                             }
+                         } failBlock:^(NSError *error) {
+                             [self showHint:@"网络连接失败"];
+                         }];
 }
 
 @end

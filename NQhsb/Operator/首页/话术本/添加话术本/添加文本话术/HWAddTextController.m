@@ -28,7 +28,7 @@
 - (void)setRightButton
 {
     [self.rightButton setTitle:@"保存" forState:UIControlStateNormal];
-    [self.rightButton setTitleColor:[UIColor redColor] forState:UIControlStateNormal];
+    [self.rightButton setTitleColor:KTabBarColor forState:UIControlStateNormal];
     [self.rightButton addTarget:self action:@selector(saveAction) forControlEvents:UIControlEventTouchUpInside];
 }
 #pragma mark - target
@@ -44,6 +44,7 @@
 }
 - (void)networkAddWordsWithTitle:(NSString *)title remark:(NSString *)remark
 {
+    [MBProgressHUD showHUDAddedTo:self.view animated:YES];
     NSDictionary *parameters = @{@"account":[UserInfo account].account,
                           @"token":[UserInfo account].token,
                           @"wordsType":@"1",
@@ -52,6 +53,7 @@
     [NetWorkHelp netWorkWithURLString:homePageaddWords
                            parameters:parameters
                          SuccessBlock:^(NSDictionary *dic) {
+                             [MBProgressHUD hideHUDForView:self.view animated:YES];
                              if ([dic[@"code"] intValue] == 0) {
                                  //添加成功
                                  [self showHint:@"添加成功"];
@@ -62,6 +64,7 @@
                                  [self showHint:dic[@"errorMessage"]];
                              }
                          } failBlock:^(NSError *error) {
+                             [MBProgressHUD hideHUDForView:self.view animated:YES];
                              [self showHint:@"网络连接错误"];
                          }];
 }

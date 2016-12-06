@@ -1,14 +1,17 @@
 {
+  "DVTSourceControlWorkspaceBlueprintPrimaryRemoteRepositoryKey" : "FF2B15AF38E1CB9DB6B85FA0473A9A61D182D24B",
   "DVTSourceControlWorkspaceBlueprintWorkingCopyRepositoryLocationsKey" : {
     "0197364b-6c19-4b2e-9477-bfe01471e720++1292" : {
 
     }
   },
   "DVTSourceControlWorkspaceBlueprintWorkingCopyStatesKey" : {
+    "FF2B15AF38E1CB9DB6B85FA0473A9A61D182D24B" : 9223372036854775807,
     "0197364b-6c19-4b2e-9477-bfe01471e720++1292" : 0
   },
   "DVTSourceControlWorkspaceBlueprintIdentifierKey" : "CA129891-FEB0-4585-A994-A8C388AA3A96",
   "DVTSourceControlWorkspaceBlueprintWorkingCopyPathsKey" : {
+    "FF2B15AF38E1CB9DB6B85FA0473A9A61D182D24B" : "iOS-HuaWuYuan\/",
     "0197364b-6c19-4b2e-9477-bfe01471e720++1292" : "Operator\/Operator\/tool\/Account\/"
   },
   "DVTSourceControlWorkspaceBlueprintNameKey" : "Operator",
@@ -19,6 +22,11 @@
       "DVTSourceControlWorkspaceBlueprintRemoteRepositoryURLKey" : "svn:\/\/101.200.199.188",
       "DVTSourceControlWorkspaceBlueprintRemoteRepositorySystemKey" : "com.apple.dt.Xcode.sourcecontrol.Subversion",
       "DVTSourceControlWorkspaceBlueprintRemoteRepositoryIdentifierKey" : "0197364b-6c19-4b2e-9477-bfe01471e720++1292"
+    },
+    {
+      "DVTSourceControlWorkspaceBlueprintRemoteRepositoryURLKey" : "https:\/\/git.oschina.net\/neiquan\/iOS-HuaWuYuan.git",
+      "DVTSourceControlWorkspaceBlueprintRemoteRepositorySystemKey" : "com.apple.dt.Xcode.sourcecontrol.Git",
+      "DVTSourceControlWorkspaceBlueprintRemoteRepositoryIdentifierKey" : "FF2B15AF38E1CB9DB6B85FA0473A9A61D182D24B"
     }
   ]
 }

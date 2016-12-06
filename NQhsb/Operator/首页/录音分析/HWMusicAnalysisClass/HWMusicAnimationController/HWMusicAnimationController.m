@@ -11,52 +11,40 @@
 #import "HWCollectionViewLineLayot.h"
 #import "HWMusicAnalysicModel.h"
 #import "HWMusicAnswerController.h" //答题
-@interface HWMusicAnimationController ()<UICollectionViewDelegate,UICollectionViewDataSource>
+#import "HWMusicquestionReportViewController.h"
+@interface HWMusicAnimationController ()<UICollectionViewDelegate,UICollectionViewDataSource,HWMusicListCollectionViewCelldelegate>
 {
     UICollectionView    *_collectionView;
-    UIButton            *_footButton;
 }
 @end
 
 @implementation HWMusicAnimationController
-
+-(void)viewWillAppear:(BOOL)animated
+{
+    [self getQuestionDataAndPushtoAnimationVC];
+}
 - (void)viewDidLoad {
     [super viewDidLoad];
     self.titleLabel.text=@"录音分析";
-    [self addOwnView];
+    self.view.backgroundColor = BXT_BACKGROUND_COLOR;
 }
 -(void)addOwnView
 {
     [self addCollectionView];
-    [self addfootView];
-    
+ 
 }
 -(void)addCollectionView
 {
     HWCollectionViewLineLayot *layout=[[HWCollectionViewLineLayot alloc] init];
     layout.scrollDirection = UICollectionViewScrollDirectionVertical;
-    _collectionView=[[UICollectionView alloc] initWithFrame:CGRectMake(0, 120, WIDTH, 200) collectionViewLayout:layout];
-    [_collectionView setBackgroundColor:[UIColor whiteColor]];
+    _collectionView=[[UICollectionView alloc] initWithFrame:CGRectMake(0, 120, WIDTH, HEIGHT/1.5) collectionViewLayout:layout];
+    [_collectionView setBackgroundColor:[UIColor clearColor]];
     [_collectionView registerNib:[UINib nibWithNibName:NSStringFromClass([HWMusicListCollectionViewCell class]) bundle:nil] forCellWithReuseIdentifier:NSStringFromClass([HWMusicListCollectionViewCell class])];
     _collectionView.showsVerticalScrollIndicator=NO;
     _collectionView.showsHorizontalScrollIndicator=NO;
     _collectionView.dataSource=self;
-    _collectionView.dataSource=self;
+    _collectionView.delegate=self;
     [self.view addSubview:_collectionView];
-    
-}
--(void)addfootView
-{
-    __weak typeof(self)weakself=self;
-    _footButton=[UIButton buttonWithType:UIButtonTypeCustom];
-    [_footButton setFrame:CGRectMake(20, HEIGHT-64-35, WIDTH-40, 35)];
-    [_footButton setTitleColor:[UIColor whiteColor] forState:UIControlStateNormal];
-    [_footButton setBackgroundColor:KTabBarColor];
-    _footButton.titleLabel.font=[UIFont systemFontOfSize:14];
-    [_footButton setTitle:@"开始分析" forState:UIControlStateNormal];
-    [_footButton addTarget:weakself action:@selector(startAnalysis) forControlEvents:UIControlEventTouchUpInside];
-    
-    [self.view addSubview:_footButton];
     
 }
 -(void)setQuestionDataArray:(NSMutableArray *)questionDataArray
@@ -66,7 +54,7 @@
 }
 - (NSInteger)collectionView:(UICollectionView *)collectionView numberOfItemsInSection:(NSInteger)section
 {
-    return _questionDataArray.count;
+    return _questionDataArray.count+1;//5+1
     
 }
 
@@ -74,49 +62,80 @@
 {
     HWMusicListCollectionViewCell *cell=[collectionView dequeueReusableCellWithReuseIdentifier:NSStringFromClass([ HWMusicListCollectionViewCell class]) forIndexPath:indexPath];
     cell.indexpath=indexPath;
-    HWMusicquestionListModel *model=_questionDataArray[indexPath.item];
-    cell.questionModel=model;
+    cell.delegate=self;
     
+    if (indexPath.row==_questionDataArray.count)
+    {
+        [cell.startAnsstis setTitle:@"确认" forState:UIControlStateNormal];
+        cell.titleLable.text=@"是否生成录音分析报告";
+    }else
+    {
+        HWMusicquestionListModel *model=_questionDataArray[indexPath.item];
+        cell.questionModel=model;
+        
+    }
     return cell;
 }
+#pragma mark --当选中摸个模板时获取题库
+-(void)clickansitisButtonwithindexPath:(NSIndexPath *)indexpath
+{
+    
+    
+    if (indexpath.row==_questionDataArray.count)//是否音乐分析生成报告
+    {
+        HWMusicquestionListModel *model=_questionDataArray[_questionDataArray.count-1];
+       //跳转到分析报告界面
+        HWMusicquestionReportViewController *reportVC = [[HWMusicquestionReportViewController alloc] init];
+        [Html5LoadUrl loadUrlWithRelevanceId:model.dataId
+                                        type:@"7"
+                                SuccessBlock:^(NSString *url) {
+                                    reportVC.loadUrl = url;
+                                    reportVC.questionlogId = model.dataId;
+                                    [self.navigationController pushViewController:reportVC animated:YES];
+                                } failBlock:^(NSError *error) {
+                                    [self showHint:kBxtNetWorkError];
+                                }];
+        
+        
+    }else
+    {
+        /**
+         *  0 未缓存  1 已缓存    为1进入界面前要请求已缓存接口   为0不需要
+         */
+        HWMusicquestionListModel *model=_questionDataArray[indexpath.row];
+        if (![model.isCache isEqualToString:@"1"]) {
+            [self getquestionData:indexpath.row];
+        }else{
+            [self getCacheQuestionData:indexpath.row];
+        }
+      
+    }
+    
+   
+}
+
 
 - (void)didReceiveMemoryWarning {
     [super didReceiveMemoryWarning];
     // Dispose of any resources that can be recreated.
 }
-#pragma mark --开始分析问题
--(void)startAnalysis
-{
-   //网上实例方法  https://github.com/darren90/TFCycleScrollView/blob/master/TFCycleScrollView-2/TFCycleScrollView/TFScrollView/TFCycleScrollView.m
-  //获取当前可显示的cell，计算当前选中的indexpatch
-    NSArray *visibleCellIndex = [_collectionView visibleCells];
-    NSArray *sortedIndexPaths = [visibleCellIndex sortedArrayUsingComparator:^NSComparisonResult(id obj1, id obj2) {
-        NSIndexPath *path1 = (NSIndexPath *)[_collectionView indexPathForCell:obj1];
-        NSIndexPath *path2 = (NSIndexPath *)[_collectionView indexPathForCell:obj2];
-        return [path1 compare:path2];
-    }];
-    
-    NSInteger indexselected=0;
-    for (NSInteger indeM=0; indeM<sortedIndexPaths.count; indeM++)
-    {
-        HWMusicListCollectionViewCell *cellpath=sortedIndexPaths[indeM];
-        indexselected+=cellpath.indexpath.row;
-    }
-    [self getquestionData:indexselected/sortedIndexPaths.count] ;
-    
-}
-#pragma mark --获取题库
+#pragma mark --获取题库未缓存
 -(void)getquestionData:(NSInteger)index
 {
     HWMusicquestionListModel *model=_questionDataArray[index];
     [self showHudInView:self.view hint:@""];
-    [HWHttpManger  getquestiondataId:model.dataId success:^(id result)
+    [HWHttpManger  getquestiondataId:model.dataId
+                                type:model.isCache
+                             success:^(id result)
      {
          [self hideHud];
          NSMutableArray *dataArray=result;
          HWMusicAnswerController  *answerVC=[[HWMusicAnswerController alloc] init];
          answerVC.hidesBottomBarWhenPushed=YES;
          answerVC.dataListArray=dataArray;
+         answerVC.selectId = model.dataId;
+         answerVC.questionlogId = _relevanceId;
+//         answerVC.urlIds        = _urlids;
          [self.navigationController pushViewController:answerVC animated:YES];
         
     } failBlock:^(NSError *error) {
@@ -125,6 +144,62 @@
         [self showHint:@"请检查你的网络"];
     }];
     
+}
+#pragma mark --获取题库已缓存
+-(void)getCacheQuestionData:(NSInteger)index
+{
+    HWMusicquestionListModel *model=_questionDataArray[index];
+    [self showHudInView:self.view hint:@""];
+    [HWHttpManger  getCacheQuestiondataId:model.dataId
+                            questionlogId:_relevanceId
+                                  success:^(id result)
+     {
+         [self hideHud];
+         NSMutableArray *dataArray=result;
+         HWMusicAnswerController  *answerVC=[[HWMusicAnswerController alloc] init];
+         answerVC.hidesBottomBarWhenPushed=YES;
+         answerVC.dataListArray=dataArray;
+         answerVC.selectId = model.dataId;
+         answerVC.questionlogId = _relevanceId;
+//         answerVC.urlIds        = _urlids;
+         [self.navigationController pushViewController:answerVC animated:YES];
+         
+     } failBlock:^(NSError *error) {
+         
+         [self hideHud];
+         [self showHint:@"请检查你的网络"];
+     }];
+}
+#pragma mark --获取答题模板数据
+-(void)getQuestionDataAndPushtoAnimationVC
+{
+    
+    [self showHudInView:self.view hint:@""];
+
+    NSDictionary *parameters=@{@"account":[UserInfo account].account,
+                               @"questionlogId":_relevanceId,
+                               @"token":[UserInfo account].token};
+    [NetWorkHelp  netWorkWithURLString:Musicquestionchooseloglist
+                            parameters:parameters
+                          SuccessBlock:^(NSDictionary *dic)
+     {   [self hideHud];
+         if ([dic[@"code"]integerValue]==0)
+         {
+             
+             HWMusicquestionListModel *headerModel=[HWMusicquestionListModel mj_objectWithKeyValues:dic[@"response"][@"head"]];
+             
+             _questionDataArray =[HWMusicquestionListModel mj_objectArrayWithKeyValuesArray:dic[@"response"][@"selectmoodule"]];
+             [_questionDataArray insertObject:headerModel atIndex:0];
+             [self addOwnView];
+         }else
+         {
+             [self showHint:@"无法构建题库"];
+         }
+     } failBlock:^(NSError *error)
+     {
+         [self hideHud];
+         [self showHint:kBxtNetWorkError];
+     }];
     
     
     

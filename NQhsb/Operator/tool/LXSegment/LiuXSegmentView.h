@@ -23,6 +23,21 @@ typedef void(^btnClickBlock)(NSInteger index);
 @property (nonatomic,strong) UIColor *titleSelectColor;
 
 /**
+ *  选中时背景颜色,默认白色
+ */
+@property (nonatomic,strong) UIColor *backGroudSelectColor;
+
+/**
+ *  未选中背景颜色，默认灰色
+ */
+@property (nonatomic,strong) UIColor *backGroudColorNormal;
+
+/**
+ *  是否显示下划线(默认显示)
+ */
+@property (nonatomic)        BOOL    isShowLine;
+
+/**
  *  字体大小，默认15
  */
 @property (nonatomic,strong) UIFont  *titleFont;

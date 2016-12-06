@@ -14,6 +14,8 @@
     [super awakeFromNib];
     _titleLable.numberOfLines=0;
     // Initialization code
+    _rightImageView=[[UIImageView alloc] initWithFrame:CGRectMake(WIDTH-28, (self.height-20)*0.5, 20, 20)];
+    [self.contentView addSubview:_rightImageView];//添加子类视图
 }
 
 - (void)setSelected:(BOOL)selected animated:(BOOL)animated {

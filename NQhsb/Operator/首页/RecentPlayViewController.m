@@ -72,7 +72,8 @@ kBxtPropertyStrong BigForumResponse *bigResponse;
         _myTableview.frame = CGRectMake(0, 64, WIDTH, HEIGHT);
         _myTableview.delegate = self;
         _myTableview.dataSource = self;
-        _myTableview.rowHeight = 44;
+        _myTableview.rowHeight = 105;
+        [_myTableview registerNib:[UINib nibWithNibName:@"SalesjobCell" bundle:nil] forCellReuseIdentifier:kBxtSalesjobCell];
         _myTableview.mj_header = [MJRefreshHeader headerWithRefreshingBlock:^{
             [self netWorkHelp];
         }];
@@ -108,9 +109,11 @@ kBxtPropertyStrong BigForumResponse *bigResponse;
                             SuccessBlock:^(NSString *url) {
                                 job.kBxtH5Url = url;
                                 job.kBxtTitle = list.title;
+                                job.relevanceId = list.dataId;
+                                job.type = list.type;
                                 [self.navigationController pushViewController:job animated:YES];
                             } failBlock:^(NSError *error) {
-                                [self showHint:@"连接失败,请检查网络连接"];
+                                [self showHint:kBxtNetWorkError];
                             }];
 }
 - (void)didReceiveMemoryWarning {

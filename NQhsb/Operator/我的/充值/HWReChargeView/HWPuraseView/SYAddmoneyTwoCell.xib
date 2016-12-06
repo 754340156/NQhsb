@@ -1,8 +1,12 @@
-<?xml version="1.0" encoding="UTF-8" standalone="no"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="11201" systemVersion="15G31" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" colorMatched="YES">
+<?xml version="1.0" encoding="UTF-8"?>
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="11542" systemVersion="16B2555" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" colorMatched="YES">
+    <device id="retina4_7" orientation="portrait">
+        <adaptation id="fullscreen"/>
+    </device>
     <dependencies>
         <deployment identifier="iOS"/>
-        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="11161"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="11524"/>
+        <capability name="Constraints to layout margins" minToolsVersion="6.0"/>
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
     </dependencies>
     <objects>
@@ -12,60 +16,55 @@
             <rect key="frame" x="0.0" y="0.0" width="320" height="65"/>
             <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
             <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="KGk-i7-Jjw" id="H2p-sc-9uM">
-                <frame key="frameInset" width="320" height="64"/>
+                <rect key="frame" x="0.0" y="0.0" width="320" height="65"/>
                 <autoresizingMask key="autoresizingMask"/>
                 <subviews>
                     <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="pay_alipay" translatesAutoresizingMaskIntoConstraints="NO" id="A1k-Pq-oT5">
+                        <rect key="frame" x="15" y="11" width="45" height="45"/>
                         <constraints>
-                            <constraint firstAttribute="width" constant="47" id="ExU-bi-Pc1"/>
+                            <constraint firstAttribute="width" constant="45" id="3bW-AF-Pje"/>
                         </constraints>
                     </imageView>
-                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="支付宝支付" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="lQF-Qj-RtQ">
-                        <fontDescription key="fontDescription" type="system" pointSize="13"/>
-                        <color key="textColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
-                        <nil key="highlightedColor"/>
-                    </label>
                     <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="pay_check_yes" translatesAutoresizingMaskIntoConstraints="NO" id="T8e-T7-rcm">
+                        <rect key="frame" x="283" y="23" width="22" height="22"/>
                         <constraints>
-                            <constraint firstAttribute="height" constant="22" id="eWT-k5-fCb"/>
-                            <constraint firstAttribute="width" constant="22" id="oxC-mr-hBa"/>
+                            <constraint firstAttribute="width" constant="22" id="ppY-kl-K5M"/>
                         </constraints>
                     </imageView>
                     <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="Kzw-wt-xpk">
+                        <rect key="frame" x="0.0" y="64" width="320" height="1"/>
                         <color key="backgroundColor" red="0.81176470588235294" green="0.81568627450980391" blue="0.81960784313725488" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
-                        <constraints>
-                            <constraint firstAttribute="height" constant="0.5" id="tv7-Hz-MA2"/>
-                        </constraints>
                     </imageView>
+                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="支付宝支付" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="lQF-Qj-RtQ">
+                        <rect key="frame" x="67" y="9" width="208" height="47"/>
+                        <fontDescription key="fontDescription" type="system" pointSize="15"/>
+                        <color key="textColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                        <nil key="highlightedColor"/>
+                    </label>
                 </subviews>
                 <constraints>
-                    <constraint firstAttribute="bottom" secondItem="lQF-Qj-RtQ" secondAttribute="bottom" constant="22" id="2zV-cC-Ggi"/>
-                    <constraint firstItem="T8e-T7-rcm" firstAttribute="leading" secondItem="lQF-Qj-RtQ" secondAttribute="trailing" constant="5" id="B2N-jo-DFq"/>
-                    <constraint firstAttribute="bottom" secondItem="Kzw-wt-xpk" secondAttribute="bottom" id="BEG-DD-SBe"/>
-                    <constraint firstAttribute="bottom" secondItem="A1k-Pq-oT5" secondAttribute="bottom" constant="9" id="Cgp-FS-Zv7"/>
-                    <constraint firstAttribute="trailing" secondItem="T8e-T7-rcm" secondAttribute="trailing" constant="15" id="DxW-8A-9Hi"/>
-                    <constraint firstAttribute="trailing" secondItem="Kzw-wt-xpk" secondAttribute="trailing" id="HQ9-SR-sz6"/>
-                    <constraint firstItem="Kzw-wt-xpk" firstAttribute="leading" secondItem="H2p-sc-9uM" secondAttribute="leading" id="Md6-NT-Yz5"/>
-                    <constraint firstItem="A1k-Pq-oT5" firstAttribute="leading" secondItem="H2p-sc-9uM" secondAttribute="leading" constant="15" id="SAw-NS-DHS"/>
-                    <constraint firstItem="A1k-Pq-oT5" firstAttribute="top" secondItem="H2p-sc-9uM" secondAttribute="top" constant="9" id="SDq-75-M8B"/>
-                    <constraint firstItem="lQF-Qj-RtQ" firstAttribute="leading" secondItem="A1k-Pq-oT5" secondAttribute="trailing" constant="8" id="TMa-n1-cQd"/>
-                    <constraint firstItem="T8e-T7-rcm" firstAttribute="top" secondItem="H2p-sc-9uM" secondAttribute="top" constant="21" id="WAb-9c-oqh"/>
-                    <constraint firstItem="lQF-Qj-RtQ" firstAttribute="top" secondItem="H2p-sc-9uM" secondAttribute="top" constant="9" id="kQ8-74-DBp"/>
-                    <constraint firstAttribute="bottom" secondItem="T8e-T7-rcm" secondAttribute="bottom" constant="21" id="oYG-YW-pvc"/>
-                    <constraint firstItem="lQF-Qj-RtQ" firstAttribute="baseline" secondItem="A1k-Pq-oT5" secondAttribute="baseline" id="yJV-Oe-55C"/>
+                    <constraint firstItem="Kzw-wt-xpk" firstAttribute="top" secondItem="lQF-Qj-RtQ" secondAttribute="bottom" constant="8" symbolic="YES" id="4fe-vT-jvs"/>
+                    <constraint firstAttribute="trailingMargin" secondItem="T8e-T7-rcm" secondAttribute="trailing" constant="7" id="7RK-tC-fJj"/>
+                    <constraint firstItem="T8e-T7-rcm" firstAttribute="leading" secondItem="lQF-Qj-RtQ" secondAttribute="trailing" constant="8" symbolic="YES" id="9Zf-ZC-YIV"/>
+                    <constraint firstItem="A1k-Pq-oT5" firstAttribute="leading" secondItem="H2p-sc-9uM" secondAttribute="leadingMargin" constant="7" id="9ai-SQ-zRW"/>
+                    <constraint firstItem="lQF-Qj-RtQ" firstAttribute="leading" secondItem="A1k-Pq-oT5" secondAttribute="trailing" constant="7" id="9yO-JC-zeF"/>
+                    <constraint firstAttribute="bottomMargin" secondItem="Kzw-wt-xpk" secondAttribute="bottom" constant="-8.5" id="Mzc-aJ-QSj"/>
+                    <constraint firstAttribute="trailing" secondItem="Kzw-wt-xpk" secondAttribute="trailing" id="Ooi-Q1-hRN"/>
+                    <constraint firstItem="Kzw-wt-xpk" firstAttribute="leading" secondItem="H2p-sc-9uM" secondAttribute="leading" id="REC-QG-wvT"/>
+                    <constraint firstItem="A1k-Pq-oT5" firstAttribute="top" secondItem="H2p-sc-9uM" secondAttribute="topMargin" constant="3" id="WhD-dt-MpO"/>
+                    <constraint firstItem="Kzw-wt-xpk" firstAttribute="top" secondItem="A1k-Pq-oT5" secondAttribute="bottom" constant="8" symbolic="YES" id="X40-Tc-5np"/>
+                    <constraint firstItem="Kzw-wt-xpk" firstAttribute="top" secondItem="T8e-T7-rcm" secondAttribute="bottom" constant="19" id="ZHk-8s-eHK"/>
+                    <constraint firstItem="lQF-Qj-RtQ" firstAttribute="top" secondItem="H2p-sc-9uM" secondAttribute="topMargin" constant="1" id="fkp-QN-hvM"/>
+                    <constraint firstItem="lQF-Qj-RtQ" firstAttribute="centerY" secondItem="H2p-sc-9uM" secondAttribute="centerY" id="jIQ-HV-hXT"/>
+                    <constraint firstItem="A1k-Pq-oT5" firstAttribute="centerY" secondItem="T8e-T7-rcm" secondAttribute="centerY" id="qNq-uF-Tg6"/>
                 </constraints>
-                <variation key="default">
-                    <mask key="constraints">
-                        <exclude reference="2zV-cC-Ggi"/>
-                    </mask>
-                </variation>
             </tableViewCellContentView>
             <connections>
                 <outlet property="iconImage" destination="A1k-Pq-oT5" id="6Yn-fa-jJl"/>
                 <outlet property="selectionImage" destination="T8e-T7-rcm" id="mVf-Ct-dEF"/>
                 <outlet property="titleName" destination="lQF-Qj-RtQ" id="dfb-TL-V8d"/>
             </connections>
-            <point key="canvasLocation" x="-37" y="-212"/>
+            <point key="canvasLocation" x="-37" y="-212.5"/>
         </tableViewCell>
     </objects>
     <resources>
