@@ -1,0 +1,252 @@
+//
+//  OperatorHeader.pch
+//  Operator
+//
+//  Created by 白小田 on 16/9/12.
+//  Copyright © 2016年 白小田. All rights reserved.
+//
+
+//
+//  ThreehouseTool.pch
+//  TreeHouse
+//
+//  Created by jock on 16/3/30.
+//  Copyright © 2016年 jock. All rights reserved.
+//
+
+/******************************************************/
+
+/****  debug log **/ //NSLog输出信息
+
+#ifdef DEBUG
+
+#define DLog( s, ... ) NSLog( @"< %@:(%d) > %@", [[NSString stringWithUTF8String:__FILE__] lastPathComponent], __LINE__, [NSString stringWithFormat:(s), ##__VA_ARGS__] )
+
+#else
+
+#define DLog( s, ... )
+
+#endif
+
+
+//使用前请先安装 XCODE_COLORS插件
+#ifdef DEBUG
+/**
+ 默认log 蓝色
+ */
+#define LogXT(frmt, ...) NSLog((XCODE_COLORS_ESCAPE @"fg0,128,255;" frmt XCODE_COLORS_RESET), ##__VA_ARGS__)
+/**
+ 错误log 红色
+ */
+#define LogError(frmt, ...)   NSLog((XCODE_COLORS_ESCAPE @"fg255,0,0;" frmt XCODE_COLORS_RESET), ##__VA_ARGS__)
+/**
+ api log 绿色
+ */
+#define LogApi(frmt, ...)   NSLog((XCODE_COLORS_ESCAPE @"fg0,255,128;" frmt XCODE_COLORS_RESET), ##__VA_ARGS__)
+
+#else
+
+#define LogXT(...)
+#define LogError(...)
+#define LogApi(...)
+#endif
+
+
+#ifdef __OBJC__
+
+
+/***  IMAGE   */
+
+
+//高性能读取图片的俩种方法（应当避免用UIImage imageNamed:）
+//读取本地图片
+#define LOADIMAGE(file,ext) [UIImage imageWithContentsOfFile:［NSBundle mainBundle]pathForResource:file ofType:ext］
+
+//定义UIImage对象
+#define IMAGE(A) [UIImage imageWithContentsOfFile:［NSBundle mainBundle] pathForResource:A ofType:nil］
+
+
+/***************************************************/
+
+/***  COLOR   */
+
+
+// rgb颜色转换（16进制->10进制）
+#define UIColorFromRGB(rgbValue) [UIColor colorWithRed:((float)((rgbValue & 0xFF0000) >> 16))/255.0 green:((float)((rgbValue & 0xFF00) >> 8))/255.0 blue:((float)(rgbValue & 0xFF))/255.0 alpha:1.0]
+
+//带有RGBA的颜色设置
+#define COLOR(R, G, B, A) [UIColor colorWithRed:R/255.0 green:G/255.0 blue:B/255.0 alpha:A]
+
+// 获取RGB颜色
+#define RGBA(r,g,b,a) [UIColor colorWithRed:r/255.0f green:g/255.0f blue:b/255.0f alpha:a]
+#define RGB(r,g,b) RGBA(r,g,b,1.0f)
+
+
+/******************************************************/
+
+
+/**
+ 首次启动判断
+ */
+#define First_Launched @"firstLaunch"
+
+/***  Tool   */
+
+#import "OperatorImport.h"
+
+/** Api */
+#import "OperatorApi.h"
+#import "YWOperatorHeader.h" //余伟接口api以免冲突
+#import "ZZOperatorHeader.h"//赵哲接口同上
+#import "XTStringStatic.h"
+#import "HWNavigationController.h"
+
+#import "LoginViewController.h" 
+
+#endif
+
+/******************************************************/
+#define NSEaseLocalizedString(key, comment) [[NSBundle bundleWithURL:[[NSBundle mainBundle] URLForResource:@"EaseUIResource" withExtension:@"bundle"]] localizedStringForKey:(key) value:@"" table:nil]
+
+//检查系统版本
+#define SYSTEM_VERSION_EQUAL_TO(v)                  ([[[UIDevice currentDevice] systemVersion] compare:v options:NSNumericSearch] == NSOrderedSame)
+#define SYSTEM_VERSION_GREATER_THAN(v)              ([[[UIDevice currentDevice] systemVersion] compare:v options:NSNumericSearch] == NSOrderedDescending)
+#define SYSTEM_VERSION_GREATER_THAN_OR_EQUAL_TO(v)  ([[[UIDevice currentDevice] systemVersion] compare:v options:NSNumericSearch] != NSOrderedAscending)
+#define SYSTEM_VERSION_LESS_THAN(v)                 ([[[UIDevice currentDevice] systemVersion] compare:v options:NSNumericSearch] == NSOrderedAscending)
+#define SYSTEM_VERSION_LESS_THAN_OR_EQUAL_TO(v)     ([[[UIDevice currentDevice] systemVersion] compare:v options:NSNumericSearch] != NSOrderedDescending)
+
+// 是否为4英寸
+#define IA4Inch ([UIScreen mainScreen].bounds.size.height == 568)
+#define IS_IPHONE_5 ( fabs( ( double )[ [ UIScreen mainScreen ] bounds ].size.height - ( double )568 ) < DBL_EPSILON )
+#define kDevice_Is_iPhone5 ([UIScreen instancesRespondToSelector:@selector(currentMode)] ? CGSizeEqualToSize(CGSizeMake(640, 1136), [[UIScreen mainScreen] currentMode].size) : NO)
+#define kDevice_Is_iPhone6 ([UIScreen instancesRespondToSelector:@selector(currentMode)] ? CGSizeEqualToSize(CGSizeMake(750, 1334), [[UIScreen mainScreen] currentMode].size) : NO)
+// 判断是否为ios7
+#define IAIOS7 ([[[UIDevice currentDevice] systemVersion] floatValue] >= 7.0&&[[[UIDevice currentDevice] systemVersion] floatValue]<8.0)
+#define IAIOS8 ([[[UIDevice currentDevice] systemVersion] floatValue] >= 8.0)
+
+// 屏幕长宽
+#define WIDTH  [UIScreen mainScreen].bounds.size.width
+
+#define HEIGHT  [UIScreen mainScreen].bounds.size.height
+
+#define kCommentRect CGRectMake(0, 64, WIDTH, HEIGHT - 64)
+
+#define BX_COLOR [UIColor colorWithRed:0.322 green:0.785 blue:0.344 alpha:1.000]
+
+//RGB(十六进制)
+#define ColorFromRGB(rgbValue,a) [UIColor colorWithRed:((float)((rgbValue & 0xFF0000) >> 16))/255.0 green:((float)((rgbValue & 0xFF00) >> 8))/255.0 blue:((float)(rgbValue & 0xFF))/255.0 alpha:a]
+#define UIColorFromRGB(rgbValue) [UIColor colorWithRed:((float)((rgbValue & 0xFF0000) >> 16))/255.0 green:((float)((rgbValue & 0xFF00) >> 8))/255.0 blue:((float)(rgbValue & 0xFF))/255.0 alpha:1.0]
+//设置字体大小（17）
+#define FontOfSize(size) [UIFont systemFontOfSize:size]
+
+//本地存
+#define WriteForLocation(OBJECT,KEY) [[NSUserDefaults standardUserDefaults] setObject:OBJECT forKey:KEY]
+//立即存
+#define WriteLocation                [[NSUserDefaults standardUserDefaults] synchronize]
+//本地取
+#define ReadForLocation(KEY)         [[NSUserDefaults standardUserDefaults] objectForKey:KEY]
+
+/**
+ 本地删
+ */
+#define RemoveForLocation(KEY)       [[NSUserDefaults standardUserDefaults] removeObjectForKey:KEY]
+
+//全部删
+#define RemoveForAllUserDefaults     [[NSUserDefaults standardUserDefaults] removePersistentDomainForName:[[NSBundle mainBundle] bundleIdentifier]]
+
+// 标准的RGBA设置
+#define UIColorRGBA(r, g, b, a)      [UIColor colorWithRed:(r)/255.0 green:(g)/255.0 blue:(b)/255.0 alpha:(a)]
+
+//导航色
+#define KnavColor [UIColor whiteColor]
+
+#define K_Color_gray UIColorFromRGB(0x999999)
+
+
+ #define KTabBarColor  ColorRGB(0xD9414E)
+
+//界面背景色
+#define BXT_BACKGROUND_COLOR  [UIColor colorWithWhite:0.948 alpha:1.000]
+
+//粉红色字体
+#define RED_COLOR  UIColorRGBA(204, 0, 108, 1)
+// 获取颜色
+#define color_cccccc [UIColor colorWithRed:0.8 green:0.8 blue:0.8 alpha:1]
+#define color_000000 [UIColor colorWithRed:0   green:0 blue:0 alpha:1]
+#define color_666666 [UIColor colorWithRed:0.4 green:0.4 blue:0.4 alpha:1]
+#define color_e9e9e9 [UIColor colorWithRed:0.914 green:0.914 blue:0.914 alpha:1]
+#define color_e7e7e7 [UIColor colorWithRed:0.906 green:0.906 blue:0.906 alpha:1]
+#define color_f5f5f5 [UIColor colorWithRed:0.961 green:0.961 blue:0.961 alpha:1]
+#define color_333333 [UIColor colorWithRed:0.2 green:0.2 blue:0.2 alpha:1]
+#define color_010101 [UIColor colorWithRed:0.00392 green:0.00392 blue:0.00392 alpha:1]
+#define color_323232 [UIColor colorWithRed:0.196 green:0.196 blue:0.196 alpha:1]
+#define color_e5e5e5 [UIColor colorWithRed:0.898 green:0.898 blue:0.898 alpha:1]
+//主window
+#define MainWindow [UIApplication sharedApplication].windows[0]
+
+#define IAColor(r,g,b,a) [UIColor colorWithRed:(r)/255.0 green:(g)/255.0 blue:(b)/255.0 alpha:1]
+
+#define KNOTIFICATION_LOGINCHANGE @"loginStateChange"
+
+
+#define BXTWeakSelf __weak __typeof(self) weakSelf = self
+
+#define kBxtPropertyStrong    @property (nonatomic,strong)
+
+#define kBxtPropertyCopy      @property (nonatomic,copy)
+
+#define kBxtPropertyAssign    @property (nonatomic,assign)
+
+#define kBxtPropertyNonatomic @property (nonatomic)
+
+#define kBxtPropertyWeak @property (weak, nonatomic)
+
+//IM
+#define IS_IPHONE_5 ( fabs( ( double )[ [ UIScreen mainScreen ] bounds ].size.height - ( double )568 ) < DBL_EPSILON )
+#define IS_IPHONE_6 ( fabs( ( double )[ [ UIScreen mainScreen ] bounds ].size.height - ( double )667 ) < DBL_EPSILON )
+#define IS_IPHONE_6_P ( fabs( ( double )[ [ UIScreen mainScreen ] bounds ].size.height - ( double )736 ) < DBL_EPSILON )
+
+#define RGBACOLOR(r,g,b,a) [UIColor colorWithRed:(r)/255.0 green:(g)/255.0 blue:(b)/255.0 alpha:(a)]
+
+#define KNOTIFICATION_LOGINCHANGE @"loginStateChange"
+
+#define CHATVIEWBACKGROUNDCOLOR [UIColor colorWithRed:0.936 green:0.932 blue:0.907 alpha:1]
+
+#define kBxtBackgroundColor [UIColor colorWithWhite:0.894 alpha:1.000]
+
+#define SDColor(r, g, b, a) [UIColor colorWithRed:(r / 255.0) green:(g / 255.0) blue:(b / 255.0) alpha:a]
+
+#define Global_tintColor [UIColor colorWithRed:0 green:(190 / 255.0) blue:(12 / 255.0) alpha:1]
+
+#define Global_mainBackgroundColor SDColor(248, 248, 248, 1)
+
+#define TimeLineCellHighlightedColor [UIColor colorWithRed:92/255.0 green:140/255.0 blue:193/255.0 alpha:1.0]
+
+#define DAY @"day"
+
+#define NIGHT @"night"
+
+
+#define ColorRGB(rgbValue) [UIColor \
+colorWithRed:((float)((rgbValue & 0xFF0000) >> 16))/255.0 \
+green:((float)((rgbValue & 0xFF00) >> 8))/255.0 \
+blue:((float)(rgbValue & 0xFF))/255.0 alpha:1.0]
+
+
+
+
+///  bundle id  com.neiquan.Operator
+
+
+
+
+
+
+
+
+
+
+
+
+
+

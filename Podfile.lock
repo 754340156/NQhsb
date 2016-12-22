@@ -1,0 +1,71 @@
+PODS:
+  - AFNetworking (3.1.0):
+    - AFNetworking/NSURLSession (= 3.1.0)
+    - AFNetworking/Reachability (= 3.1.0)
+    - AFNetworking/Security (= 3.1.0)
+    - AFNetworking/Serialization (= 3.1.0)
+    - AFNetworking/UIKit (= 3.1.0)
+  - AFNetworking/NSURLSession (3.1.0):
+    - AFNetworking/Reachability
+    - AFNetworking/Security
+    - AFNetworking/Serialization
+  - AFNetworking/Reachability (3.1.0)
+  - AFNetworking/Security (3.1.0)
+  - AFNetworking/Serialization (3.1.0)
+  - AFNetworking/UIKit (3.1.0):
+    - AFNetworking/NSURLSession
+  - Canvas (0.1.2)
+  - CocoaAsyncSocket (7.4.3):
+    - CocoaAsyncSocket/All (= 7.4.3)
+  - CocoaAsyncSocket/All (7.4.3):
+    - CocoaAsyncSocket/GCD
+    - CocoaAsyncSocket/RunLoop
+  - CocoaAsyncSocket/GCD (7.4.3)
+  - CocoaAsyncSocket/RunLoop (7.4.3)
+  - GJCFUitils (1.0)
+  - IQKeyboardManager (4.0.3)
+  - Masonry (1.0.1)
+  - MBProgressHUD (0.9.2)
+  - MJExtension (3.0.10)
+  - MJRefresh (3.1.0)
+  - SDCycleScrollView (1.65):
+    - SDWebImage (~> 3.7)
+  - SDWebImage (3.7.6):
+    - SDWebImage/Core (= 3.7.6)
+  - SDWebImage/Core (3.7.6)
+  - TZImagePickerController (1.4.4)
+  - WebViewJavascriptBridge (5.0.5)
+
+DEPENDENCIES:
+  - AFNetworking (~> 3.1.0)
+  - Canvas
+  - CocoaAsyncSocket (~> 7.4.3)
+  - GJCFUitils
+  - IQKeyboardManager
+  - Masonry (~> 1.0.1)
+  - MBProgressHUD (~> 0.9.2)
+  - MJExtension (~> 3.0.10)
+  - MJRefresh (~> 3.1.0)
+  - SDCycleScrollView (~> 1.64)
+  - SDWebImage (~> 3.7.5)
+  - TZImagePickerController (~> 1.4.4)
+  - WebViewJavascriptBridge
+
+SPEC CHECKSUMS:
+  AFNetworking: 5e0e199f73d8626b11e79750991f5d173d1f8b67
+  Canvas: eb861e3b555d032648146c8ffda1a5dea40059ca
+  CocoaAsyncSocket: a18c75dca4b08723628a0bacca6e94803d90be91
+  GJCFUitils: ad4f8373eb10edb94299594d348d1ee6f21dbe5e
+  IQKeyboardManager: be9695ffc5a52077deb4847608f338771022d6d1
+  Masonry: a1a931a0d08870ed8ae415a2ea5ea68ebcac77df
+  MBProgressHUD: 1569cf7ace17a8bac47aabfbb8580a49690386d1
+  MJExtension: d86aacb740c87519d20e3cca55b6fa4be6cc7548
+  MJRefresh: 743e6404967d1c2c688472ea3ecfde247d872db4
+  SDCycleScrollView: f72904c77698a7f93a41bcbbc2d78b073bf7326c
+  SDWebImage: c325cf02c30337336b95beff20a13df489ec0ec9
+  TZImagePickerController: 6d1bf4d2f8b424ba92a568043620abe84d999061
+  WebViewJavascriptBridge: a4d502315f1b8d9a51cd6a9174147ed567ec3bc5
+
+PODFILE CHECKSUM: 1e479207f64b9d33cd4981c76320692e45ac4b59
+
+COCOAPODS: 1.1.1

@@ -1,0 +1,82 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="11762" systemVersion="15G31" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" colorMatched="YES">
+    <device id="retina4_7" orientation="portrait">
+        <adaptation id="fullscreen"/>
+    </device>
+    <dependencies>
+        <deployment identifier="iOS"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="11757"/>
+        <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
+    </dependencies>
+    <objects>
+        <placeholder placeholderIdentifier="IBFilesOwner" id="-1" userLabel="File's Owner" customClass="HWMusicSelectedHintVC">
+            <connections>
+                <outlet property="footButton" destination="3Nj-Ht-9JS" id="N3Q-m3-te1"/>
+                <outlet property="nextButton" destination="CsZ-8a-TbA" id="cPq-jW-IhJ"/>
+                <outlet property="view" destination="i5M-Pr-FkT" id="sfx-zR-JGt"/>
+            </connections>
+        </placeholder>
+        <placeholder placeholderIdentifier="IBFirstResponder" id="-2" customClass="UIResponder"/>
+        <view clearsContextBeforeDrawing="NO" contentMode="scaleToFill" id="i5M-Pr-FkT">
+            <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
+            <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+            <subviews>
+                <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="CsZ-8a-TbA">
+                    <rect key="frame" x="0.0" y="622" width="375" height="45"/>
+                    <constraints>
+                        <constraint firstAttribute="height" constant="45" id="i60-1e-vTd"/>
+                    </constraints>
+                    <fontDescription key="fontDescription" type="system" pointSize="14"/>
+                    <state key="normal" title="下一步"/>
+                    <connections>
+                        <action selector="nextAction:" destination="-1" eventType="touchUpInside" id="33R-Lz-vsS"/>
+                    </connections>
+                </button>
+                <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="3Nj-Ht-9JS">
+                    <rect key="frame" x="0.0" y="577" width="375" height="45"/>
+                    <constraints>
+                        <constraint firstAttribute="height" constant="45" id="qLE-bv-aF5"/>
+                    </constraints>
+                    <fontDescription key="fontDescription" type="system" pointSize="14"/>
+                    <state key="normal" title="跳过"/>
+                    <connections>
+                        <action selector="footAction:" destination="-1" eventType="touchUpInside" id="hHh-I7-hmU"/>
+                    </connections>
+                </button>
+                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="对系统的录音进行分析，请选择“下一步”" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="u0Z-7i-yFd">
+                    <rect key="frame" x="50.5" y="325" width="274.5" height="18"/>
+                    <fontDescription key="fontDescription" type="system" pointSize="15"/>
+                    <nil key="textColor"/>
+                    <nil key="highlightedColor"/>
+                </label>
+                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="提示：" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="FRH-6Z-AQU">
+                    <rect key="frame" x="50.5" y="247" width="46" height="18"/>
+                    <fontDescription key="fontDescription" type="system" pointSize="15"/>
+                    <nil key="textColor"/>
+                    <nil key="highlightedColor"/>
+                </label>
+                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="对系统外的录音进行分析,请选择“跳过”" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="P6T-pM-mDN">
+                    <rect key="frame" x="50.5" y="285" width="263.5" height="18"/>
+                    <fontDescription key="fontDescription" type="system" pointSize="15"/>
+                    <nil key="textColor"/>
+                    <nil key="highlightedColor"/>
+                </label>
+            </subviews>
+            <color key="backgroundColor" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+            <constraints>
+                <constraint firstItem="P6T-pM-mDN" firstAttribute="leading" secondItem="u0Z-7i-yFd" secondAttribute="leading" id="4SS-3t-On9"/>
+                <constraint firstAttribute="trailing" secondItem="3Nj-Ht-9JS" secondAttribute="trailing" id="65v-El-Wol"/>
+                <constraint firstItem="3Nj-Ht-9JS" firstAttribute="leading" secondItem="i5M-Pr-FkT" secondAttribute="leading" id="Gek-u1-LGO"/>
+                <constraint firstAttribute="bottom" secondItem="CsZ-8a-TbA" secondAttribute="bottom" id="H41-UI-f0R"/>
+                <constraint firstItem="u0Z-7i-yFd" firstAttribute="centerY" secondItem="i5M-Pr-FkT" secondAttribute="centerY" id="Jjy-HV-EWf"/>
+                <constraint firstItem="CsZ-8a-TbA" firstAttribute="leading" secondItem="i5M-Pr-FkT" secondAttribute="leading" id="LGa-8l-qZt"/>
+                <constraint firstAttribute="trailing" secondItem="CsZ-8a-TbA" secondAttribute="trailing" id="LmC-o4-MCW"/>
+                <constraint firstItem="P6T-pM-mDN" firstAttribute="top" secondItem="FRH-6Z-AQU" secondAttribute="bottom" constant="20" id="Ozd-Sh-ZBs"/>
+                <constraint firstItem="CsZ-8a-TbA" firstAttribute="top" secondItem="3Nj-Ht-9JS" secondAttribute="bottom" id="cau-h8-eGg"/>
+                <constraint firstItem="FRH-6Z-AQU" firstAttribute="leading" secondItem="P6T-pM-mDN" secondAttribute="leading" id="lek-vZ-pfD"/>
+                <constraint firstItem="P6T-pM-mDN" firstAttribute="centerY" secondItem="i5M-Pr-FkT" secondAttribute="centerY" constant="-40" id="m7R-aj-jtq"/>
+                <constraint firstItem="u0Z-7i-yFd" firstAttribute="centerX" secondItem="i5M-Pr-FkT" secondAttribute="centerX" id="yAv-El-pYM"/>
+            </constraints>
+        </view>
+    </objects>
+</document>
